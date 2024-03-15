@@ -1,0 +1,91 @@
+<app-menu></app-menu>
+<main class="main-wrap">
+  <app-header></app-header>
+  <section class="content-main">
+    <form (ngSubmit)="addCategory()">
+      <div class="row">
+        <app-content-header></app-content-header>
+        <div class="col-lg-6">
+          <div class="card mb-4">
+            <div class="card-header">
+              <h4>Ajouter une catégorie</h4>
+              <!-- Change to French -->
+            </div>
+            <div class="card-body">
+              <div class="mb-4">
+                <label for="category_name" class="form-label"
+                  >Nom de la catégorie</label
+                >
+                <!-- Change to French -->
+                <input
+                  type="text"
+                  class="form-control"
+                  id="category_name"
+                  [(ngModel)]="category.name"
+                  name="name"
+                  required
+                />
+              </div>
+              <div class="mb-4">
+                <label for="parent_id" class="form-label"
+                  >Catégorie parente</label
+                >
+                <!-- Change to French -->
+                <select
+                class="form-select"
+                [(ngModel)]="category.parent_id"
+                name="parent_id"
+                (change)="fetchData()"
+              >
+                <option [ngValue]="null">Sélectionner une catégorie parente</option>
+                <option *ngFor="let cat of categories" [value]="cat.id">
+                  {{ cat.name }}
+                </option>
+              </select>
+              
+              
+              </div>
+              <div class="mb-4">
+                <label class="form-label">Type</label>
+                <select
+                  class="form-select"
+                  [(ngModel)]="category.type"
+                  name="type"
+                  required
+                >
+                  <option value="free">Gratuite</option>
+                  <!-- Change to French -->
+                  <option value="paid">Payante</option>
+                  <!-- Change to French -->
+                </select>
+              </div>
+            </div>
+          </div>
+          <!-- card end// -->
+        </div>
+        <div class="col-lg-3">
+          <div class="card mb-4">
+            <div class="card-header">
+              <h4>Média</h4>
+              <!-- Change to French -->
+            </div>
+            <div class="card-body">
+              <div class="input-upload">
+                <img src="../../../../assets/imgs/theme/upload.svg" alt="" />
+                <input
+                  class="form-control"
+                  id="icon_path"
+                  (change)="onFileSelected($event)"
+                  name="icon_path"
+                  type="file"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+  </section>
+  <!-- content-main end// -->
+  <app-footer></app-footer>
+</main>
