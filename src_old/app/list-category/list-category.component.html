@@ -1,0 +1,170 @@
+<app-menu></app-menu>
+<main class="main-wrap">
+  <app-header></app-header>
+  <section class="content-main">
+    <div class="content-header">
+        <div>
+            <h2 class="content-title card-title">Products List</h2>
+            <p>Lorem ipsum dolor sit amet.</p>
+        </div>
+        <div>
+            <a href="#" class="btn btn-primary btn-sm rounded">Create new</a>
+        </div>
+    </div>
+    <div class="card mb-4">
+        <header class="card-header">
+            <div class="row align-items-center">
+                <div class="col col-check flex-grow-0">
+                    <div class="form-check ms-2">
+                        <input class="form-check-input" type="checkbox" (change)="toggleAll($event)" value="">
+                    </div>
+                </div>
+                <div class="col-md-3 col-12 me-auto mb-md-0 mb-3">
+                </div>
+                <div class="col-md-2 col-6">
+                    <input type="date" [(ngModel)]="selectedDate" class="form-control" (change)="searchByDate()">
+                </div>                
+                <div class="col-md-2 col-6">
+                    <select class="form-select" (change)="filterByStatus($event)">
+                        <option selected disabled>Status</option>
+                        <option value="ACTIVE">Active</option>
+                        <option value="DRAFT">Draft</option>
+                        <option value="">Show all</option>
+                    </select>
+                </div>                                                     
+            </div>
+        </header>
+        <!-- card-header end// -->
+        <div class="card-body">
+            <ng-container *ngIf="filteredCategories && filteredCategories.length > 0">
+                <article class="itemlist" *ngFor="let category of pagedCategories">
+                    <div class="row align-items-center">
+                        <div class="col col-check flex-grow-0">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox">
+                            </div>
+                        </div>
+                        <div class="col-lg-2 col-sm-2 col-4 col-price">
+                            <a class="itemside" href="#">
+                                <div class="left">
+                                    <img [src]="category.icon_path" class="img-sm img-thumbnail" alt="Item">
+                                </div>
+                            </a>
+                        </div>
+                        <div class="col-lg-2 col-sm-2 col-4 col-status"><h6 class="mb-0">{{category.name}}</h6></div>
+                        <div class="col-lg-1 col-sm-1 col-2 col-status"><span>{{category.type}}</span></div>
+                        <div class="col-lg-1 col-sm-1 col-2 col-status">
+                            <span class="badge rounded-pill" [ngClass]="{'bg-success': category.status === 'ACTIVE', 'bg-secondary': category.status === 'DRAFT'}">{{ category.status }}</span>
+                        </div>                                              
+                        <div class="col-lg-2 col-sm-2 col-4 col-status"><span>{{ getParentCategoryName(category.parent_id) }}</span></div>
+                        <div class="col-lg-1 col-sm-2 col-4 col-date">
+                            <span>{{ formatCreatedAt(category.created_at) }}</span>
+                        </div>
+                        <!-- Original HTML -->
+                        <div class="col-lg-2 col-sm-2 col-4 col-action text-end">
+                            <a class="btn btn-sm font-sm rounded btn-brand edit" (click)="showDialog(category)"> <i class="material-icons md-edit"></i> Edit </a>
+                            <a href="#" class="btn btn-sm font-sm btn-light rounded"> <i class="material-icons md-delete_forever"></i> Delete </a>
+                        </div>
+
+
+
+
+                        <!-- Modified HTML for phones -->
+                        <div class="col-lg-2 col-sm-2 col-4 text-end dropdown d-sm-none">
+                            <a href="#" data-bs-toggle="dropdown" class="btn btn-light rounded btn-sm font-sm" aria-expanded="false"> <i class="material-icons md-more_horiz"></i> </a>
+                            <div class="dropdown-menu" style="margin: 0px;">
+                                <a class="dropdown-item" (click)="showDialog(category)">View detail</a>
+                                <a class="dropdown-item text-danger" >Delete</a>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- row .// -->
+                </article>
+            </ng-container>
+            
+            <ng-container *ngIf="!(filteredCategories && filteredCategories.length > 0)">
+                <p>Il n'y a pas de catégorie à afficher.</p>
+            </ng-container>
+            <!-- itemlist  .// -->
+        </div>
+        <!-- card-body end// -->
+    </div>
+    <!-- card end// -->
+    <!-- Pagination -->
+    <div class="pagination-area mt-30 mb-50">
+        <nav aria-label="Page navigation example">
+            <ul class="pagination justify-content-start">
+                <li class="page-item" *ngFor="let page of pages" [class.active]="currentPage === page">
+                    <a class="page-link" (click)="setCurrentPage(page)">{{ page }}</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</section>
+  <!-- content-main end// -->
+  <app-footer></app-footer>
+</main>
+
+<p-dialog header="Product Details" [(visible)]="visible" [style]="{ width: isPhone ? '350px' : '450px' }" [modal]="true" styleClass="p-fluid">
+    <ng-template pTemplate="content">
+        <img [src]="selectedCategory.icon_path" [alt]="selectedCategory.name" class="block m-auto pb-3" />
+        <p-avatar icon="pi pi-camera" styleClass="mr-2" size="large" shape="circle" 
+            [style]="{ 'margin-right': isPhone ? '51px' : '85px', 'float': 'inline-end', 'margin-top': '-45px' }"
+            (click)="fileInput.click()">
+        </p-avatar>
+        <input #fileInput type="file" style="display: none" (change)="onFileSelected($event)" accept="image/*">
+        <div class="field">
+            <label for="name">Name</label>
+            <input type="text" pInputText id="name" [(ngModel)]="selectedCategory.name" required autofocus />
+        </div>
+        <div class="field">
+            <label for="parentCategory">Parent Category</label>
+            <p-dropdown [(ngModel)]="selectedParentCategory" inputId="parentCategory" [options]="parentCategories" optionLabel="label">
+            </p-dropdown>
+        </div>
+        <div class="field">
+            <label for="categoryStatus">Category Status</label>
+            <p-dropdown [(ngModel)]="selectedCategoryStatus" inputId="categoryStatus" [options]="categoryStatuses">
+                <ng-template pTemplate="selectedItem">
+                    <p-tag [value]="selectedCategoryStatus.toUpperCase()" [severity]="getSeverity(selectedCategoryStatus.toUpperCase())"></p-tag>
+                </ng-template>
+                <ng-template let-option pTemplate="item">
+                    <p-tag [value]="option.label" [severity]="getSeverity(option.label)"></p-tag>
+                </ng-template>
+            </p-dropdown>
+        </div>
+        <div class="field">
+            <label class="mb-3">Category Type</label>
+            <div class="formgrid grid">
+                <div class="field-radiobutton col-6">
+                    <p-radioButton id="type1" name="categoryType" value="free" [(ngModel)]="selectedCategory.type"></p-radioButton>
+                    <label for="type1">Gratuite</label>
+                </div>
+                <div class="field-radiobutton col-6">
+                    <p-radioButton id="type2" name="categoryType" value="paid" [(ngModel)]="selectedCategory.type"></p-radioButton>
+                    <label for="type2">Payante</label>
+                </div>
+            </div>
+        </div>
+    </ng-template>
+    <ng-template pTemplate="footer">
+        <button
+          pButton
+          pRipple
+          label="Cancel"
+          icon="pi pi-times"
+          class="p-button-text"
+          (click)="hideDialog()"
+        ></button>
+        <button
+          pButton
+          pRipple
+          label="Save"
+          icon="pi pi-check"
+          class="p-button-text"
+          (click)="updateCategory()"
+        ></button>
+      </ng-template>
+</p-dialog>
+
+

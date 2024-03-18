@@ -4,11 +4,11 @@
   <section class="content-main">
     <div class="content-header">
         <div>
-            <h2 class="content-title card-title">Products List</h2>
-            <p>Lorem ipsum dolor sit amet.</p>
-        </div>
+            <h2 class="content-title card-title">Liste des catégories</h2>
+            <p>Voici la liste des catégories disponibles.</p>
+        </div>        
         <div>
-            <a href="#" class="btn btn-primary btn-sm rounded">Create new</a>
+            <a  [routerLink]="['/add_category']" class="btn btn-primary btn-sm rounded" >Créer une catégorie</a>
         </div>
     </div>
     <div class="card mb-4">
@@ -19,19 +19,16 @@
                         <input class="form-check-input" type="checkbox" (change)="toggleAll($event)" value="">
                     </div>
                 </div>
+                
                 <div class="col-md-3 col-12 me-auto mb-md-0 mb-3">
+                    
                 </div>
                 <div class="col-md-2 col-6">
-                    <input type="date" [(ngModel)]="selectedDate" class="form-control" (change)="searchByDate()">
+                    <p-calendar [(ngModel)]="selectedDate" [iconDisplay]="'input'" [showIcon]="true" inputId="icondisplay" [appendTo]="'body'" (onSelect)="searchByDate()"></p-calendar>
                 </div>                
                 <div class="col-md-2 col-6">
-                    <select class="form-select" (change)="filterByStatus($event)">
-                        <option selected disabled>Status</option>
-                        <option value="ACTIVE">Active</option>
-                        <option value="DRAFT">Draft</option>
-                        <option value="">Show all</option>
-                    </select>
-                </div>                                                     
+                    <p-dropdown [options]="statusOptions" [style]="{ width: '100%' }"  [(ngModel)]="selectedStatus" optionLabel="label" [appendTo]="'body'" (onChange)="filterByStatus($event)"></p-dropdown>
+                </div>                                                                                              
             </div>
         </header>
         <!-- card-header end// -->
@@ -52,9 +49,11 @@
                             </a>
                         </div>
                         <div class="col-lg-2 col-sm-2 col-4 col-status"><h6 class="mb-0">{{category.name}}</h6></div>
-                        <div class="col-lg-1 col-sm-1 col-2 col-status"><span>{{category.type}}</span></div>
+                        <div class="col-lg-1 col-sm-1 col-2 col-status"  >
+                            <span class="badge rounded-pill" [ngClass]="{'bg-success': category.type === 'free' , 'bg-help': category.type === 'paid'}">{{ category.type === 'free' ? 'GRATUITE' : 'PAYANTE' }}</span>
+                        </div>                        
                         <div class="col-lg-1 col-sm-1 col-2 col-status">
-                            <span class="badge rounded-pill" [ngClass]="{'bg-success': category.status === 'ACTIVE', 'bg-secondary': category.status === 'DRAFT'}">{{ category.status }}</span>
+                            <span class="badge rounded-pill" [ngClass]="{'bg-success': category.status === 'ACTIVE', 'bg-warning': category.status === 'DRAFT'}">{{ category.status }}</span>
                         </div>                                              
                         <div class="col-lg-2 col-sm-2 col-4 col-status"><span>{{ getParentCategoryName(category.parent_id) }}</span></div>
                         <div class="col-lg-1 col-sm-2 col-4 col-date">
@@ -63,7 +62,7 @@
                         <!-- Original HTML -->
                         <div class="col-lg-2 col-sm-2 col-4 col-action text-end">
                             <a class="btn btn-sm font-sm rounded btn-brand edit" (click)="showDialog(category)"> <i class="material-icons md-edit"></i> Edit </a>
-                            <a href="#" class="btn btn-sm font-sm btn-light rounded"> <i class="material-icons md-delete_forever"></i> Delete </a>
+                            <a class="btn btn-sm font-sm btn-light rounded" (click)="deleteCategory(category)"> <i class="material-icons md-delete_forever"></i> Delete </a>
                         </div>
 
 
@@ -74,7 +73,7 @@
                             <a href="#" data-bs-toggle="dropdown" class="btn btn-light rounded btn-sm font-sm" aria-expanded="false"> <i class="material-icons md-more_horiz"></i> </a>
                             <div class="dropdown-menu" style="margin: 0px;">
                                 <a class="dropdown-item" (click)="showDialog(category)">View detail</a>
-                                <a class="dropdown-item text-danger" >Delete</a>
+                                <a class="dropdown-item text-danger" (click)="deleteCategory(category)">Delete</a>
                             </div>
                         </div>
                     </div>
@@ -166,5 +165,7 @@
         ></button>
       </ng-template>
 </p-dialog>
+  
 
-
+<p-toast></p-toast>
+<p-confirmDialog   [style]="{ width: isPhone ? '346px' : '450px' }" ></p-confirmDialog>
