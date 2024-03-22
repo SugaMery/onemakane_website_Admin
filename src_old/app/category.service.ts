@@ -18,8 +18,11 @@ export class CategoryService {
     return this.http.post<any>(this.apiUrl, category);
   }
   
-  updateCategory(categoryId: number, category: any): Observable<any> {
-    const url = `${this.apiUrl}/${categoryId}`; // Construct the update URL
-    return this.http.put<any>(url, category);
+  updateCategory(categoryId: string, formData: FormData): Observable<any> {
+    return this.http.put<any>(`${this.apiUrl}/${categoryId}`, formData);
+  }
+  
+  deleteCategory(categoryId: string): Observable<any> {
+    return this.http.delete<any>(`${this.apiUrl}/${categoryId}`);
   }
 }

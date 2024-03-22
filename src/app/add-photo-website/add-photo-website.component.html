@@ -1,1 +1,47 @@
-<p>add-photo-website works!</p>
+<app-menu></app-menu>
+<main class="main-wrap">
+  <app-header></app-header>
+  <section class="content-main">
+    <form (ngSubmit)="uploadBackgroundImage()" enctype="multipart/form-data">
+      <div class="row">
+        <div class="col-9">
+          <div class="content-header">
+            <h2 class="content-title">Ajouter une nouvelle image de fond</h2>
+            <div>
+              <button class="btn btn-light rounded font-sm mr-5 text-body hover-up" (click)="saveBackgroundImageToDraft()">Enregistrer en brouillon</button>
+              <button type="submit" class="btn btn-md rounded font-sm hover-up">Publier</button>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <div class="card mb-4">
+            <div class="card-header">
+              <h4>Ajouter une image de fond</h4>
+            </div>
+            <div class="card-body">
+              <div class="mb-4">
+                <label for="image_name" class="form-label">Nom de l'image</label>
+                <input type="text" class="form-control" id="image_name" [(ngModel)]="imageName" name="name" required>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-3">
+          <div class="card mb-4">
+            <div class="card-header">
+              <h4>Média</h4>
+            </div>
+            <div class="card-body">
+              <div class="input-upload">
+                <img src="../../../../assets/imgs/theme/upload.svg" alt="" />
+                <input class="form-control" id="image_file" (change)="onFileSelected($event)" name="imageFile" type="file" accept="image/*">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+  </section>
+  
+  <app-footer></app-footer>
+</main>

@@ -23,6 +23,10 @@ import { RadioButtonModule } from 'primeng/radiobutton';
 import { CalendarModule } from 'primeng/calendar';
 import { AvatarModule } from 'primeng/avatar';
 import { AvatarGroupModule } from 'primeng/avatargroup';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { ToastModule } from 'primeng/toast';
+import { AddPhotoWebsiteComponent } from './add-photo-website/add-photo-website.component';
+import { ListPhotoWebsiteComponent } from './list-photo-website/list-photo-website.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -32,7 +36,9 @@ import { AvatarGroupModule } from 'primeng/avatargroup';
     ContentHeaderComponent,
     DashboardComponent,
     AddCategoryComponent,
-    ListCategoryComponent
+    ListCategoryComponent,
+    AddPhotoWebsiteComponent,
+    ListPhotoWebsiteComponent
   ],
   imports: [
     BrowserModule,
@@ -48,7 +54,9 @@ import { AvatarGroupModule } from 'primeng/avatargroup';
     RadioButtonModule,
     CalendarModule,
     AvatarModule,
-    AvatarGroupModule
+    AvatarGroupModule,
+    ConfirmDialogModule,
+    ToastModule
   ],
   providers: [
     provideClientHydration(),
