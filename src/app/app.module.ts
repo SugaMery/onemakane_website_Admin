@@ -27,6 +27,7 @@ import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { ToastModule } from 'primeng/toast';
 import { AddPhotoWebsiteComponent } from './add-photo-website/add-photo-website.component';
 import { ListPhotoWebsiteComponent } from './list-photo-website/list-photo-website.component';
+import { LoginComponent } from './login/login.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -38,7 +39,8 @@ import { ListPhotoWebsiteComponent } from './list-photo-website/list-photo-websi
     AddCategoryComponent,
     ListCategoryComponent,
     AddPhotoWebsiteComponent,
-    ListPhotoWebsiteComponent
+    ListPhotoWebsiteComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
