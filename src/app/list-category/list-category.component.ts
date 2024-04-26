@@ -1,4 +1,10 @@
-import { ChangeDetectorRef, Component, Inject, OnInit, PLATFORM_ID } from '@angular/core';
+import {
+  ChangeDetectorRef,
+  Component,
+  Inject,
+  OnInit,
+  PLATFORM_ID,
+} from '@angular/core';
 import { CategoryService } from '../category.service';
 import { DatePipe, isPlatformBrowser } from '@angular/common';
 import { Console } from 'node:console';
@@ -20,7 +26,7 @@ export interface Product {
   selector: 'app-list-category',
   templateUrl: './list-category.component.html',
   styleUrl: './list-category.component.css',
-  providers: [MessageService, ConfirmationService]
+  providers: [MessageService, ConfirmationService],
 })
 export class ListCategoryComponent implements OnInit {
   categories: any[] = [];
@@ -31,9 +37,9 @@ export class ListCategoryComponent implements OnInit {
   currentPage: number = 1; // Current page
   pagedCategories: any[] = []; // Array to hold categories for the current page
   selectedCategory: any; // Define this property in your component class
-  selectedCategoryStatus: string ="";
+  selectedCategoryStatus: string = '';
   allCategories: any[] = []; // assuming this contains all category objects
-  categoryStatuses: any[] =[];
+  categoryStatuses: any[] = [];
   isFree: boolean = true; // Assuming the default is free
   parentCategorie: any[] = [];
   selectedParentCategory: any;
@@ -41,44 +47,51 @@ export class ListCategoryComponent implements OnInit {
   isPhone: boolean = false;
   date2: Date | undefined;
   getParentCategoryName(parentId: string): string {
-    const parentCategory = this.categories.find(category => category.id === parentId);
+    const parentCategory = this.categories.find(
+      (category) => category.id === parentId
+    );
     return parentCategory ? parentCategory.name : 'Pas de catégorie parente';
   }
-  
+
   showDialog(category: any) {
     this.selectedCategory = category;
-    this.selectedCategoryStatus = category.status;
+    this.selectedCategoryStatus = category.active === true ? 'ACTIVE' : 'DRAFT';
+
     this.visible = true;
 
-    console.log('Selected  category has a parent',this.selectedCategory.parent_id);
-// Assuming formatCreated returns a string representation of the date
-const formattedDateString: string = this.formatCreated(this.selectedCategory.created_at);
+    console.log('Selected  category has a parent', this.selectedCategory);
+    // Assuming formatCreated returns a string representation of the date
+    const formattedDateString: string = this.formatCreated(
+      this.selectedCategory.created_at
+    );
 
-// Convert the formatted string to a Date object
-if (formattedDateString) {
-    this.date = new Date(formattedDateString);
-} else {
-    this.date = undefined;
-}
-    
+    // Convert the formatted string to a Date object
+    if (formattedDateString) {
+      this.date = new Date(formattedDateString);
+    } else {
+      this.date = undefined;
+    }
+
     // Check if there's a selected category and set its parent category name as the default selection in the dropdown
 
     if (this.selectedCategory && this.selectedCategory.parent_id) {
-      const foundCategory = this.parentCategories.find(cat => cat.value === this.selectedCategory.parent_id);
+      const foundCategory = this.parentCategories.find(
+        (cat) => cat.value === this.selectedCategory.parent_id
+      );
       if (foundCategory) {
-          this.selectedParentCategory = foundCategory;
+        this.selectedParentCategory = foundCategory;
       }
-  }else{
-    this.selectedParentCategory = this.parentCategories.find(cat => cat.value === null);
-
+    } else {
+      this.selectedParentCategory = this.parentCategories.find(
+        (cat) => cat.value === null
+      );
+    }
   }
 
-  }
-  
   hideDialog() {
-   this.selectedParentCategory="";
-   this.visible = false;
-}
+    this.selectedParentCategory = '';
+    this.visible = false;
+  }
 
   getSeverity(status: string): string {
     switch (status) {
@@ -93,9 +106,10 @@ if (formattedDateString) {
 
   visible: boolean = false;
 
-
   get pages(): number[] {
-    const pageCount = Math.ceil(this.filteredCategories.length / this.itemsPerPage);
+    const pageCount = Math.ceil(
+      this.filteredCategories.length / this.itemsPerPage
+    );
     return Array.from({ length: pageCount }, (_, i) => i + 1);
   }
 
@@ -103,30 +117,13 @@ if (formattedDateString) {
     this.currentPage = page;
     this.setPagedCategories();
   }
-// Inside your component class
-statusOptions: SelectItem[] = [
-  { label: 'Afficher tout', value: null },
-  { label: 'Active', value: 'ACTIVE' },
-  { label: 'Draft', value: 'DRAFT' },
-];
-selectedStatus: any = { label: 'Afficher tout', value: null };
-
-
-filterByStatus(event: any): void {
-  console.log('teeertt',event.value.value);
-  const status = event.value.value;
-  if (status === 'ACTIVE' || status === 'DRAFT') {
-      // Filter categories based on the selected status
-      this.filteredCategories = this.categories.filter(category => category.status === status);
-  } else {
-      // Show all categories if 'Show all' option is selected or if no status is selected
-      this.filteredCategories = this.categories;
-  }
-  // Reset pagination to the first page when applying filters
-  this.currentPage = 1;
-  this.setPagedCategories();
-}
-
+  // Inside your component class
+  statusOptions: SelectItem[] = [
+    { label: 'Afficher tout', value: null },
+    { label: 'Active', value: 'ACTIVE' },
+    { label: 'Draft', value: 'DRAFT' },
+  ];
+  selectedStatus: any = { label: 'Afficher tout', value: null };
 
   setPagedCategories() {
     const startIndex = (this.currentPage - 1) * this.itemsPerPage;
@@ -137,108 +134,205 @@ filterByStatus(event: any): void {
     private categoryService: CategoryService,
     private datePipe: DatePipe,
     @Inject(PLATFORM_ID) private platformId: Object,
-    private messageService: MessageService, private confirmationService: ConfirmationService,
+    private messageService: MessageService,
+    private confirmationService: ConfirmationService,
     private cdr: ChangeDetectorRef
-  ) { 
-    this.parentCategorie = this.allCategories.filter(category => category.parent_id === null);
+  ) {
+    this.parentCategorie = this.allCategories.filter(
+      (category) => category.parent_id === null
+    );
   }
 
   ngOnInit(): void {
-    this.fetchCategories();
-    this.setPagedCategories();
-    this.categoryStatuses= [
-      { label: 'DRAFT', value: 'DRAFT' },
-      { label: 'ACTIVE', value: 'ACTIVE' }
-    ];
-    this.categoryService.getAllCategories().subscribe(
-      (categories: any[]) => {
-        this.pagedCategories = categories.slice(0, 7);
-      },
-      error => {
-        console.error('Error fetching categories:', error);
-        // Handle error
+    if (typeof localStorage !== 'undefined') {
+      this.fetchCategories();
+      this.setPagedCategories();
+      const accessToken = localStorage.getItem('loggedInUserToken');
+
+      this.categoryStatuses = [
+        { label: 'DRAFT', value: 'DRAFT' },
+        { label: 'ACTIVE', value: 'ACTIVE' },
+      ];
+      this.categoryService.getCategoriesFrom(accessToken!).subscribe(
+        (categories) => {
+          const categoriesData = categories.data.slice(0, 7);
+
+          categoriesData.forEach((category: any) => {
+            this.categoryService
+              .getCategoryById(category.id, accessToken!)
+              .subscribe((category) => {
+                this.pagedCategories.push(category.data);
+              });
+          });
+          console.log('pagedCategories', this.pagedCategories);
+        },
+        (error) => {
+          console.error('Error fetching categories:', error);
+          // Handle error
+        }
+      );
+      console.log('pagedCategoriesff', this.pagedCategories);
+
+      console.log('tt', this.pagedCategories);
+      this.categoryService
+        .getCategoriesFrom(accessToken!)
+        .subscribe((categories) => {
+          const categoriesData = categories.data;
+          // Set all categories as parent categories initially
+          this.parentCategories = [
+            { label: 'No Parent Category Selected', value: null },
+            ...categoriesData.map((category: { name: any; id: any }) => ({
+              label: category.name,
+              value: category.id,
+            })),
+          ];
+          // Check if there's no selected parent category, then select "No Parent Category Selected"
+        });
+
+      if (isPlatformBrowser(this.platformId)) {
+        this.isPhone = window.innerWidth <= 768;
       }
-    );
-    
-    
-    console.log("tt",this.pagedCategories);
-    this.categoryService.getAllCategories().subscribe((categories: any[]) => {
-      // Set all categories as parent categories initially
-      this.parentCategories = [{ label: 'No Parent Category Selected', value: null }, ...categories.map(category => ({
-        label: category.name,
-        value: category.id
-      }))];
-        // Check if there's no selected parent category, then select "No Parent Category Selected"
-
-    });
-
-    if (isPlatformBrowser(this.platformId)) {
-      this.isPhone = window.innerWidth <= 768;
+    } else {
+      // Handle the case when localStorage is not available
+      console.warn(
+        'localStorage is not available. Some functionalities may be limited.'
+      );
     }
   }
 
   fetchCategories(): void {
-    this.categoryService.getAllCategories().subscribe({
+    const accessToken = localStorage.getItem('loggedInUserToken');
+    this.categoryService.getCategoriesFrom(accessToken!).subscribe({
       next: (categories) => {
-        this.categories = categories;
+        const categoriesData = categories.data;
+        categoriesData.forEach((category: any) => {
+          // Set all categories as parent categories initially
+          this.categoryService
+            .getCategoryById(category.id, accessToken!)
+            .subscribe((categorys) => {
+              this.categories.push(categorys.data);
+            });
+        });
+
         this.filteredCategories = this.categories; // Initialize filteredCategories
       },
       error: (error) => {
         console.error('Error fetching categories:', error);
-      }
+      },
     });
   }
 
-  searchByDate() {
-    
-    if (this.selectedDate) {
-        // Filter categories based on the selected date
-        this.filteredCategories = this.categories.filter(category => {
-            // Assuming category.created_at is in 'YYYY/MM/DD' format
-            const categoryDate = this.formatCreatedAt(category.created_at); // Extract date part only
-            return categoryDate === this.formatCreatedAt(this.selectedDate) ;
-        });
-    } else {
-        // If no date is selected, show all categories
-        this.filteredCategories = this.categories;
-    }
-}
+  status: any;
+  filterByStatus(event: any): void {
+    console.log('teeertt', event.value.value);
+    this.status = event.value.value;
 
-deleteCategory(category: any) {
-  this.confirmationService.confirm({
-    message: 'Êtes-vous sûr de vouloir supprimer ?',
-    header: 'Confirmation',
-    icon: 'pi pi-exclamation-triangle',
-    acceptLabel: 'Oui',
-    rejectLabel: 'Non',
-    rejectButtonStyleClass:"p-button-text",
-    accept: () => {
-      this.categoryService.deleteCategory(category.id).subscribe(
-        () => {
-          this.pagedCategories = this.pagedCategories.filter(c => c.id !== category.id);
-          this.filteredCategories = this.filteredCategories.filter(c => c.id !== category.id);
-          // Reload the list of categories after successful deletion
-          this.fetchCategories();
-          console.log('Category :', this.pagedCategories);
-          this.setPagedCategories();
-          console.log('Category 2:', this.filteredCategories);
-          this.messageService.add({ severity: 'success', summary: 'Succès', detail: 'Catégorie supprimée', life: 3000 });
+    if (event.value.value) {
+      if (this.selectedDate) {
+        const status = event.value.value == 'ACTIVE' ? true : false;
 
-          // Manually trigger change detection
-          this.cdr.detectChanges();
-        },
-        error => {
-          console.error('Error deleting category:', error);
-          // Handle error
+        if (status == true || status == false) {
+          console.log('filteredCategories', status);
+
+          // Filter categories based on the selected status
+          this.filteredCategories = this.filteredCategories.filter(
+            (category) => category.active == status
+          );
         }
-      );
+      } else {
+        const status = event.value.value == 'ACTIVE' ? true : false;
+
+        if (status == true || status == false) {
+          console.log('filteredCategories', status);
+
+          // Filter categories based on the selected status
+          this.filteredCategories = this.categories.filter(
+            (category) => category.active == status
+          );
+        }
+      }
+
+      // Reset pagination to the first page when applying filters
+      this.currentPage = 1;
+      this.setPagedCategories();
+    } else {
+      console.log('filteredCategories non', status);
+      // Show all categories if 'Show all' option is selected or if no status is selected
+      this.filteredCategories = this.categories;
     }
-  });
-}
+  }
+  searchByDate() {
+    if (this.selectedDate) {
+      console.log('statusssssssssss', this.status);
+      if (this.status) {
+        this.filteredCategories = this.filteredCategories.filter(
+          (category) =>
+            this.formatCreatedAt(category.created_at) ==
+            this.formatCreatedAt(this.selectedDate)
+        );
+      } else {
+        console.log('selectedDate', this.selectedDate);
+
+        this.filteredCategories = this.categories.filter(
+          (category) =>
+            this.formatCreatedAt(category.created_at) ==
+            this.formatCreatedAt(this.selectedDate)
+        );
+      }
+
+      this.setPagedCategories();
+    } else {
+      // If no date is selected, show all categories
+      this.filteredCategories = this.categories;
+    }
+  }
+
+  deleteCategory(category: any) {
+    this.confirmationService.confirm({
+      message: 'Êtes-vous sûr de vouloir supprimer ?',
+      header: 'Confirmation',
+      icon: 'pi pi-exclamation-triangle',
+      acceptLabel: 'Oui',
+      rejectLabel: 'Non',
+      rejectButtonStyleClass: 'p-button-text',
+      accept: () => {
+        this.categoryService.deleteCategory(category.id).subscribe(
+          () => {
+            this.pagedCategories = this.pagedCategories.filter(
+              (c) => c.id !== category.id
+            );
+            this.filteredCategories = this.filteredCategories.filter(
+              (c) => c.id !== category.id
+            );
+            // Reload the list of categories after successful deletion
+            this.fetchCategories();
+            console.log('Category :', this.pagedCategories);
+            this.setPagedCategories();
+            console.log('Category 2:', this.filteredCategories);
+            this.messageService.add({
+              severity: 'success',
+              summary: 'Succès',
+              detail: 'Catégorie supprimée',
+              life: 3000,
+            });
+
+            // Manually trigger change detection
+            this.cdr.detectChanges();
+          },
+          (error) => {
+            console.error('Error deleting category:', error);
+            // Handle error
+          }
+        );
+      },
+    });
+  }
   toggleAll(event: any) {
-    const checkboxes = document.querySelectorAll('.itemlist input[type="checkbox"]');
+    const checkboxes = document.querySelectorAll(
+      '.itemlist input[type="checkbox"]'
+    );
     checkboxes.forEach((checkbox: any) => {
-        checkbox.checked = event.target.checked;
+      checkbox.checked = event.target.checked;
     });
   }
 
@@ -246,32 +340,51 @@ deleteCategory(category: any) {
     return this.datePipe.transform(date, 'yyyy-MM-dd') || '';
   }
 
-
   formatCreated(date: string): string {
     return this.datePipe.transform(date, 'dd-MM-yyyy') || '';
   }
   selectedFile: File | null = null; // Variable to store the selected file
-
+  icon_id: number = 0;
   updateCategory(): void {
+    const accessToken = localStorage.getItem('loggedInUserToken');
 
-    this.selectedCategory.status= this.selectedCategoryStatus;
-    this.selectedCategory.parent_id =this.selectedParentCategory.value;
-    const formData = new FormData();
-    formData.append('name', this.selectedCategory.name);
-    formData.append('parent_id', this.selectedParentCategory.value);
-    formData.append('type', this.selectedCategory.type);
-    formData.append('status', this.selectedCategoryStatus);
+    this.selectedCategory.status =
+      this.selectedCategoryStatus === 'ACTIVE' ? 1 : 0;
+    this.selectedCategory.parent_id = this.selectedParentCategory.value;
+    const formData = {
+      name: this.selectedCategory.name,
+      parent_id: this.selectedParentCategory.value,
+      type: this.selectedCategory.type,
+      active: this.selectedCategoryStatus === 'ACTIVE' ? 1 : 0,
+      icon_id: undefined, // Initialize icon_id as undefined
+    };
+
     if (this.selectedFile) {
-        formData.append('file', this.selectedFile!);
-    }else{
-      formData.append('file', this.selectedCategory.icon_path);
+      this.categoryService
+        .uploadFile(this.selectedFile, accessToken!)
+        .then((response: { data: { id: any } }) => {
+          formData.icon_id = response.data.id;
+        })
+        .catch((error: any) => {
+          console.error('Error uploading file:', error);
+          // Handle error
+        });
+    } else {
+      // If no selected file, remove icon_id property
+      delete formData.icon_id;
     }
 
-    this.categoryService.updateCategory(this.selectedCategory.id, formData)
+    this.categoryService
+      .updateCategoryById(this.selectedCategory.id, formData, accessToken!)
       .subscribe(
         (response) => {
-          this.messageService.add({ severity: 'success', summary: 'Succès', detail: 'Catégorie modifiée avec succès', life: 3000 });
-          console.log('Category updated successfully:', response);
+          this.messageService.add({
+            severity: 'success',
+            summary: 'Succès',
+            detail: 'Catégorie modifiée avec succès',
+            life: 3000,
+          });
+          this.selectedCategory.active = formData.active;
           this.hideDialog();
           //window.location.reload(); // Refresh the page
         },
@@ -279,18 +392,15 @@ deleteCategory(category: any) {
           console.error('Error updating category:', error);
         }
       );
-}
+  }
 
+  onFileSelected(event: any): void {
+    const file: File = (this.selectedFile = event.target.files[0]);
 
-
-
-onFileSelected(event: any): void {
-  const file: File = this.selectedFile=event.target.files[0];
-  
-  const reader = new FileReader();
-  reader.onload = () => {
-      this.selectedCategory.icon_path = reader.result as string;
-  };
-  reader.readAsDataURL(file);
-}
+    const reader = new FileReader();
+    reader.onload = () => {
+      this.selectedCategory.media.url = reader.result as string;
+    };
+    reader.readAsDataURL(file);
+  }
 }
