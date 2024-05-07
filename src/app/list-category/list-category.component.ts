@@ -364,6 +364,29 @@ export class ListCategoryComponent implements OnInit {
         .uploadFile(this.selectedFile, accessToken!)
         .then((response: { data: { id: any } }) => {
           formData.icon_id = response.data.id;
+          this.categoryService
+            .updateCategoryById(
+              this.selectedCategory.id,
+              formData,
+              accessToken!
+            )
+            .subscribe(
+              (response) => {
+                this.messageService.add({
+                  severity: 'success',
+                  summary: 'Succès',
+                  detail: 'Catégorie modifiée avec succès',
+                  life: 3000,
+                });
+                console.log('updateCategoryById', formData, response);
+                this.selectedCategory.active = formData.active;
+                this.hideDialog();
+                //window.location.reload(); // Refresh the page
+              },
+              (error) => {
+                console.error('Error updating category:', error);
+              }
+            );
         })
         .catch((error: any) => {
           console.error('Error uploading file:', error);
@@ -372,26 +395,26 @@ export class ListCategoryComponent implements OnInit {
     } else {
       // If no selected file, remove icon_id property
       delete formData.icon_id;
+      this.categoryService
+        .updateCategoryById(this.selectedCategory.id, formData, accessToken!)
+        .subscribe(
+          (response) => {
+            this.messageService.add({
+              severity: 'success',
+              summary: 'Succès',
+              detail: 'Catégorie modifiée avec succès',
+              life: 3000,
+            });
+            console.log('updateCategoryById', formData, response);
+            this.selectedCategory.active = formData.active;
+            this.hideDialog();
+            //window.location.reload(); // Refresh the page
+          },
+          (error) => {
+            console.error('Error updating category:', error);
+          }
+        );
     }
-
-    this.categoryService
-      .updateCategoryById(this.selectedCategory.id, formData, accessToken!)
-      .subscribe(
-        (response) => {
-          this.messageService.add({
-            severity: 'success',
-            summary: 'Succès',
-            detail: 'Catégorie modifiée avec succès',
-            life: 3000,
-          });
-          this.selectedCategory.active = formData.active;
-          this.hideDialog();
-          //window.location.reload(); // Refresh the page
-        },
-        (error) => {
-          console.error('Error updating category:', error);
-        }
-      );
   }
 
   onFileSelected(event: any): void {
