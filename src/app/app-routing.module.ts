@@ -12,8 +12,8 @@ const routes: Routes = [
   { path: 'list_category', component: ListCategoryComponent },
   { path: 'page-ajouter-photo', component: AddPhotoWebsiteComponent },
   { path: 'page-photos-list', component: ListPhotoWebsiteComponent },
-  { path: '', component: ListCategoryComponent },
-  { path: 'login', component: LoginComponent },
+  { path: 'home', component: ListCategoryComponent },
+  { path: '', component: LoginComponent },
 ];
 
 @NgModule({

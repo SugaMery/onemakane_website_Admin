@@ -20,6 +20,7 @@ export class LoginComponent {
   onSubmit(): void {
     this.userData.email = this.email;
     this.userData.password = this.password;
+    console.log('dataaa',this.userData)
     this.userService.login(this.userData).subscribe(
       (response) => {
         // Store user ID and token in local storage
@@ -27,7 +28,7 @@ export class LoginComponent {
         localStorage.setItem('loggedInUserToken', response.data.token);
 
         // Redirect to the dashboard
-        window.location.href = '/';
+        window.location.href = '/home';
       },
       (error) => {
         // Handle login error
