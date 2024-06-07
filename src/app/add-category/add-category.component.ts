@@ -37,7 +37,8 @@ export class AddCategoryComponent {
         this.categoryService.getCategoriesFrom(accessToken).subscribe({
           next: (categories) => {
             console.log('Categories fetched successfully:', categories);
-            this.categories = categories.data;
+          // Assuming categories.data is the array you are working with
+          this.categories = categories.data.filter((category: { active: boolean; }) => category.active == true);
           },
           error: (error) => {
             console.error('Error fetching categories:', error);
