@@ -1,0 +1,94 @@
+<main class="main-wrap">
+    <app-header></app-header>
+    <section class="content-main">
+      <div class="content-header">
+        <a href="javascript:history.back()"><i class="material-icons md-arrow_back"></i> Go back </a>
+      </div>
+      <div class="card mb-4">
+        <div class="card-header bg-brand-2" style="height: 150px"></div>
+        <div class="card-body">
+          <div class="row">
+            <div class="col-xl col-lg flex-grow-0" style="flex-basis: 230px">
+              <div class="img-thumbnail shadow w-100 bg-white position-relative text-center" style="height: 190px; width: 200px; margin-top: -120px;background-color: #f0f0f0 !important;">
+                <div style="border-radius: 50%; color: #3bb77e; font-size: xx-large;" class="center-xy img-fluid">
+                  {{ userData?.first_name?.slice(0, 1) }}{{ userData?.last_name?.slice(0, 1) }}
+                </div>
+              </div>
+            </div>
+            <!--  col.// -->
+            <div class="col-xl col-lg">
+              <h3>{{ userData.professional ? userData.professional.company_name : userData.full_name }}</h3>
+              <p>{{ userData.professional ? userData.professional.company_address + ', ' + userData.professional.company_postal_code : userData.email }}</p>
+            </div>
+            <!--  col.// -->
+            <div class="col-xl-4 text-md-end">
+              <a class="btn btn-primary">Modifier les informations </a>
+            </div>
+            <!--  col.// -->
+          </div>
+          <!-- card-body.// -->
+          <hr class="my-4" />
+          <div class="row g-4">
+            <div class="col-md-12 col-lg-4 col-xl-2">
+              <!-- Update the article box with ads count -->
+              <article class="box">
+                <p class="mb-0 text-muted">Nombre d'annonces:</p>
+                <h5 class="text-success">{{ adsCount }}</h5>
+              </article>
+            </div>
+            <!--  col.// -->
+            <div class="col-sm-6 col-lg-4 col-xl-3">
+              <h6>Contacts</h6>
+              <p>
+                Client : {{ userData.full_name }} <br />
+                {{ userData.email }} <br />
+                {{ userData.telephone }}
+              </p>
+            </div>
+            <!--  col.// -->
+            <div class="col-sm-6 col-lg-4 col-xl-3">
+              <h6>Address</h6>
+              <p>
+                Country: {{ userData.professional ? userData.professional.country : userData.city }} <br />
+                Address: {{ userData.professional ? userData.professional.company_address : userData.address }} <br />
+                Postal code: {{ userData.professional ? userData.professional.company_postal_code : userData.postal_code }}
+              </p>
+            </div>
+            <!--  col.// -->
+            <div class="col-sm-6 col-xl-4 text-xl-end">
+              <div id="map" style="height: 150px;"></div>
+            </div>
+            <!--  col.// -->
+          </div>
+          <!--  row.// -->
+        </div>
+        <!--  card-body.// -->
+      </div>
+  
+      <!-- Products by Seller -->
+      <div class="card mb-4">
+        <div class="card-body">
+          <h3 class="card-title">Products by seller</h3>
+          <div class="row">
+            <div class="col-xl-2 col-lg-3 col-md-6" *ngFor="let ad of ads">
+              <div class="card card-product-grid">
+                <!-- Assuming you have an image URL in ad.medias[0].url, adjust as per your data structure -->
+                <a href="#" class="img-wrap"><img [src]="ad.medias[0].url" alt="Product"></a>
+                <div class="info-wrap">
+                  <a href="#" class="title">{{ ad.title }}</a>
+                  <div class="price mt-1">{{ ad.price }}</div>
+                  <!-- price-wrap.// -->
+                </div>
+              </div>
+              <!-- card-product end// -->
+            </div>
+          </div>
+          <!-- row.// -->
+        </div>
+        <!--  card-body.// -->
+      </div>
+    </section>
+    <!-- content-main end// -->
+    <app-footer></app-footer>
+  </main>
+  

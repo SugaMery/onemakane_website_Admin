@@ -6,6 +6,8 @@ import { ListCategoryComponent } from './list-category/list-category.component';
 import { AddPhotoWebsiteComponent } from './add-photo-website/add-photo-website.component';
 import { ListPhotoWebsiteComponent } from './list-photo-website/list-photo-website.component';
 import { LoginComponent } from './login/login.component';
+import { ListUserComponent } from './list-user/list-user.component';
+import { DetailUserComponent } from './detail-user/detail-user.component';
 
 const routes: Routes = [
   { path: 'add_category', component: AddCategoryComponent },
@@ -14,6 +16,8 @@ const routes: Routes = [
   { path: 'page-photos-list', component: ListPhotoWebsiteComponent },
   { path: 'home', component: ListCategoryComponent },
   { path: '', component: LoginComponent },
+  { path: 'list-utilisateur', component: ListUserComponent },
+  { path: 'detail-utilisateur/:id', component: DetailUserComponent },
 ];
 
 @NgModule({

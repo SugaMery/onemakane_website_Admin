@@ -21,4 +21,11 @@ export class UserService {
 
     return this.http.get(`${this.baseUrl}/users/${userId}`, { headers });
   }
+
+  getUsers(accessToken: string): Observable<any> {
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${accessToken}`,
+    });
+    return this.http.get(`${this.baseUrl}/users`, { headers });
+  }
 }

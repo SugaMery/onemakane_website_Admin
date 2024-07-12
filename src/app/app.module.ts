@@ -28,6 +28,8 @@ import { ToastModule } from 'primeng/toast';
 import { AddPhotoWebsiteComponent } from './add-photo-website/add-photo-website.component';
 import { ListPhotoWebsiteComponent } from './list-photo-website/list-photo-website.component';
 import { LoginComponent } from './login/login.component';
+import { ListUserComponent } from './list-user/list-user.component';
+import { DetailUserComponent } from './detail-user/detail-user.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -40,7 +42,9 @@ import { LoginComponent } from './login/login.component';
     ListCategoryComponent,
     AddPhotoWebsiteComponent,
     ListPhotoWebsiteComponent,
-    LoginComponent
+    LoginComponent,
+    ListUserComponent,
+    DetailUserComponent
   ],
   imports: [
     BrowserModule,
