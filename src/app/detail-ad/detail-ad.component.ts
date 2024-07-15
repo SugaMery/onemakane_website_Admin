@@ -272,4 +272,24 @@ export class DetailAdComponent {
     console.log('rrrr',this.ad,ad)
     });
   }
+
+  saveAsDraft() {
+    // Logique pour sauvegarder en brouillon
+    this.ad.validation_status = 'draft';
+  }
+
+  publish() {
+    // Logique pour publier
+    this.ad.validation_status = 'approved'; // Ou 'pending', selon votre logique
+  }
+
+  approve() {
+    // Logique pour approuver
+    this.ad.validation_status = 'approved';
+  }
+
+  reject() {
+    // Logique pour rejeter
+    this.ad.validation_status = 'rejected';
+  }
 }

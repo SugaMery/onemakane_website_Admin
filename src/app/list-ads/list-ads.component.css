@@ -1,0 +1,52 @@
+::ng-deep .product-image {
+    padding: 10px;
+    height: 250px; /* Adjust the height as needed */
+    object-fit: cover;
+    border-radius: 10px; /* Adjust the radius as needed */
+    width: 100%; /* Ensure the image takes up the full width */
+    border-radius: 1rem;
+  }
+  
+
+  ::n-deep .img-wrap img {
+     height: none !important;
+  }
+
+
+
+  ::ng-deep .badge {
+    display: inline-block;
+    padding: 0.25em 0.4em;
+    font-size: 90%;
+    font-weight: 700;
+    line-height: 1;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: baseline;
+    border-radius: 0.25rem;
+    margin-top: 0.5em;
+    float: right;
+
+  }
+  
+  ::ng-deep  .badge-success {
+    color: #fff;
+    background-color: #28a745;
+  }
+  
+  ::ng-deep  .badge-danger {
+    color: #fff;
+    background-color: #dc3545;
+  }
+  
+  ::ng-deep  .badge-warning {
+    color: #212529;
+    background-color: #ffc107;
+  }
+
+  ::ng-deep .button-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  

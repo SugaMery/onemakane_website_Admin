@@ -21,8 +21,11 @@ export class DetailUserComponent implements OnInit {
 
   ngOnInit(): void {
     const adId = this.route.snapshot.paramMap.get('id');
-    if (localStorage) {
+  
+    // Check if localStorage is available
+    if (typeof localStorage !== 'undefined') {
       const accessToken = localStorage.getItem('loggedInUserToken');
+  
       if (accessToken) {
         this.userService.getUserInfoById(Number(adId), accessToken).subscribe(
           data => {
@@ -42,6 +45,7 @@ export class DetailUserComponent implements OnInit {
       console.error('localStorage is not available in this environment');
     }
   }
+  
 
   initMap(): void {
     // Check if google.maps is defined (Google Maps API loaded)

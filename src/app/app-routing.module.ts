@@ -9,6 +9,7 @@ import { LoginComponent } from './login/login.component';
 import { ListUserComponent } from './list-user/list-user.component';
 import { DetailUserComponent } from './detail-user/detail-user.component';
 import { DetailAdComponent } from './detail-ad/detail-ad.component';
+import { ListAdsComponent } from './list-ads/list-ads.component';
 
 const routes: Routes = [
   { path: 'add_category', component: AddCategoryComponent },
@@ -20,6 +21,7 @@ const routes: Routes = [
   { path: 'list-utilisateurs', component: ListUserComponent },
   { path: 'detail-utilisateur/:id', component: DetailUserComponent },
   { path: 'detail-annonce/:id', component: DetailAdComponent },
+  { path: 'list-annonces', component: ListAdsComponent },
 
 ];
 

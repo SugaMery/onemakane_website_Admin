@@ -11,73 +11,67 @@
     <nav>
         <ul class="menu-aside">
             <li class="menu-item">
-                <a class='menu-link' href='/'>
+                <a class="menu-link" routerLink="/" routerLinkActive="active">
                     <i class="icon material-icons md-home"></i>
                     <span class="text">Dashboard</span>
                 </a>
             </li>
-            <li class="menu-item has-submenu">
-                <a class='menu-link' href='/page-products-list'>
+            <li class="menu-item has-submenu" routerLink="/list-annonces" routerLinkActive="active">
+                <a class="menu-link" >
                     <i class="icon material-icons md-shopping_bag"></i>
                     <span class="text">Annonces</span>
                 </a>
                 <div class="submenu">
-                    <a href='/page-products-list'>Liste des annonces</a>
-                    <a href='/page-products-grid'>Product grid</a>
-                    <a href='/page-products-grid-2'>Product grid 2</a>
-                    <a href='/page-categories'>Categories</a>
+                    <a routerLink="/list-annonces">Liste des annonces</a>
+                    <a routerLink="/page-products-grid">Product grid</a>
+                    <a routerLink="/page-products-grid-2">Product grid 2</a>
+                    <a routerLink="/page-categories">Categories</a>
                 </div>
             </li>
-
-            <li class="menu-item has-submenu">
-                <a class='menu-link' >
+            <li class="menu-item has-submenu" routerLinkActive="active">
+                <a class="menu-link">
                     <i class="icon material-icons md-photo"></i>
                     <span class="text">Photos</span>
                 </a>
                 <div class="submenu">
-                    <a href="/page-photos-list" routerLinkActive="active">Liste des photos</a>
-                    <a href="/page-ajouter-photo" routerLinkActive="active">Ajouter une photo</a>
+                    <a routerLink="/page-photos-list">Liste des photos</a>
+                    <a routerLink="/page-ajouter-photo">Ajouter une photo</a>
                 </div>
             </li>            
-            <li class="menu-item has-submenu active">
-                <a class='menu-link' >
+            <li class="menu-item has-submenu" routerLink="/list_category" routerLinkActive="active">
+                <a class="menu-link">
                     <i class="icon material-icons md-add_box"></i>
                     <span class="text">Catégories</span>
                 </a>
                 <div class="submenu">
-                    <a href="/add_category" routerLinkActive="active">Ajouter une catégorie</a>
-                    <a href="/list_category" routerLinkActive="active">Liste des catégories</a>
+                    <a routerLink="/add_category">Ajouter une catégorie</a>
+                    <a routerLink="/list_category">Liste des catégories</a>
                 </div>                
             </li>
-            <li class="menu-item has-submenu">
-                <a class='menu-link' href='/page-transactions-1'>
+            <li class="menu-item has-submenu" routerLinkActive="active">
+                <a class="menu-link" routerLink="/page-transactions-1">
                     <i class="icon material-icons md-monetization_on"></i>
                     <span class="text">Transactions</span>
                 </a>
                 <div class="submenu">
-                    <a href='/page-transactions-1'>Transaction 1</a>
-                    <a href='/page-transactions-2'>Transaction 2</a>
+                    <a routerLink="/page-transactions-1">Transaction 1</a>
+                    <a routerLink="/page-transactions-2">Transaction 2</a>
                 </div>
             </li>
-            <li class="menu-item has-submenu">
-                <a class="menu-link" href="#">
+            <li class="menu-item" routerLinkActive="active">
+                <a class="menu-link" routerLink="/list-utilisateurs">
                     <i class="icon material-icons md-person"></i>
                     <span class="text">Utilisateurs</span>
                 </a>
-                <div class="submenu">
-                    <a href='/page-account-login'>User login</a>
-                    <a href='/page-account-register'>User registration</a>
-                    <a href='/page-error-404'>Error 404</a>
-                </div>
             </li>
-            <li class="menu-item">
-                <a class='menu-link' href='/page-reviews'>
+            <li class="menu-item" routerLinkActive="active">
+                <a class="menu-link" routerLink="/page-reviews">
                     <i class="icon material-icons md-comment"></i>
                     <span class="text">commentaires</span>
                 </a>
             </li>
             <li class="menu-item">
-                <a class="menu-link" disabled href="#">
+                <a class="menu-link" href="#" disabled>
                     <i class="icon material-icons md-pie_chart"></i>
                     <span class="text">Statistique</span>
                 </a>
@@ -94,4 +88,6 @@
         <br />
         <br />
     </nav>
+    
+    
 </aside>

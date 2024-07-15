@@ -3,8 +3,8 @@
     <app-header></app-header>
     <section class="content-main">
       <div class="content-header">
-        <a href="javascript:history.back()"><i class="material-icons md-arrow_back"></i> Go back </a>
-      </div>
+        <a href="javascript:history.back()"><i class="material-icons md-arrow_back"></i> Retourner</a>
+      </div>      
       <div class="card mb-4">
         <div class="card-header bg-brand-2" style="height: 150px"></div>
         <div class="card-body">
@@ -34,7 +34,7 @@
               <!-- Update the article box with ads count -->
               <article class="box">
                 <p class="mb-0 text-muted">Nombre d'annonces:</p>
-                <h5 class="text-success">{{ adsCount }}</h5>
+                <h5 class="text-success">{{ adsCount < 10 ? '0' + adsCount : adsCount }}</h5>
               </article>
             </div>
             <!--  col.// -->
@@ -68,41 +68,53 @@
   
       <div class="card mb-4">
         <header class="card-header">
-          <h3 class="card-title">Les annonces publiées par {{userData.full_name}} :</h3>
+          <h3 class="card-title">Les annonces publiées par {{ userData.full_name }} :</h3>
         </header>
         <div class="card-body">
-          <div class="row gx-3 row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-xl-4 row-cols-xxl-5">
-            <div class="col" *ngFor="let ad of ads">
-              <div class="card card-product-grid">
-                <div class="product-image">
-                  <a [routerLink]="['/detail-annonce', ad.id]">
-                    <img [src]="ad.medias[0]?.url || 'assets/imgs/default.jpg'" alt="{{ ad.title }}" class="product-image">
-                  </a>
-                </div>
-                <div class="info-wrap">
-                  <div class="mb-2">
-                    <span class="badge" [ngClass]="{
-                      'badge-success': ad.validation_status === 'approved',
-                      'badge-danger': ad.validation_status === 'rejected',
-                      'badge-warning': ad.validation_status === 'pending'
-                    }">{{ ad.validation_status | titlecase }}</span>
+          <div class="row gx-3 row-cols-xl-4">
+            <!-- Check if ads array is initialized and not empty -->
+            <ng-container *ngIf="ads && ads.length > 0; else noAdsMessage">
+              <div class="col" *ngFor="let ad of ads">
+                <div class="card card-product-grid">
+                  <div class="product-image">
+                    <a [routerLink]="['/detail-annonce', ad.id]">
+                      <!-- Use safe navigation operator (?) for accessing ad.medias[0] -->
+                      <img [src]="ad.medias[0]?.url || 'assets/imgs/default.jpg'" alt="{{ ad.title }}" class="product-image">
+                    </a>
                   </div>
-                  <a [routerLink]="['/detail-annonce', ad.id]" class="title text-truncate">{{ ad.title }}</a>
-                  <div class="price mb-2">{{ ad.price | currency:'USD':true }}</div>
-                  <div class="button-container mt-2">
-                    <a [routerLink]="['/detail-annonce', ad.id]" class="btn btn-sm font-sm rounded btn-brand">
-                      <i class="material-icons md-edit"></i> Voir
-                    </a>
-                    <a href="#" class="btn btn-sm font-sm btn-light rounded btn-danger">
-                      <i class="material-icons md-delete_forever"></i> Delete
-                    </a>
+                  <div class="info-wrap">
+                    <div class="mb-2">
+                      <span class="badge" [ngClass]="{
+                        'badge-success': ad.validation_status === 'approved',
+                        'badge-danger': ad.validation_status === 'rejected',
+                        'badge-warning': ad.validation_status === 'pending'
+                      }">{{ ad.validation_status | titlecase }}</span>
+                    </div>
+                    <a [routerLink]="['/detail-annonce', ad.id]" class="title text-truncate">{{ ad.title }}</a>
+                    <div class="price mb-2">{{ ad.price | currency:'USD':true }}</div>
+                    <div class="button-container mt-2">
+                      <a [routerLink]="['/detail-annonce', ad.id]" class="btn btn-sm font-sm rounded btn-brand">
+                        <i class="material-icons md-edit"></i> Voir
+                      </a>
+                      <a href="#" class="btn btn-sm font-sm btn-light rounded btn-danger">
+                        <i class="material-icons md-delete_forever"></i> Delete
+                      </a>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
+            </ng-container>
+            <!-- Display this message if no ads are available -->
+            <ng-template #noAdsMessage>
+              <div class="col">
+                <div class="alert alert-info">Aucune annonce publiée pour le moment.</div>
+              </div>
+            </ng-template>
           </div>
         </div>
+        
       </div>
+      
       
     </section>
     <!-- content-main end// -->

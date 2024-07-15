@@ -32,6 +32,7 @@ import { ListUserComponent } from './list-user/list-user.component';
 import { DetailUserComponent } from './detail-user/detail-user.component';
 import { DetailAdComponent } from './detail-ad/detail-ad.component';
 import { ImageModule } from 'primeng/image';
+import { ListAdsComponent } from './list-ads/list-ads.component';
 
 @NgModule({
   declarations: [
@@ -48,7 +49,8 @@ import { ImageModule } from 'primeng/image';
     LoginComponent,
     ListUserComponent,
     DetailUserComponent,
-    DetailAdComponent
+    DetailAdComponent,
+    ListAdsComponent
   ],
   imports: [
     BrowserModule,
