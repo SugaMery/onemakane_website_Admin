@@ -1,3 +1,4 @@
+<app-menu></app-menu>
 <main class="main-wrap">
     <app-header></app-header>
     <section class="content-main">
@@ -41,8 +42,8 @@
               <h6>Contacts</h6>
               <p>
                 Client : {{ userData.full_name }} <br />
-                {{ userData.email }} <br />
-                {{ userData.telephone }}
+                Email : {{ userData.email }} <br />
+                Téléphone : {{ userData.telephone }}
               </p>
             </div>
             <!--  col.// -->
@@ -65,28 +66,44 @@
         <!--  card-body.// -->
       </div>
   
-      <!-- Products by Seller -->
       <div class="card mb-4">
+        <header class="card-header">
+          <h3 class="card-title">Les annonces publiées par {{userData.full_name}} :</h3>
+        </header>
         <div class="card-body">
-          <h3 class="card-title">Products by seller</h3>
-          <div class="row">
-            <div class="col-xl-2 col-lg-3 col-md-6" *ngFor="let ad of ads">
+          <div class="row gx-3 row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-xl-4 row-cols-xxl-5">
+            <div class="col" *ngFor="let ad of ads">
               <div class="card card-product-grid">
-                <!-- Assuming you have an image URL in ad.medias[0].url, adjust as per your data structure -->
-                <a href="#" class="img-wrap"><img [src]="ad.medias[0].url" alt="Product"></a>
+                <div class="product-image">
+                  <a [routerLink]="['/detail-annonce', ad.id]">
+                    <img [src]="ad.medias[0]?.url || 'assets/imgs/default.jpg'" alt="{{ ad.title }}" class="product-image">
+                  </a>
+                </div>
                 <div class="info-wrap">
-                  <a href="#" class="title">{{ ad.title }}</a>
-                  <div class="price mt-1">{{ ad.price }}</div>
-                  <!-- price-wrap.// -->
+                  <div class="mb-2">
+                    <span class="badge" [ngClass]="{
+                      'badge-success': ad.validation_status === 'approved',
+                      'badge-danger': ad.validation_status === 'rejected',
+                      'badge-warning': ad.validation_status === 'pending'
+                    }">{{ ad.validation_status | titlecase }}</span>
+                  </div>
+                  <a [routerLink]="['/detail-annonce', ad.id]" class="title text-truncate">{{ ad.title }}</a>
+                  <div class="price mb-2">{{ ad.price | currency:'USD':true }}</div>
+                  <div class="button-container mt-2">
+                    <a [routerLink]="['/detail-annonce', ad.id]" class="btn btn-sm font-sm rounded btn-brand">
+                      <i class="material-icons md-edit"></i> Voir
+                    </a>
+                    <a href="#" class="btn btn-sm font-sm btn-light rounded btn-danger">
+                      <i class="material-icons md-delete_forever"></i> Delete
+                    </a>
+                  </div>
                 </div>
               </div>
-              <!-- card-product end// -->
             </div>
           </div>
-          <!-- row.// -->
         </div>
-        <!--  card-body.// -->
       </div>
+      
     </section>
     <!-- content-main end// -->
     <app-footer></app-footer>

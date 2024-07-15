@@ -1,0 +1,10 @@
+::ng-deep .row > * {
+    padding-right: 1rem !important;
+    padding-left: 2rem !important;
+}
+
+
+::ng-deep .nav img {
+    max-width: 100%;
+    height: inherit !important;
+}

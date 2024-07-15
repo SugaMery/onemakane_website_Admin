@@ -30,6 +30,9 @@ import { ListPhotoWebsiteComponent } from './list-photo-website/list-photo-websi
 import { LoginComponent } from './login/login.component';
 import { ListUserComponent } from './list-user/list-user.component';
 import { DetailUserComponent } from './detail-user/detail-user.component';
+import { DetailAdComponent } from './detail-ad/detail-ad.component';
+import { ImageModule } from 'primeng/image';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -44,7 +47,8 @@ import { DetailUserComponent } from './detail-user/detail-user.component';
     ListPhotoWebsiteComponent,
     LoginComponent,
     ListUserComponent,
-    DetailUserComponent
+    DetailUserComponent,
+    DetailAdComponent
   ],
   imports: [
     BrowserModule,
@@ -62,7 +66,8 @@ import { DetailUserComponent } from './detail-user/detail-user.component';
     AvatarModule,
     AvatarGroupModule,
     ConfirmDialogModule,
-    ToastModule
+    ToastModule ,
+    ImageModule
   ],
   providers: [
     provideClientHydration(),

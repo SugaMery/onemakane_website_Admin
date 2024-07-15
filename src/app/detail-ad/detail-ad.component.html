@@ -1,0 +1,127 @@
+<app-menu></app-menu>
+<main class="main-wrap">
+    <app-header></app-header>
+
+
+    <section class="content-main">
+        <div class="row">
+            <div class="col-12">
+                <div class="content-header">
+                    <h2 class="content-title">Add New Product</h2>
+                    <div>
+                        <button class="btn btn-light rounded font-sm mr-5 text-body hover-up">Save to draft</button>
+                        <button class="btn btn-md rounded font-sm hover-up">Publich</button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12">
+                <div class="card">
+                  <div class="card-body">
+                    <div class="row gx-5">
+                      <aside class="col-lg-3 border-end">
+                        <nav class="nav nav-pills flex-column mb-4">
+                            <div *ngFor="let media of ad.medias">
+                                <p-image [src]="media.url"  [preview]="true" appendTo="body" [style]="{height: '350px'}" alt="Image de l'annonce"></p-image>
+                              </div>
+                        </nav>
+                      </aside>
+                      <div class="col-lg-9">
+                        <section class="content-body p-xl-4">
+                          <form>
+                            <h4 class="mb-20">Détails de l'annonce : </h4>
+
+                            <!-- Détails de l'annonce -->
+                            <div class="row mb-4">
+                              <label class="col-lg-3 col-form-label">Titre de l'annonce*</label>
+                              <div class="col-lg-9">
+                                <input type="text" class="form-control" [value]="ad.title" readonly />
+                              </div>
+                            </div>
+                            <div class="row mb-4">
+                              <label class="col-lg-3 col-form-label">Description*</label>
+                              <div class="col-lg-9">
+                                <textarea class="form-control" rows="4" [value]="ad.description" readonly></textarea>
+                              </div>
+                            </div>
+                            <div class="row mb-4">
+                              <label class="col-lg-3 col-form-label">Prix*</label>
+                              <div class="col-lg-9">
+                                <input type="text" class="form-control" [value]="ad.price | currency:'USD':true" readonly />
+                              </div>
+                            </div>
+                            <div class="row mb-4">
+                              <label class="col-lg-3 col-form-label">Ville*</label>
+                              <div class="col-lg-9">
+                                <input type="text" class="form-control" [value]="ad.city" readonly />
+                              </div>
+                            </div>
+                            <div class="row mb-4">
+                              <label class="col-lg-3 col-form-label">Code postal*</label>
+                              <div class="col-lg-9">
+                                <input type="text" class="form-control" [value]="ad.postal_code" readonly />
+                              </div>
+                            </div>
+                            <div class="row mb-4">
+                              <label class="col-lg-3 col-form-label">Catégorie*</label>
+                              <div class="col-lg-9">
+                                <input type="text" class="form-control" [value]="ad.category.name" readonly />
+                              </div>
+                            </div>
+                            <div class="row mb-4">
+                              <label class="col-lg-3 col-form-label">Date de création*</label>
+                              <div class="col-lg-9">
+                                <input type="text" class="form-control" [value]="ad.created_at | date:'dd/MM/yyyy'" readonly />
+                              </div>
+                            </div>
+                            <div class="row mb-4">
+                              <label class="col-lg-3 col-form-label">Date de mise à jour*</label>
+                              <div class="col-lg-9">
+                                <input type="text" class="form-control" [value]="ad.updated_at | date:'dd/MM/yyyy'" readonly />
+                              </div>
+                            </div>
+                            <div class="row mb-4">
+                              <label class="col-lg-3 col-form-label">Statut de validation*</label>
+                              <div class="col-lg-9">
+                                <input type="text" class="form-control" [value]="ad.validation_status" readonly />
+                              </div>
+                            </div>
+                            <div class="row mb-4">
+                              <label class="col-lg-3 col-form-label">Utilisateur*</label>
+                              <div class="col-lg-9">
+                                <input type="text" class="form-control" [value]="ad.user.first_name + ' ' + ad.user.last_name" readonly />
+                              </div>
+                            </div>
+                            <div class="row mb-4">
+                              <label class="col-lg-3 col-form-label">Téléphone de l'utilisateur*</label>
+                              <div class="col-lg-9">
+                                <input type="text" class="form-control" [value]="ad.user.telephone" readonly />
+                              </div>
+                            </div>
+                            <h4 class="mb-20">Les critéres de l'annonce : </h4>
+
+                            <!-- Paramètres de l'annonce -->
+                            <div *ngFor="let setting of ad.setting" class="row mb-4" >
+                                <ng-container *ngIf="setting.setting">
+                                    <label class="col-lg-3 col-form-label">{{ setting.label }}</label>
+                                    <div class="col-lg-9">
+                                        <input  type="text" class="form-control" [value]="setting.setting" readonly />
+                                    </div>
+                                </ng-container>
+                            </div>
+              
+                            <button class="btn btn-primary" type="button" >Modifier</button>
+                          </form>
+                        </section>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
+              
+        </div>
+    </section>
+    <!-- content-main end// -->
+    <app-footer></app-footer>
+  </main>
+  
