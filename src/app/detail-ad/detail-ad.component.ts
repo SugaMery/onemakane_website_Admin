@@ -276,20 +276,50 @@ export class DetailAdComponent {
   saveAsDraft() {
     // Logique pour sauvegarder en brouillon
     this.ad.validation_status = 'draft';
+    const formData = {
+      validation_status: 'draft'
+    };
+    const accessToken = localStorage.getItem('loggedInUserToken');
+    this.annonceService.updateAnnonce(this.adId, this.adDetail.uuid, formData, accessToken!).subscribe((log) => {
+      console.log('Draft saved', log);
+    });
   }
-
+  
   publish() {
     // Logique pour publier
     this.ad.validation_status = 'approved'; // Ou 'pending', selon votre logique
+    const formData = {
+      validation_status: 'approved' // Ou 'pending', selon votre logique
+    };
+    const accessToken = localStorage.getItem('loggedInUserToken');
+    this.annonceService.updateAnnonce(this.adId, this.adDetail.uuid, formData, accessToken!).subscribe((log) => {
+      console.log('Published', log);
+    });
   }
-
+  
   approve() {
     // Logique pour approuver
     this.ad.validation_status = 'approved';
+    const formData = {
+      validation_status: 'approved'
+    };
+    const accessToken = localStorage.getItem('loggedInUserToken');
+    this.annonceService.updateAnnonce(this.adId, this.adDetail.uuid, formData, accessToken!).subscribe((log) => {
+      console.log('Approved', log);
+    });
   }
-
+  
   reject() {
     // Logique pour rejeter
     this.ad.validation_status = 'rejected';
+    const formData = {
+      validation_status: 'rejected'
+    };
+    const accessToken = localStorage.getItem('loggedInUserToken');
+    this.annonceService.updateAnnonce(this.adId, this.adDetail.uuid, formData, accessToken!).subscribe((log) => {
+      console.log('Rejected', log);
+    });
   }
+  
+  
 }

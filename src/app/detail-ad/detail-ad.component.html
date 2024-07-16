@@ -4,6 +4,9 @@
 
 
     <section class="content-main">
+      <div class="content-header">
+        <a href="javascript:history.back()"><i class="material-icons md-arrow_back"></i> Retourner</a>
+      </div>    
         <div class="row">
             <div class="col-12">
                 <div class="content-header">
@@ -13,7 +16,7 @@
                       <button *ngIf="ad.validation_status === 'draft'" class="btn btn-primary rounded font-sm hover-up" (click)="publish()">Publier</button>
                       
                       <div *ngIf="ad.validation_status === 'pending'">
-                        <button class="btn btn-success rounded font-sm hover-up" (click)="approve()">Approuver</button>
+                        <button class="btn btn-success rounded font-sm hover-up mr-15" (click)="approve()">Approuver</button>
                         <button class="btn btn-danger rounded font-sm hover-up" (click)="reject()">Rejeter</button>
                       </div>
                       

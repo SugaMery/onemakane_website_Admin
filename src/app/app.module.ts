@@ -33,6 +33,7 @@ import { DetailUserComponent } from './detail-user/detail-user.component';
 import { DetailAdComponent } from './detail-ad/detail-ad.component';
 import { ImageModule } from 'primeng/image';
 import { ListAdsComponent } from './list-ads/list-ads.component';
+import { PreloaderComponent } from './preloader/preloader.component';
 
 @NgModule({
   declarations: [
@@ -50,7 +51,8 @@ import { ListAdsComponent } from './list-ads/list-ads.component';
     ListUserComponent,
     DetailUserComponent,
     DetailAdComponent,
-    ListAdsComponent
+    ListAdsComponent,
+    PreloaderComponent
   ],
   imports: [
     BrowserModule,

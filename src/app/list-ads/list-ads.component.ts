@@ -13,6 +13,14 @@ export class ListAdsComponent {
   adsCount: number = 0;
   ads: any;
   pagedCategories: any[] = [];
+  selectedStatus: any = { value: 'all', label: 'Statut : tous' }; // Default to 'all' with label
+  statusOptions = [
+    { value: 'all', label: 'Statut : tous' },
+    { value: 'draft', label: 'Brouillon' },
+    { value: 'pending', label: 'En attente' },
+    { value: 'approved', label: 'Approuvé' },
+    { value: 'rejected', label: 'Rejeté' }
+  ]; 
   constructor(
     private route: ActivatedRoute,
     private annonceService: AnnonceService
@@ -25,12 +33,16 @@ export class ListAdsComponent {
 
 
   getAds(): void {
-    this.annonceService.getAds().subscribe(
+    this.annonceService.getAdsValidator("all").subscribe(
       data => {
         this.adsCount = data.data.length;
         this.ads = data.data;
         console.log("data",data.data);
+        this.filteredAds = this.ads;
+        this.applyFilter();
         this.setPagedCategories();
+       
+
       },
       error => {
         console.error('Error fetching ads data', error);
@@ -40,7 +52,33 @@ export class ListAdsComponent {
 
   itemsPerPage: number = 10; 
   currentPage: number = 1; 
+  filteredAds :any=[]; // Array to store filtered ads
 
+  filterByStatus(event: any) {
+    const selectedValue = event.value.value;
+    this.selectedStatus = this.statusOptions.find(option => option.value === selectedValue);
+
+    this.applyFilter();
+  }
+
+  onStatusChange(event: any) {
+    const selectedValue = event.target.value;
+    this.selectedStatus = this.statusOptions.find(option => option.value === selectedValue);
+    this.applyFilter();
+  }
+
+  applyFilter() {
+    console.log("filtrertttt",this.selectedStatus )
+
+    if (this.selectedStatus.value === 'all')  {
+      console.log("filtrerall",this.selectedStatus )
+
+      this.filteredAds = this.ads;
+    } else {
+      console.log("filtrer",this.selectedStatus )
+      this.filteredAds = this.ads.filter((ad: { validation_status: string; }) => ad.validation_status === this.selectedStatus.value);
+    }
+  }
   setCurrentPage(page: number) {
     this.currentPage = page;
     this.setPagedCategories();

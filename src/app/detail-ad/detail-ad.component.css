@@ -8,3 +8,8 @@
     max-width: 100%;
     height: inherit !important;
 }
+
+::ng-deep .material-icons {
+    vertical-align: bottom !important;
+    font-weight: 600;
+}
