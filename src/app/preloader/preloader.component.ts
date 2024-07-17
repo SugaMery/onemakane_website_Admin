@@ -33,7 +33,7 @@ export class PreloaderComponent implements OnInit {
         preloader.style.display = 'none';
       }
       document.body.style.overflow = 'visible';
-
+      
       const modal = document.getElementById('onloadModal');
       if (modal) {
         // Assuming you are using Bootstrap modal

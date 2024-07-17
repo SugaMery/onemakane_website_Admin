@@ -29,7 +29,39 @@ export class ListAdsComponent {
   ngOnInit(): void {
     this.getAds();
   }
-  
+  adDialog: boolean = false;
+  selectedAd: any;
+  deleteReasons: any[] = [];
+  fetchDeleteReasons(): void {
+    const accessToken = localStorage.getItem('loggedInUserToken');
+
+    this.annonceService.getDeleteReasons(accessToken!).subscribe((data) => {
+      this.deleteReasons = data.data;
+    });
+  }
+
+  openDeleteDialog(ad: any): void {
+    this.fetchDeleteReasons()
+
+    this.selectedAd = ad;
+    this.adDialog = true;
+  }
+
+  confirmDeletion(): void {
+    const accessToken = localStorage.getItem('loggedInUserToken');
+
+    const selectedReason = (document.querySelector('input[name="reason"]:checked') as HTMLInputElement)?.value;
+    if (selectedReason) {
+      this.annonceService
+        .deleteAd(this.selectedAd.id, this.selectedAd.uuid, Number(selectedReason), accessToken!)
+        .subscribe(() => {
+          this.ads = this.ads.filter((ad: any) => ad !== this.selectedAd);
+          this.filteredAds = this.filteredAds.filter((ad: any) => ad !== this.selectedAd);
+          this.adDialog = false;
+        });
+    }
+  }
+
 
 
   getAds(): void {

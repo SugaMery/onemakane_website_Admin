@@ -1,7 +1,10 @@
-<app-preloader></app-preloader>
+
 <app-menu></app-menu>
 <main class="main-wrap">
+  
   <app-header></app-header>
+  <app-preloader></app-preloader>
+
   <section class="content-main">
     <div class="content-header">
       <h2 class="content-title">Listes des annonces</h2>
@@ -9,29 +12,23 @@
     <div class="card mb-4">
       <header class="card-header">
         <div class="row gx-3">
-          <div class="col-lg-4 col-md-6 me-auto">
-<!--             <input type="text" placeholder="Rechercher..." class="form-control" />
- -->          </div> 
-
+          <div class="col-lg-4 col-md-6 me-auto"></div>
           <div class="col-md-2 col-6" style="float: right;">
-            <!-- PrimeNG p-dropdown for status filter -->
             <p-dropdown
-            [options]="statusOptions"
-            [style]="{ width: '100%' }"
-            [(ngModel)]="selectedStatus"
-            optionLabel="label"
-            [appendTo]="'body'"
-            (onChange)="filterByStatus($event)"
-          ></p-dropdown>
+              [options]="statusOptions"
+              [style]="{ width: '100%' }"
+              [(ngModel)]="selectedStatus"
+              optionLabel="label"
+              [appendTo]="'body'"
+              (onChange)="filterByStatus($event)"
+            ></p-dropdown>
           </div>
         </div>
       </header>
       <div class="card-body">
         <div class="row gx-3 row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-xl-4 row-cols-xxl-5">
-          <div *ngIf="filteredAds.length === 0" class="col-12 ">
-            <div class="alert alert-info" role="alert" style="
-            font-weight: 700;
-        ">
+          <div *ngIf="filteredAds.length === 0" class="col-12">
+            <div class="alert alert-info" role="alert" style="font-weight: 700;">
               Non annonce disponible.
             </div>
           </div>
@@ -39,7 +36,11 @@
             <div class="card card-product-grid">
               <div class="product-image">
                 <a [routerLink]="['/detail-annonce', ad.id]">
-                  <img [src]="ad.medias[0]?.url || 'assets/imgs/default.jpg'" alt="{{ ad.title }}" class="product-image">
+                  <img
+                    [src]="ad.medias[0]?.url || 'assets/imgs/default.jpg'"
+                    alt="{{ ad.title }}"
+                    class="product-image"
+                  />
                 </a>
               </div>
               <div class="info-wrap">
@@ -50,40 +51,78 @@
                     'badge-warning': ad.validation_status === 'pending'
                   }">{{ ad.validation_status | titlecase }}</span>
                 </div>
-                <a [routerLink]="['/detail-annonce', ad.id]" class="title text-truncate">{{ ad.title }}</a>
-                <div class="price mb-2">{{ ad.price | currency:'USD':true }}</div>
+                <a
+                  [routerLink]="['/detail-annonce', ad.id]"
+                  class="title text-truncate"
+                  >{{ ad.title }}</a
+                >
+                <div class="price mb-2">{{ ad.price | currency: 'USD': true }}</div>
                 <div class="button-container mt-2">
-                  <a [routerLink]="['/detail-annonce', ad.id]" class="btn btn-sm font-sm rounded btn-brand">
+                  <a
+                    [routerLink]="['/detail-annonce', ad.id]"
+                    class="btn btn-sm font-sm rounded btn-brand"
+                  >
                     <i class="material-icons md-edit"></i> Voir
                   </a>
-                  <a href="#" class="btn btn-sm font-sm btn-light rounded btn-danger">
+                  <button
+                    (click)="openDeleteDialog(ad)"
+                    class="btn btn-sm font-sm btn-light rounded btn-danger"
+                  >
                     <i class="material-icons md-delete_forever"></i> Delete
-                  </a>
+                  </button>
                 </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-      
     </div>
+    
+    <!-- Delete Confirmation Dialog -->
+    <p-dialog header="Confirmer la suppression" [(visible)]="adDialog" [modal]="true" [closable]="false">
+      <div *ngIf="selectedAd">
+        <p>Êtes-vous sûr de vouloir supprimer cette annonce?</p>
+        <p>Veuillez sélectionner une raison:</p>
+        <div *ngFor="let reason of deleteReasons">
+          <input type="radio" [value]="reason.id" name="reason" /> {{ reason.long_name }}
+        </div>
+      </div>
+
+      <p-footer>
+        <button type="button" pButton icon="pi pi-times" label="Annuler" (click)="adDialog = false" style="
+        background: #6b7280e0;
+        border-color: gray;
+    "></button>
+        <button type="button " pButton icon="pi pi-check" label="Confirmer" (click)="confirmDeletion()" style="
+        background: #3bb77e;
+        border-color: #3bb77e;
+    "></button>
+      </p-footer>
+    </p-dialog>
+    
+    
     <div class="pagination-area mt-30 mb-50" *ngIf="ads.length > 0">
       <nav aria-label="Navigation par pages">
         <ul class="pagination justify-content-start">
-          <li class="page-item" *ngFor="let page of pages" [class.active]="currentPage === page">
+          <li
+            class="page-item"
+            *ngFor="let page of pages"
+            [class.active]="currentPage === page"
+          >
             <a class="page-link" (click)="setCurrentPage(page)">{{ page }}</a>
           </li>
         </ul>
       </nav>
     </div>
-    
   </section>
+  
   
 
 
 
   <!-- content-main end// -->
   <app-footer></app-footer>
+  
 </main>
 
 
