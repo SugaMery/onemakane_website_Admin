@@ -4,15 +4,19 @@
 
 
     <section class="content-main">
-
+      <p-toast />
       <div class="content-header">
         <a href="javascript:history.back()"><i class="material-icons md-arrow_back"></i> Retourner</a>
+
+
       </div>    
-        <div class="row">
+        <div class="row" *ngIf="ad">
             <div class="col-12">
                 <div class="content-header">
-                    <h2 class="content-title">Annonce : {{ad.title}} par {{ad.user.full_name}}</h2>
-                    <div>
+         
+                    <h2 class="content-title">Annonce : {{ ad.title }} par {{ ad.user.full_name }}</h2>
+           
+                                      <div>
                       <button *ngIf="ad.validation_status === 'draft'" class="btn btn-info rounded font-sm mr-5 text-body hover-up" (click)="saveAsDraft()">Sauvegarder en brouillon</button>
                       <button *ngIf="ad.validation_status === 'draft'" class="btn btn-primary rounded font-sm hover-up" (click)="publish()">Publier</button>
                       

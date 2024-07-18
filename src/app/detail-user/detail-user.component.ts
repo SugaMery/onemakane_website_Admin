@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { UserService } from '../user.service';
 import { AnnonceService } from '../annonce.service';
+import { ConfirmationService, MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-detail-user',
@@ -16,7 +17,8 @@ export class DetailUserComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private userService: UserService,
-    private annonceService: AnnonceService
+    private annonceService: AnnonceService,
+    private confirmationService: ConfirmationService, private messageService: MessageService
   ) {}
 
   ngOnInit(): void {
@@ -153,4 +155,47 @@ export class DetailUserComponent implements OnInit {
       }
     );
   }
+
+  confirm1(event: Event) {
+    const accessToken = localStorage.getItem('loggedInUserToken');
+    this.confirmationService.confirm({
+      target: event.target as EventTarget,
+      message: 'Êtes-vous sûr de vouloir supprimer cet utilisateur?',
+      header: 'Confirmation',
+      icon: 'pi pi-exclamation-triangle',
+      acceptIcon: 'pi pi-check',
+      rejectIcon: 'pi pi-times',
+      rejectButtonStyleClass: 'p-button-text',
+      accept: () => {
+        // Logique de suppression de l'utilisateur
+        this.userService.deleteUser(this.userData.id,accessToken!).subscribe(
+          () => {
+            this.messageService.add({
+              severity: 'success',
+              summary: 'Utilisateur supprimé',
+              detail: 'L\'utilisateur a été supprimé avec succès.'
+            });
+            // Mettre à jour la liste des utilisateurs ou rediriger vers une autre page
+          },
+          error => {
+            console.error('Erreur lors de la suppression de l\'utilisateur', error);
+            this.messageService.add({
+              severity: 'error',
+              summary: 'Erreur de suppression',
+              detail: 'Une erreur s\'est produite lors de la suppression de l\'utilisateur.'
+            });
+          }
+        );
+      },
+      reject: () => {
+        this.messageService.add({
+          severity: 'warn',
+          summary: 'Action annulée',
+          detail: 'Vous avez annulé la suppression de l\'utilisateur.'
+        });
+      }
+    });
+  }
+  
+  
 }

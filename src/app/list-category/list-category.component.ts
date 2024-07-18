@@ -10,6 +10,7 @@ import { DatePipe, isPlatformBrowser } from '@angular/common';
 import { Console } from 'node:console';
 import { ConfirmationService, MessageService, SelectItem } from 'primeng/api';
 import { take } from 'rxjs/operators';
+import { AnnonceService } from '../annonce.service';
 export interface Product {
   id?: string;
   code?: string;
@@ -136,7 +137,8 @@ export class ListCategoryComponent implements OnInit {
     @Inject(PLATFORM_ID) private platformId: Object,
     private messageService: MessageService,
     private confirmationService: ConfirmationService,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private annonceService : AnnonceService
   ) {
     this.parentCategorie = this.allCategories.filter(
       (category) => category.parent_id === null
@@ -288,6 +290,23 @@ export class ListCategoryComponent implements OnInit {
   }
 
   deleteCategory(category: any) {
+    this.annonceService.getAds().subscribe(
+      (data) => {
+        data.data.forEach((dataAnnonce: { id: string; })=>{
+          this.annonceService.getAdById(dataAnnonce.id).subscribe((datas)=>{
+             dataAnnonce = datas.data
+          })
+        })
+        const filteredAds = data.data.filter((ad: any) => ad.category_id === category.id || ad.category.parent_id === category.id);
+        const length = filteredAds.length;
+        console.log('Filtered Ads:', filteredAds);
+        console.log('Number of Ads for Category', category.id, ':', length);
+      },
+      (error) => {
+        console.error('Error fetching ads:', error);
+      }
+    );
+    
     this.confirmationService.confirm({
       message: 'Êtes-vous sûr de vouloir supprimer ?',
       header: 'Confirmation',
@@ -296,6 +315,7 @@ export class ListCategoryComponent implements OnInit {
       rejectLabel: 'Non',
       rejectButtonStyleClass: 'p-button-text',
       accept: () => {
+        this.annonceService.getAds()
         this.categoryService.deleteCategory(category.id).subscribe(
           () => {
             this.pagedCategories = this.pagedCategories.filter(

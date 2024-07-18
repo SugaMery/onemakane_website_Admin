@@ -76,4 +76,10 @@ export class Category1Service {
     console.error('An error occurred:', error);
     return throwError('Something went wrong');
   }
+
+  getCategoryByTreeList(): Observable<any> {
+    const url = `${this.devApiUrl}/categories/tree-list`;
+    return this.http.get(url);
+  }
+
 }

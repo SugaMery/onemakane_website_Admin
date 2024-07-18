@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { AnnonceService } from '../annonce.service';
 import { UserService } from '../user.service';
+import { Message } from 'primeng/api';
 
 @Component({
   selector: 'app-list-ads',
@@ -46,9 +47,12 @@ export class ListAdsComponent {
     this.selectedAd = ad;
     this.adDialog = true;
   }
-
+  messages: Message[] = [];
   confirmDeletion(): void {
     const accessToken = localStorage.getItem('loggedInUserToken');
+    this.annonceService.getAdsWithFavoris(this.selectedAd.user_id).subscribe((datas)=>{
+      console.log('rtttt datassss',datas)
+    });
 
     const selectedReason = (document.querySelector('input[name="reason"]:checked') as HTMLInputElement)?.value;
     if (selectedReason) {
@@ -58,11 +62,17 @@ export class ListAdsComponent {
           this.ads = this.ads.filter((ad: any) => ad !== this.selectedAd);
           this.filteredAds = this.filteredAds.filter((ad: any) => ad !== this.selectedAd);
           this.adDialog = false;
+
+          // Ajouter un message de succès
+          this.messages = [{ severity: 'success', summary: 'Succès', detail: 'Annonce supprimée avec succès' }];
+
+          // Effacer le message après 2 secondes
+          setTimeout(() => {
+            this.messages = [];
+          }, 2000);
         });
     }
   }
-
-
 
   getAds(): void {
     this.annonceService.getAdsValidator("all").subscribe(

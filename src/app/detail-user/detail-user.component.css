@@ -50,3 +50,202 @@
     align-items: center;
   }
   
+  ::ng-deep .material-icons {
+    vertical-align: bottom !important;
+    font-weight: 600;
+}
+
+
+::ng-deep .text-6xl {
+  font-size: 3rem !important;
+}
+::ng-deep .text-primary-500 {
+  color: var(--primary-500) !important;
+}
+
+::ng-deep .align-items-center {
+  align-items: center !important;
+}
+
+
+/* CSS for phones */
+@media (max-width: 1500px) {
+  .d-sm-none {
+      display: block !important;
+  }
+
+  .d-sm-block {
+      display: block !important;
+  }
+
+  .d-md-block {
+      display: block !important;
+  }
+
+  .col-action {
+      display: none; /* Hide the original column for small devices */
+  }
+}
+
+/* Additional CSS for dropdown button */
+.dropdown-menu {
+  margin: 0px;
+}
+.edit{
+  margin-right: 0.5rem !important;
+}
+
+/* CSS */
+::ng-deep .custom-select {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-color: #fff;
+  border: 1px solid #ced4da;
+  padding: .375rem .75rem;
+  font-size: 1rem;
+  line-height: 1.5;
+  border-radius: .25rem;
+}
+
+::ng-deep .custom-select:focus {
+  border-color: #80bdff;
+  outline: 0;
+  box-shadow: 0 0 0 .25rem rgba(0,123,255,.25);
+}
+::ng-deep button {
+  border-radius: revert-layer;
+}
+
+.pb-3 {
+  padding-bottom: 1rem !important;
+}
+.block {
+  display: block !important;
+}
+
+.field > label {
+  display: inline-block;
+  margin-bottom: 0.5rem;
+}
+.field {
+  margin-bottom: 1rem;
+}
+::ng-deep .p-dialog .p-dialog-header .p-dialog-title {
+  font-weight: 700;
+  font-size: 1.25rem;
+}
+
+::ng-deep body{
+  font-size: 0.8rem;
+}
+
+ol, ul {
+  list-style: none;
+}
+
+
+::ng-deep ol, ul, dl {
+  /* margin-top: 0; */
+margin-bottom: 0rem !important; 
+}
+::ng-deep  ul {
+   padding-left: 0 !important; 
+}
+
+::ng-deep .p-tag {
+
+  font-size: 0.65rem !important;
+  font-weight: 700 !important;
+
+}
+
+.field.grid, .formgrid.grid {
+  margin-top: 0;
+}
+
+.grid {
+  display: flex;
+  flex-wrap: wrap;
+  margin-right: -0.5rem;
+  margin-left: -0.5rem;
+  /* margin-top: -0.5rem; */
+}
+.field.grid .col-fixed, .formgrid.grid .col-fixed, .field.grid .col, .formgrid.grid .col, .field.grid .col-1, .formgrid.grid .col-1, .field.grid .col-2, .formgrid.grid .col-2, .field.grid .col-3, .formgrid.grid .col-3, .field.grid .col-4, .formgrid.grid .col-4, .field.grid .col-5, .formgrid.grid .col-5, .field.grid .col-6, .formgrid.grid .col-6, .field.grid .col-7, .formgrid.grid .col-7, .field.grid .col-8, .formgrid.grid .col-8, .field.grid .col-9, .formgrid.grid .col-9, .field.grid .col-10, .formgrid.grid .col-10, .field.grid .col-11, .formgrid.grid .col-11, .field.grid .col-12, .formgrid.grid .col-12 {
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+.grid > .col, .grid > [class*=col] {
+  box-sizing: border-box;
+}
+.field-checkbox, .field-radiobutton {
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+}
+.col-6 {
+  flex: 0 0 auto;
+  padding: 0.5rem;
+}
+.field-checkbox > label, .field-radiobutton > label {
+  margin-left: 0.5rem;
+  line-height: 1;
+}
+.md-change-photo {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  cursor: pointer; /* Ajoutez ceci si vous voulez un curseur pointer pour indiquer que l'icône est cliquable */
+}
+
+
+::ng-deep button{
+  line-height: normal !important; 
+}
+
+::ng-deep .p-dialog .p-dialog-footer button {
+  margin: 0 0.5rem 0 0 !important;
+}
+
+::ng-deep .p-button {
+  padding: 0.5rem 12.25px;
+  font-size: 0.8rem;
+}
+
+::ng-deep .p-dialog.p-confirm-dialog .p-confirm-dialog-icon {
+  font-size: 2rem;
+}
+
+
+
+::ng-deep .surface-overlay {
+  background-color: #ffffff !important;
+}
+
+/* Add this CSS to your component's style file or global styles */
+
+/* Style for the "Oui" button */
+::ng-deep .green-button .ui-button-text {
+  color: green !important;
+  border-color: transparent !important;
+}
+
+/* Style for the "Non" button */
+::ng-deep .red-button .ui-button-text {
+  color: red !important;
+  border-color: transparent !important;
+}
+
+
+
+::ng-deep button.p-element.p-ripple.p-confirm-dialog-accept.p-button.p-component.ng-star-inserted {
+  background-color: #3bb77e !important;
+  border-color: #3bb77e !important;
+}
+
+
+::ng-deep button.p-element.p-ripple.p-button-text.p-confirm-dialog-reject.p-button.p-component.ng-star-inserted {
+  color: #212529 !important;
+}

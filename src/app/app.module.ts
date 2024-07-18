@@ -34,6 +34,10 @@ import { DetailAdComponent } from './detail-ad/detail-ad.component';
 import { ImageModule } from 'primeng/image';
 import { ListAdsComponent } from './list-ads/list-ads.component';
 import { PreloaderComponent } from './preloader/preloader.component';
+import { MessagesModule } from 'primeng/messages';
+import { MessageModule } from 'primeng/message';
+import { ConfirmationService } from 'primeng/api';
+import { MessageService } from 'primeng/api';
 
 @NgModule({
   declarations: [
@@ -71,11 +75,15 @@ import { PreloaderComponent } from './preloader/preloader.component';
     AvatarGroupModule,
     ConfirmDialogModule,
     ToastModule ,
-    ImageModule
+    ImageModule,
+    MessagesModule,
+    MessageModule
   ],
   providers: [
     provideClientHydration(),
-    DatePipe
+    DatePipe,
+    ConfirmationService, 
+    MessageService
   ],
   bootstrap: [AppComponent]
 })

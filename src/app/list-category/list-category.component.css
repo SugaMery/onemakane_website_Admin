@@ -187,3 +187,14 @@ ol, ul {
     background: #a855f7;
     border: 1px solid #a855f7;
 }
+
+
+::ng-deep button.p-element.p-ripple.p-confirm-dialog-accept.p-button.p-component.ng-star-inserted {
+    background-color: #3bb77e !important;
+    border-color: #3bb77e !important;
+}
+
+
+::ng-deep button.p-element.p-ripple.p-button-text.p-confirm-dialog-reject.p-button.p-component.ng-star-inserted {
+    color: #212529 !important;
+}

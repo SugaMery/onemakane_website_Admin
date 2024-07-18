@@ -22,6 +22,14 @@ export class UserService {
     return this.http.get(`${this.baseUrl}/users/${userId}`, { headers });
   }
 
+  deleteUser(userId: number, accessToken: string): Observable<any> {
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${accessToken}`,
+    });
+
+    return this.http.delete(`${this.baseUrl}/users/${userId}`, { headers });
+  }
+
   getUsers(accessToken: string): Observable<any> {
     const headers = new HttpHeaders({
       Authorization: `Bearer ${accessToken}`,

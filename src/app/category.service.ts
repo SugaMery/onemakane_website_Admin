@@ -74,4 +74,10 @@ export class CategoryService {
       headers: this.getHeaders(accessToken),
     });
   }
+
+
+  getCategoryByTreeList(): Observable<any> {
+    const url = `${this.apiUrls}/categories/tree-list`;
+    return this.http.get(url);
+  }
 }

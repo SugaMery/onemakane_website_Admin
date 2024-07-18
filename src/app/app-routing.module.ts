@@ -22,6 +22,7 @@ const routes: Routes = [
   { path: 'detail-utilisateur/:id', component: DetailUserComponent },
   { path: 'detail-annonce/:id', component: DetailAdComponent },
   { path: 'list-annonces', component: ListAdsComponent },
+  { path: 'dashboard', component: DashboardComponent }
 
 ];
 
