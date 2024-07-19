@@ -10,6 +10,7 @@ import { ListUserComponent } from './list-user/list-user.component';
 import { DetailUserComponent } from './detail-user/detail-user.component';
 import { DetailAdComponent } from './detail-ad/detail-ad.component';
 import { ListAdsComponent } from './list-ads/list-ads.component';
+import { ListUsersDeletedComponent } from './list-users-deleted/list-users-deleted.component';
 
 const routes: Routes = [
   { path: 'add_category', component: AddCategoryComponent },
@@ -22,7 +23,8 @@ const routes: Routes = [
   { path: 'detail-utilisateur/:id', component: DetailUserComponent },
   { path: 'detail-annonce/:id', component: DetailAdComponent },
   { path: 'list-annonces', component: ListAdsComponent },
-  { path: 'dashboard', component: DashboardComponent }
+  { path: 'dashboard', component: DashboardComponent },
+  { path: 'list-utilisateurs-non-actifs', component: ListUsersDeletedComponent }
 
 ];
 

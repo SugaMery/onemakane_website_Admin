@@ -157,6 +157,7 @@ export class DetailUserComponent implements OnInit {
   }
 
   confirm1(event: Event) {
+    const adId = this.route.snapshot.paramMap.get('id');
     const accessToken = localStorage.getItem('loggedInUserToken');
     this.confirmationService.confirm({
       target: event.target as EventTarget,
@@ -168,8 +169,10 @@ export class DetailUserComponent implements OnInit {
       rejectButtonStyleClass: 'p-button-text',
       accept: () => {
         // Logique de suppression de l'utilisateur
-        this.userService.deleteUser(this.userData.id,accessToken!).subscribe(
-          () => {
+        this.userService.deleteUser(Number(adId),accessToken!).subscribe(
+          (user) => {
+            console.log("greeeet",user)
+
             this.messageService.add({
               severity: 'success',
               summary: 'Utilisateur supprimé',

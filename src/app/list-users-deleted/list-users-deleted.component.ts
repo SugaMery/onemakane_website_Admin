@@ -2,11 +2,12 @@ import { Component } from '@angular/core';
 import { UserService } from '../user.service';
 
 @Component({
-  selector: 'app-list-user',
-  templateUrl: './list-user.component.html',
-  styleUrl: './list-user.component.css'
+  selector: 'app-list-users-deleted',
+  templateUrl: './list-users-deleted.component.html',
+  styleUrl: './list-users-deleted.component.css'
 })
-export class ListUserComponent {
+export class ListUsersDeletedComponent {
+
   users: any[] = [];
   pagedCategories: any[] = [];
   constructor(private userService: UserService) { }
@@ -21,7 +22,7 @@ export class ListUserComponent {
     if (typeof localStorage !== 'undefined') {
       const accessToken = localStorage.getItem('loggedInUserToken');
       if (accessToken) {
-        this.userService.getUsers(0,accessToken).subscribe(
+        this.userService.getUsers(1,accessToken).subscribe(
           data => {
             this.users = data.data;
             this.setPagedCategories();

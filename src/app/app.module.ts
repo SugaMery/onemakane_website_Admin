@@ -38,6 +38,7 @@ import { MessagesModule } from 'primeng/messages';
 import { MessageModule } from 'primeng/message';
 import { ConfirmationService } from 'primeng/api';
 import { MessageService } from 'primeng/api';
+import { ListUsersDeletedComponent } from './list-users-deleted/list-users-deleted.component';
 
 @NgModule({
   declarations: [
@@ -56,7 +57,8 @@ import { MessageService } from 'primeng/api';
     DetailUserComponent,
     DetailAdComponent,
     ListAdsComponent,
-    PreloaderComponent
+    PreloaderComponent,
+    ListUsersDeletedComponent
   ],
   imports: [
     BrowserModule,
