@@ -40,5 +40,18 @@ export class UserService {
   }
   
 
+  updateUser(
+    userId: string,
+    accessToken: string,
+    userData: any
+  ): Observable<any> {
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${accessToken}`,
+    });
+
+    return this.http.patch<any>(`${this.baseUrl}/users/${userId}`, userData, {
+      headers,
+    });
+  }
 
 }

@@ -14,6 +14,7 @@ import { Observable } from 'rxjs/internal/Observable';
 import { DOCUMENT, isPlatformBrowser } from '@angular/common';
 import { PrimeNGConfig } from 'primeng/api';
 import { Category1Service } from '../category1.service';
+import { UserService } from '../user.service';
 interface Category {
   active: boolean;
   created_at: string;
@@ -150,7 +151,8 @@ export class DetailAdComponent {
     private settingsService: SettingService,
     @Inject(DOCUMENT) private document: Document,
     @Inject(PLATFORM_ID) private platformId: Object,
-    private primengConfig: PrimeNGConfig
+    private primengConfig: PrimeNGConfig,
+    private userService : UserService
   ) {}
   adId: string = '';
   uploadedImages: string[] = [];
@@ -996,6 +998,8 @@ export class DetailAdComponent {
     )
       .then(() => {
         const annonceData = this.createAnnonceData(mediaIds);
+        console.log('annonceData annonceData', annonceData);
+
         if(this.ad.category.id !== this.selectedOption.id){
 
           this.annonceService
@@ -1035,7 +1039,6 @@ export class DetailAdComponent {
                   settingADS[setting.key] = setting.content;
                 }
               }
-              console.log('settingADS', settingADS);
     
               this.annonceService
                 .insertSetting(
@@ -1143,6 +1146,19 @@ export class DetailAdComponent {
   }
 
   createAnnonceData(mediaIds: string[]): any {
+    const userId = localStorage.getItem('loggedInUserId');
+    const accessToken = localStorage.getItem('loggedInUserToken');
+    console.log("upadte telephonerrrr", this.ad.user)
+   const datasUser = {
+    "telephone" : this.ad.user.telephone
+   }
+    this.userService.updateUser(this.ad.user.id, accessToken!, datasUser)
+    .subscribe(
+      (data) => {
+        console.log("upadte telephone", data)
+
+      }
+    )
     return {
       user_id: this.ad.user.id,
       category_id: this.selectedOption.id,
@@ -1156,6 +1172,8 @@ export class DetailAdComponent {
       postal_code: this.ad.postal_code,
       medias: { _ids: mediaIds },
       validation_status: 'pending',
+      
+      
     };
   }
   formatDate(date: Date): string {
