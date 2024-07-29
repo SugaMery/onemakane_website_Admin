@@ -39,6 +39,9 @@ import { MessageModule } from 'primeng/message';
 import { ConfirmationService } from 'primeng/api';
 import { MessageService } from 'primeng/api';
 import { ListUsersDeletedComponent } from './list-users-deleted/list-users-deleted.component';
+import { AnnoncesEnAttenteComponent } from './annonces-en-attente/annonces-en-attente.component';
+import { AnnoncesApprouveesComponent } from './annonces-approuvees/annonces-approuvees.component';
+import { AnnoncesRejeteesComponent } from './annonces-rejetees/annonces-rejetees.component';
 
 @NgModule({
   declarations: [
@@ -58,7 +61,10 @@ import { ListUsersDeletedComponent } from './list-users-deleted/list-users-delet
     DetailAdComponent,
     ListAdsComponent,
     PreloaderComponent,
-    ListUsersDeletedComponent
+    ListUsersDeletedComponent,
+    AnnoncesEnAttenteComponent,
+    AnnoncesApprouveesComponent,
+    AnnoncesRejeteesComponent
   ],
   imports: [
     BrowserModule,

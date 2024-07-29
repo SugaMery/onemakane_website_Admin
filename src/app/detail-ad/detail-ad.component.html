@@ -17,7 +17,7 @@
                     <h2 class="content-title">Annonce : {{ ad.title }} par {{ ad.user.full_name }}</h2>
            
                                       <div>
-                      <button *ngIf="ad.validation_status === 'draft'" class="btn btn-info rounded font-sm mr-5 text-body hover-up" (click)="saveAsDraft()">Sauvegarder en brouillon</button>
+<!--                       <button *ngIf="ad.validation_status === 'draft'" class="btn btn-info rounded font-sm mr-5 text-body hover-up" (click)="saveAsDraft()">Sauvegarder en brouillon</button>
                       <button *ngIf="ad.validation_status === 'draft'" class="btn btn-primary rounded font-sm hover-up" (click)="publish()">Publier</button>
                       
                       <div *ngIf="ad.validation_status === 'pending'">
@@ -31,7 +31,7 @@
                       
                       <div *ngIf="ad.validation_status === 'rejected'">
                         <button class="btn btn-success rounded font-sm hover-up" (click)="approve()">Approuver</button>
-                      </div>
+                      </div> -->
                                           </div>
                 </div>
             </div>
@@ -55,88 +55,514 @@
                             <div class="row mb-4">
                               <label class="col-lg-3 col-form-label">Titre de l'annonce*</label>
                               <div class="col-lg-9">
-                                <input type="text" class="form-control" [value]="ad.title" readonly />
+                                <input type="text" class="form-control" [value]="ad.title"  />
                               </div>
                             </div>
                             <div class="row mb-4">
                               <label class="col-lg-3 col-form-label">Description*</label>
                               <div class="col-lg-9">
-                                <textarea class="form-control" rows="4" [value]="ad.description" readonly></textarea>
+                                <textarea class="form-control" rows="4" [value]="ad.description" ></textarea>
                               </div>
                             </div>
                             <div class="row mb-4">
                               <label class="col-lg-3 col-form-label">Prix*</label>
                               <div class="col-lg-9">
-                                <input type="text" class="form-control" [value]="ad.price | currency:'USD':true" readonly />
+                                <input type="text" class="form-control" [value]="ad.price | currency:'USD':true"  />
                               </div>
                             </div>
                             <div class="row mb-4">
                               <label class="col-lg-3 col-form-label">Ville*</label>
                               <div class="col-lg-9">
-                                <input type="text" class="form-control" [value]="ad.city" readonly />
+                                <input type="text" class="form-control" [value]="ad.city"  />
                               </div>
                             </div>
                             <div class="row mb-4">
                               <label class="col-lg-3 col-form-label">Code postal*</label>
                               <div class="col-lg-9">
-                                <input type="text" class="form-control" [value]="ad.postal_code" readonly />
+                                <input type="text" class="form-control" [value]="ad.postal_code"  />
                               </div>
                             </div>
+
+
+
+
+
+
                             <div class="row mb-4">
-                              <label class="col-lg-3 col-form-label">Catégorie*</label>
+                              <label class="col-lg-3 col-form-label">Catégorie *</label>
                               <div class="col-lg-9">
-                                <input type="text" class="form-control" [value]="ad.category.name" readonly />
-                              </div>
+                                <div class="select-menu">
+                                  <!--                           <div
+                                    class="select-btn"
+                                    style="
+                                      margin-bottom: 1rem;
+                                      background: #fff;
+                                      border: 1px solid #ececec;
+                                      height: 64px;
+                                      box-shadow: none;
+                                      padding-left: 20px;
+                                      font-size: 16px;
+                                      width: 100%;
+                                    "
+                                    (click)="toggleOptions()"
+                                  > -->
+                                  <div
+                                    class="select-btn"
+                                    style="
+                                      background: #fff;
+                                      border: 1px solid #ececec;
+                                      height: 40.99px;
+                                      box-shadow: none;
+                                      padding-left: 20px;
+                                      font-size: 13px;
+                                      width: 100%;
+                                    "
+                                     (click)="toggleOptions()"
+                                  >
+                                    <span class="sBtn-text" style="font-size: 13px">
+                                      <div style="display: flex; align-items: center">
+                                        <img
+                                          src="{{
+                                            selectedOption.parentCategoy?.media?.url
+                                          }}"
+                                          *ngIf="selectedOption.name"
+                                          alt=""
+                                          class="iconUrl"
+                                          style="max-width: 2rem; margin-right: 1rem"
+                                        />
+                                        <p style="margin: 0; color: black">
+                                          {{
+                                            selectedOption.parentCategoy?.name ||
+                                              "Choisissez"
+                                          }}
+                                          <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+                                          <i class="fa fa-chevron-right"                                             *ngIf="selectedOption.name"
+                                          style="
+                                            padding-left: 1rem;
+                                            padding-right: 0.5rem;
+                                            font-size: 15px;
+                                            color: #3BB77E;
+                                          " aria-hidden="true"></i>
+  
+                                          {{ selectedOption.name }}
+                                        </p>
+                                      </div>
+                                    </span>
+                                    <i class="bx bx-chevron-down"></i>
+                                  </div>
+                                  <ul
+                                  style="font-size: smaller;position: absolute !important;"
+                                    class="options"
+                                    [ngClass]="{
+                                      active: optionsVisible
+                                    }"
+                                  >
+                                    <li
+                                      class="option"
+                                      *ngFor="let category of categories"
+                                      (click)="selectOption(category)"
+                                    >
+                                      <span
+                                        class="d-inline-flex align-items-center"
+                                        style="font-size: 13px"
+                                      >
+                                        <img
+                                          src="{{ category.parentCategoy?.media?.url }}"
+                                          alt=""
+                                          class="iconUrl"
+                                          style="max-width: 2rem; margin-right: 1rem"
+                                        />
+                                        {{ category.parentCategoy?.name }}
+                                        <i
+                                          class="fa fa-chevron-right"
+                                          style="
+                                            padding-left: 1rem;
+                                            padding-right: 0.5rem;
+                                            font-size: 15px;
+                                            color: #3BB77E;
+
+                                          "
+                                        ></i>
+                                        {{ category.name }}
+                                      </span>
+                                    </li>
+                                  </ul>
+                                </div>                              </div>
                             </div>
+
+                        
+
+
+
+
+
+
+
+
+
+
                             <div class="row mb-4">
                               <label class="col-lg-3 col-form-label">Date de création*</label>
                               <div class="col-lg-9">
-                                <input type="text" class="form-control" [value]="ad.created_at | date:'dd/MM/yyyy'" readonly />
+                                <input type="text" class="form-control" [value]="ad.created_at | date:'dd/MM/yyyy'"  />
                               </div>
                             </div>
                             <div class="row mb-4">
                               <label class="col-lg-3 col-form-label">Date de mise à jour*</label>
                               <div class="col-lg-9">
-                                <input type="text" class="form-control" [value]="ad.updated_at | date:'dd/MM/yyyy'" readonly />
+                                <input type="text" class="form-control" [value]="ad.updated_at | date:'dd/MM/yyyy'"  />
                               </div>
                             </div>
                             <div class="row mb-4">
                               <label class="col-lg-3 col-form-label">Statut de validation*</label>
                               <div class="col-lg-9">
-                                <input type="text" class="form-control" [value]="ad.validation_status" readonly />
+                                <input type="text" class="form-control" [value]="ad.validation_status"  />
                               </div>
                             </div>
                             <div class="row mb-4">
                               <label class="col-lg-3 col-form-label">Utilisateur*</label>
                               <div class="col-lg-9">
-                                <input type="text" class="form-control" [value]="ad.user.first_name + ' ' + ad.user.last_name" readonly />
+                                <input type="text" class="form-control" [value]="ad.user.first_name + ' ' + ad.user.last_name"  />
                               </div>
                             </div>
                             <div class="row mb-4">
                               <label class="col-lg-3 col-form-label">Téléphone de l'utilisateur*</label>
                               <div class="col-lg-9">
-                                <input type="text" class="form-control" [value]="ad.user.telephone" readonly />
+                                <input type="text" class="form-control" [value]="ad.user.telephone"  />
                               </div>
                             </div>
                             <h4 class="mb-20">Les critéres de l'annonce : </h4>
                       
-                            <!-- Paramètres de l'annonce -->
-                            <div class="row mb-4">
-                              <ng-container *ngFor="let setting of ad.setting; let i = index">
-                                <ng-container *ngIf="setting.setting">
-                                  <div class="col-lg-6 mb-10">
-                                    <div class="row">
-                                      <label class="col-lg-6 col-form-label">{{ setting.label }} :</label>
-                                      <div class="col-lg-6">
-                                        <input type="text" class="form-control" [value]="setting.setting" readonly />
+    
+                            <div class="row">
+                              <div
+                                class="col-md-6 col-sm-12"
+                                *ngFor="let setting of settings"
+                                [ngClass]="{
+                                  'display-contents': setting.depend === false
+                                }"
+                              >
+                                <div class="select-menu" style="
+                                font-size: 13px;
+                            ">
+                                  <label
+                                    *ngIf="
+                                      setting.depend === null ||
+                                      setting.depend === true
+                                    "
+                                    style="margin-bottom: 0.5rem; "
+                                    >{{ setting.label }} : </label
+                                  >
+      
+                                  <!-- Display Select Button for non-dependant select type -->
+                                  <div
+                                    *ngIf="
+                                      setting.type === 'select' &&
+                                      setting.dependant === undefined
+                                    "
+                                    class="select-btn"
+                                    style="margin-bottom: 1rem;"
+                                    (click)="toggledOptions(setting)"
+                                  >
+                                    <span class="sBtn-text">
+                                      <div style="display: flex; align-items: center">
+                                        {{
+                                          setting.selectedOption
+                                            ? setting.selectedOption.label
+                                            : "Choisissez"
+                                        }}
                                       </div>
+                                    </span>
+                                    <i class="bx bx-chevron-down"></i>
+                                  </div>
+      
+                                  <!-- Display Select Options for non-dependant select type -->
+                                  <ul
+                                    *ngIf="
+                                      setting.type === 'select' &&
+                                      setting.dependant === undefined
+                                    "
+                                    class="options"
+                                    [class.active]="setting.optionsVisible"
+                                    style="font-size: smaller"
+                                  >
+                                    <li
+                                      class="option"
+                                      *ngFor="
+                                        let option of parseOptions(setting.content)
+                                      "
+                                      [value]="option.value"
+                                      (click)="selectdOptiond(option, setting)"
+                                    >
+                                      <span
+                                        class="d-inline-flex align-items-center"
+                                        >{{ option.label }}</span
+                                      >
+                                    </li>
+                                  </ul>
+      
+                                  <!-- Display dependant select button -->
+                                  <div
+                                    *ngIf="
+                                      setting.type === 'select' &&
+                                      setting.dependant !== undefined &&
+                                      setting.depend === true
+                                    "
+                                    class="select-btn"
+                                    style="
+                                      margin-bottom: 1rem;
+                                      background: #fff;
+                                      border: 1px solid #ececec;
+                                      height: 40.99px;
+                                      box-shadow: none;
+                                      padding-left: 20px;
+                                      font-size: 13px;
+                                      width: 100%;
+                                    "
+                                    (click)="toggledOptionsDepend(setting)"
+                                  >
+                                    <span class="sBtn-text">
+                                      <div style="display: flex; align-items: center">
+                                        {{
+                                          setting.selectedOption
+                                            ? setting.selectedOption.label
+                                            : "Choisissez "
+                                        }}
+                                      </div>
+                                    </span>
+                                    <i class="bx bx-chevron-down"></i>
+                                  </div>
+      
+                                  <!-- Display Select Options for dependant select type -->
+                                  <ul
+                                    *ngIf="
+                                      setting.type === 'select' &&
+                                      setting.dependant !== undefined &&
+                                      setting.depend === true
+                                    "
+                                    class="options"
+                                    [class.active]="setting.optionsVisible"
+                                    style="font-size: smaller"
+                                  >
+                                    <li
+                                      class="option"
+                                      *ngFor="
+                                        let option of parseOptions(
+                                          setting.contentDepend![setting.dependValue!]
+                                        )
+                                      "
+                                      [value]="option.value"
+                                      (click)="selectdOptiondDepend(option, setting)"
+                                    >
+                                      <span
+                                        class="d-inline-flex align-items-center"
+                                        >{{ option.label }}</span
+                                      >
+                                    </li>
+                                  </ul>
+      
+                                  <!-- Display multiple select button -->
+                                  <div
+                                    *ngIf="setting.type === 'multiple'"
+                                    class="select-btn"
+                                    style="margin-bottom: 1rem"
+                                    (click)="toggleOptionsGO(setting)"
+                                  >
+                                    <span class="sBtn-text">
+                                      <div style="display: flex; align-items: center">
+                                        {{
+                                          setting.selectedOptions.length > 0
+                                            ? getSelectedLabels(setting)
+                                            : "Choisissez"
+                                        }}
+                                      </div>
+                                    </span>
+                                    <i class="bx bx-chevron-down"></i>
+                                  </div>
+                                  <div
+                                    *ngIf="setting.type === 'options'"
+                                    class="select-btn"
+                                    style="
+                                      margin-bottom: 1rem;
+                                      background: #fff;
+                                      border: 1px solid #ececec;
+                                      height: 40.99px;
+                                      box-shadow: none;
+                                      padding-left: 20px;
+                                      font-size: 13px;
+                                      width: 100%;
+                                    "
+                                    (click)="toggledOptions(setting)"
+                                  >
+                                    <span class="sBtn-text">
+                                      <div style="display: flex; align-items: center">
+                                        {{
+                                          setting.selectedOption
+                                            ? setting.selectedOption.label
+                                            : "Choisissez"
+                                        }}
+                                      </div>
+                                    </span>
+                                    <i class="bx bx-chevron-down"></i>
+                                  </div>
+
+
+                                  <ul
+                                  *ngIf="
+                                    setting.type === 'options'
+                                  "
+                                  class="options"
+                                  [class.active]="setting.optionsVisible"
+                                  style="font-size: smaller"
+                                >
+                                  <li
+                                    class="option"
+                                    *ngFor="
+                                      let option of parseOptions(setting.content)
+                                    "
+                                    [value]="option.value"
+                                    (click)="selectdOptiond(option, setting)"
+                                  >
+                                    <span
+                                      class="d-inline-flex align-items-center"
+                                      >{{ option.label }}</span
+                                    >
+                                  </li>
+                                </ul>
+                                  <!-- Display Select Options for multiple select type -->
+                                  <ul
+                                    *ngIf="setting.type === 'multiple'"
+                                    class="options"
+                                    [class.active]="setting.optionsVisible"
+                                    style="font-size: smaller"
+                                  >
+                                    <li
+                                      class="option"
+                                      *ngFor="
+                                        let option of parseOptions(setting.content)
+                                      "
+                                      [class.selected]="
+                                        isOptionSelected(option, setting)
+                                      "
+                                      (click)="selectOptionGO(option, setting)"
+                                    >
+                                      <div class="checkbox-container">
+                                        <input
+                                          class="checkbox"
+                                          type="checkbox"
+                                          id="{{ option.value }}"
+                                          name="{{ option.label }}"
+                                          [checked]="
+                                            isOptionSelected(option, setting)
+                                          "
+                                          (change)="toggleOption(option, setting)"
+                                        />
+                                        <label for="{{ option.value }}">{{
+                                          option.label
+                                        }}</label>
+                                      </div>
+                                    </li>
+                                  </ul>
+      
+                                  <!-- Handle text, number, int, bool, and other types similarly -->
+                                  <div *ngIf="setting.type === 'text'">
+                                    <input
+                                      id="{{ setting.key }}"
+                                      name="{{ setting.key }}"
+                                      [(ngModel)]="setting.content"
+                                      placeholder="{{ setting.label }}"
+                                      type="text"
+                                      required
+                                      maxlength="50"
+                                    />
+                                  </div>
+      
+                                  <div *ngIf="setting.type === 'number'">
+                                    <input
+                                      id="{{ setting.key }}"
+                                      name="{{ setting.key }}"
+                                      [(ngModel)]="setting.content"
+                                      placeholder="{{ setting.label }}"
+                                      type="number"
+                                      required
+                                      maxlength="50"
+                                    />
+                                  </div>
+      
+                                  <div
+                                    *ngIf="
+                                      setting.type === 'int' &&
+                                      setting.depend === true
+                                    "
+                                  >
+                                    <input
+                                      id="{{ setting.key }}"
+                                      name="{{ setting.key }}"
+                                      [(ngModel)]="setting.content"
+                                      placeholder="{{ setting.label }}"
+                                      type="number"
+                                      required
+                                      maxlength="50"
+                                    />
+                                  </div>
+      
+                                  <div *ngIf="setting.type === 'bool'">
+                                    <div
+                                      class="custome-radio d-inline-flex align-items-center"
+                                      style="margin-right: 2rem"
+                                    >
+                                      <input
+                                        class="form-check-input"
+                                        type="radio"
+                                        name="{{ setting.name }}"
+                                        id="{{ setting.name }}True"
+                                        value="true"
+                                        [checked]="setting.content === 'true'"
+                                        (change)="updateSetting(setting, true)"
+                                      />
+                                      <label
+                                        class="form-check-label"
+                                        for="{{ setting.name }}True"
+                                        >Oui</label
+                                      >
+                                    </div>
+                                    <div
+                                      class="custome-radio d-inline-flex align-items-center"
+                                    >
+                                      <input
+                                        class="form-check-input"
+                                        type="radio"
+                                        name="{{ setting.name }}"
+                                        id="{{ setting.name }}False"
+                                        value="false"
+                                        [checked]="setting.content === 'false'"
+                                        (change)="updateSetting(setting, false)"
+                                      />
+                                      <label
+                                        class="form-check-label"
+                                        for="{{ setting.name }}False"
+                                        >Non</label
+                                      >
                                     </div>
                                   </div>
-                                </ng-container>
-                              </ng-container>
+      
+                                  <!-- Add other type handlers as needed -->
+                                </div>
+                              </div>
                             </div>
                             
-                            
+                            <div class="payment ml-30" style="
+                            float: inline-end;
+                        ">
+                              <button class="btn btn-success rounded font-sm hover-up mr-15" style="
+                              padding: 15px;
+                              font-size: 0.9rem;
+                              margin-bottom: 1rem;
+                          " (click)="modifier()">Modifier l'annonce <i class="fa fa-pencil-square-o ml-15"></i
+                                ></button>
+
+
+                            </div>
                                                 </form>
                         </section>
                       </div>

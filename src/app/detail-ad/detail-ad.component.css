@@ -1,3 +1,4 @@
+
 ::ng-deep .row.gx-5 > * {
     padding-right: 1rem !important;
     padding-left: 2rem !important;
@@ -12,4 +13,368 @@
 ::ng-deep .material-icons {
     vertical-align: bottom !important;
     font-weight: 600;
+}
+
+
+textarea.form-control {
+    min-height: 200px !important;
+}
+
+
+
+
+.select-menu .select-btn {
+    display: flex;
+    height: 40.99px;
+    background: #f4f5f9;
+    padding: 20px;
+    font-size: 18px;
+    font-weight: 400;
+    border-radius: 8px;
+    align-items: center;
+    cursor: pointer;
+    justify-content: space-between;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+    color: var(--bs-body-color);
+    font-size: 13.5px;
+}
+
+.select-btn i {
+    font-size: 25px;
+    transition: 0.3s;
+}
+
+.select-menu.active .select-btn i {
+    transform: rotate(-180deg);
+}
+
+.select-menu .options {
+    position: relative !important;
+    padding: 20px;
+    margin-top: 10px;
+    border-radius: 8px;
+    background: #fff;
+    box-shadow: 0 0 3px rgba(0, 0, 0, 0.1);
+    width: 100%;
+}
+
+.options .option {
+    height: 35px;
+    cursor: pointer;
+    padding: 0 8px;
+    border-radius: 8px;
+    align-items: center;
+    background: #fff;
+    display: grid;
+    color: black;
+    font-size: 13px;
+}
+
+.options .option:hover {
+    background: #F2F2F2;
+}
+
+.option i {
+    font-size: 25px;
+    margin-right: 12px;
+}
+
+.option .option-text {
+    font-size: 13px;
+    color: var(--bs-body-color);
+}
+
+.form-control{
+    color: var(--bs-body-color);
+
+}
+.options {
+    display: none;
+}
+
+.options.active {
+    display: block;
+}
+
+
+.select-menu .select-btn:focus {
+    background: transparent !important;
+    border-color: #BCE3C9 !important;
+}
+
+.select-menu .select-btn:hover {
+    background: transparent !important;
+    border-color: #BCE3C9 !important;
+}
+
+.select-menu {
+    position: relative;
+    /* Ensure proper positioning */
+}
+
+.options {
+    position: absolute !important;
+    /* Position the options menu relative to the select button */
+    top: 100%;
+    /* Position the options menu just below the select button */
+    left: 0;
+    z-index: 999;
+    /* Set a high z-index to ensure the menu appears on top */
+}
+
+.options.active {
+    display: block;
+    /* Show the options menu when active */
+}
+
+.bg-selected {
+    background-color: #f0f0f0;
+    /* Set the background color when options are visible */
+}
+
+.option.selected {
+    background-color: #b7d1f3;
+    /* Set the background color for selected option */
+}
+
+.select-menu {
+    position: relative;
+}
+
+.options {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    z-index: 999;
+    display: none;
+    max-height: 200px;
+    /* Set your desired maximum height here */
+    overflow-y: auto;
+    background-color: #fff;
+    border: 1px solid #ececec;
+}
+
+.options.active {
+    display: block;
+}
+
+
+::ng-deep .btn:hover {
+    border-color: #FDC040 !important;
+}
+
+
+
+::ng-deep input :-internal-autofill-selected {
+    appearance: menulist-button;
+    background-image: none !important;
+    background-color: light-dark(rgb(232, 240, 254), rgba(70, 90, 126, 0.4)) !important;
+    color: fieldtext !important;
+}
+
+::ng-deep textarea :-internal-autofill-selected {
+    appearance: menulist-button;
+    background-image: none !important;
+    background-color: light-dark(rgb(232, 240, 254), rgba(70, 90, 126, 0.4)) !important;
+    color: fieldtext !important;
+}
+
+::ng-deep .select-menu :-internal-autofill-selected {
+    appearance: menulist-button;
+    background-image: none !important;
+    background-color: light-dark(rgb(232, 240, 254), rgba(70, 90, 126, 0.4)) !important;
+    color: fieldtext !important;
+}
+
+
+.p-overflow-hidden {
+    overflow: hidden;
+    padding-right: var(--scrollbar-width)
+}
+
+
+
+@layer primeng {
+    .p-inputtextarea-resizable {
+        overflow: hidden;
+        resize: none
+    }
+
+    .p-fluid .p-inputtextarea {
+        width: 100%
+    }
+}
+
+
+input[type=button],
+input[type=submit],
+input[type=reset],
+input[type=file]::-webkit-file-upload-button,
+button {
+    border-radius: 0
+}
+
+@layer primeng {
+    .p-inputtext {
+        margin: 0
+    }
+
+    .p-fluid .p-inputtext {
+        width: 100%
+    }
+
+    .p-inputgroup {
+        display: flex;
+        align-items: stretch;
+        width: 100%
+    }
+
+    .p-inputgroup-addon {
+        display: flex;
+        align-items: center;
+        justify-content: center
+    }
+
+    .p-inputgroup .p-float-label {
+        display: flex;
+        align-items: stretch;
+        width: 100%
+    }
+
+    .p-inputgroup .p-inputtext,
+    .p-fluid .p-inputgroup .p-inputtext,
+    .p-inputgroup .p-inputwrapper,
+    .p-inputgroup .p-inputwrapper>.p-component {
+        flex: 1 1 auto;
+        width: 1%
+    }
+
+    .p-float-label {
+        display: block;
+        position: relative
+    }
+
+    .p-float-label label {
+        position: absolute;
+        pointer-events: none;
+        top: 50%;
+        margin-top: -.5rem;
+        transition-property: all;
+        transition-timing-function: ease;
+        line-height: 1
+    }
+
+    .p-float-label textarea~label {
+        top: 1rem
+    }
+
+    .p-float-label input:focus~label,
+    .p-float-label input.p-filled~label,
+    .p-float-label textarea:focus~label,
+    .p-float-label textarea.p-filled~label,
+    .p-float-label .p-inputwrapper-focus~label,
+    .p-float-label .p-inputwrapper-filled~label {
+        top: -.75rem;
+        font-size: 12px
+    }
+
+    .p-float-label .input:-webkit-autofill~label {
+        top: -20px;
+        font-size: 12px
+    }
+
+    .p-float-label .p-placeholder,
+    .p-float-label input::placeholder,
+    .p-float-label .p-inputtext::placeholder {
+        opacity: 0;
+        transition-property: all;
+        transition-timing-function: ease
+    }
+
+    .p-float-label .p-focus .p-placeholder,
+    .p-float-label input:focus::placeholder,
+    .p-float-label .p-inputtext:focus::placeholder {
+        opacity: 1;
+        transition-property: all;
+        transition-timing-function: ease
+    }
+
+    .p-input-icon-left,
+    .p-input-icon-right {
+        position: relative;
+        display: inline-block
+    }
+
+    .p-input-icon-left>i,
+    .p-input-icon-left>.p-icon-wrapper,
+    .p-input-icon-right>i,
+    .p-input-icon-right>.p-icon-wrapper {
+        position: absolute;
+        top: 50%;
+        margin-top: -.5rem
+    }
+
+    .p-fluid .p-input-icon-left,
+    .p-fluid .p-input-icon-right {
+        display: block;
+        width: 100%
+    }
+}
+
+@layer primeng {
+    .p-inputtextarea-resizable {
+        overflow: hidden;
+        resize: none
+    }
+
+    .p-fluid .p-inputtextarea {
+        width: 100%
+    }
+}
+
+
+::ng-deep  input {
+    background: #fff;
+    border: 1px solid #ececec;
+    height: 40.99px;
+    box-shadow: none;
+    padding: 20px;
+    font-size: 13px;
+    width: 100%;
+    border-radius: 10px;
+    margin-bottom: 1rem;
+}
+
+::ng-deep .display-contents {
+    display: none !important;
+}
+
+
+
+::ng-deep  input.checkbox {
+    background: #fff;
+    border: 1px solid #ececec;
+    height: 64px;
+    box-shadow: none;
+    padding-left: 20px;
+    font-size: 16px;
+    width: 100%;
+    WIDTH: max-content !important;
+    margin-right: 0.5rem;
+}
+
+::ng-deep .checkbox-container {
+    display: grid;
+    grid-template-columns: auto auto;
+    align-items: center;
+    justify-content: start;
+}
+
+::ng-deep .form-check-input {
+    margin-right: 0.5rem;
+    --bs-form-check-bg: var(--bs-body-bg);
+    flex-shrink: 0;
+    width: 1.5em;
+    height: 1.5em;
+
 }

@@ -6,14 +6,23 @@
 
   <section class="content-main">
     <div class="content-header">
-      <h2 class="content-title">Listes des annonces</h2>
+      <h2 class="content-title">Listes des annonces en attente</h2>
       <p-messages [value]="messages"></p-messages>
     </div>
     <div class="card mb-4">
       <header class="card-header">
         <div class="row gx-3">
+            <div class="col-search">
+                <div class="input-group" style="width: 35% !important; float: inline-end;">
+                  <input list="search_terms" type="text" placeholder="Rechercher des annonces..." class="form-control" (input)="onSearch($event)" style="background-color: white;">
+                  <button type="button" class="btn btn-light bg" style="background-color: #3BB77E; color: white;">
+                    <i class="material-icons md-search" style="color: white;"></i>
+                  </button>
+                </div>
+              </div>
+              
           <div class="col-lg-4 col-md-6 me-auto"></div>
-          <div class="col-md-2 col-6" style="float: right;">
+<!--           <div class="col-md-2 col-6" style="float: right;">
             <p-dropdown
               [options]="statusOptions"
               [style]="{ width: '100%' }"
@@ -22,14 +31,14 @@
               [appendTo]="'body'"
               (onChange)="filterByStatus($event)"
             ></p-dropdown>
-          </div>
+          </div> -->
         </div>
       </header>
       <div class="card-body">
-        <div class="row gx-3 row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-xl-4 row-cols-xxl-5">
+        <div class="row gx-3 row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-xl-4">
           <div *ngIf="filteredAds.length === 0" class="col-12">
             <div class="alert alert-info" role="alert" style="font-weight: 700;">
-              Non annonce disponible.
+                Aucune annonce en attente disponible.
             </div>
           </div>
           <div class="col" *ngFor="let ad of filteredAds">

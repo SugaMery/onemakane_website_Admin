@@ -11,6 +11,9 @@ import { DetailUserComponent } from './detail-user/detail-user.component';
 import { DetailAdComponent } from './detail-ad/detail-ad.component';
 import { ListAdsComponent } from './list-ads/list-ads.component';
 import { ListUsersDeletedComponent } from './list-users-deleted/list-users-deleted.component';
+import { AnnoncesEnAttenteComponent } from './annonces-en-attente/annonces-en-attente.component';
+import { AnnoncesApprouveesComponent } from './annonces-approuvees/annonces-approuvees.component';
+import { AnnoncesRejeteesComponent } from './annonces-rejetees/annonces-rejetees.component';
 
 const routes: Routes = [
   { path: 'add_category', component: AddCategoryComponent },
@@ -22,9 +25,12 @@ const routes: Routes = [
   { path: 'list-utilisateurs', component: ListUserComponent },
   { path: 'detail-utilisateur/:id', component: DetailUserComponent },
   { path: 'detail-annonce/:id', component: DetailAdComponent },
-  { path: 'list-annonces', component: ListAdsComponent },
+  { path: 'list-annonces/all', component: ListAdsComponent },
   { path: 'dashboard', component: DashboardComponent },
-  { path: 'list-utilisateurs-non-actifs', component: ListUsersDeletedComponent }
+  { path: 'list-utilisateurs-non-actifs', component: ListUsersDeletedComponent },
+  { path: 'list-annonces/attente', component: AnnoncesEnAttenteComponent },
+  { path: 'list-annonces/approuve', component: AnnoncesApprouveesComponent },
+  { path: 'list-annonces/rejete', component: AnnoncesRejeteesComponent },
 
 ];
 

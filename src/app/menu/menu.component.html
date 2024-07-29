@@ -17,12 +17,27 @@
                     <span class="text">Dashboard</span>
                 </a>
             </li>
-            <li class="menu-item" routerLink="/list-annonces" routerLinkActive="active">
-                <a class="menu-link" >
-                    <i class="icon material-icons md-shopping_bag"></i>
-                    <span class="text">Annonces</span>
+            <li class="menu-item has-submenu"  routerLink="/list-annonces" routerLinkActive="active">
+                <a class="menu-link">
+                  <i class="icon material-icons md-shopping_bag"></i>
+                  <span class="text">Annonces</span>
                 </a>
-            </li>
+                <div class="submenu">
+                    <a routerLink="/list-annonces/all" routerLinkActive="active" class="submenu-link">
+                      Toutes les annonces
+                    </a>
+                    <a routerLink="/list-annonces/attente" routerLinkActive="active" class="submenu-link">
+                      Annonces en attente
+                    </a>
+                    <a routerLink="/list-annonces/approuve" routerLinkActive="active" class="submenu-link">
+                      Annonces approuvées
+                    </a>
+                    <a routerLink="/list-annonces/rejete" routerLinkActive="active" class="submenu-link">
+                      Annonces rejetées
+                    </a>
+                  </div>
+              </li>
+              
 <!--             <li class="menu-item has-submenu" routerLinkActive="active">
                 <a class="menu-link">
                     <i class="icon material-icons md-photo"></i>
