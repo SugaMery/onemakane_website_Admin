@@ -3,14 +3,16 @@
   <app-header></app-header>
   <section class="content-main">
     <div class="content-header">
-      <h2 class="content-title">Liste des utilisateurs non actifs </h2>
-
+      <h2 class="content-title">Liste des clients actifs </h2>
+      <div>
+        <a href="#" class="btn btn-"><i class="material-icons md-plus"></i> Créer nouveau</a>
+      </div>
     </div>
     <div class="card mb-4">
       <header class="card-header">
         <div class="row gx-3">
           <div class="col-lg-4 col-md-6 me-auto">
-            <input type="text" placeholder="Rechercher..." class="form-control" style="background-color: #ffffff;border: 1px solid #adb5bd;"  />
+            <input type="text" placeholder="Rechercher..." class="form-control" style="background-color: #ffffff;border: 1px solid #adb5bd;" />
           </div>
 <!--           <div class="col-lg-2 col-6 col-md-3">
             <select class="form-select">
@@ -33,10 +35,9 @@
         <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 row-cols-xl-4">
           <div *ngIf="pagedCategories.length === 0" class="col-12">
             <div class="alert alert-info" role="alert" style="font-weight: 700;">
-              Aucun utilisateur non actif disponible.
+              Aucun client actif disponible.
             </div>
           </div>
-          
           <div *ngFor="let user of pagedCategories" class="col">
             <div class="card card-user">
 

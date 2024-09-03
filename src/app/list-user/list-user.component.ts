@@ -21,15 +21,33 @@ export class ListUserComponent {
     if (typeof localStorage !== 'undefined') {
       const accessToken = localStorage.getItem('loggedInUserToken');
       if (accessToken) {
-        this.userService.getUsers(0,accessToken).subscribe(
-          data => {
-            this.users = data.data;
-            this.setPagedCategories();
-          },
-          error => {
-            console.error('Error fetching users', error);
-          }
-        );
+        
+        const roleIds = [1, 2, 3]; // Role IDs from 1 to 3
+
+        // Use a variable to store all user data
+        let allUsers: string | any[] = [];
+
+        // Use a loop to fetch users for each role ID
+        for (const roleId of roleIds) {
+
+          this.userService.getUsers(0, accessToken, roleId).subscribe(
+            data => {
+              console.log("update",roleId ,allUsers);
+
+              // Merge the fetched users into allUsers
+              allUsers = [...allUsers, ...data.data];
+
+              this.users = allUsers;
+              this.setPagedCategories();
+                          
+            },
+            error => {
+              console.error('Error fetching users', error);
+            }
+          );
+        }
+        
+        
       } else {
         console.error('Access token not found in localStorage');
       }
@@ -38,7 +56,7 @@ export class ListUserComponent {
     }
   }
   
-  itemsPerPage: number = 7; // Number of items per page
+  itemsPerPage: number = 8; // Number of items per page
   currentPage: number = 1; // Current page
 
   setCurrentPage(page: number) {

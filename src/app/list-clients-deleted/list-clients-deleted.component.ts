@@ -2,12 +2,11 @@ import { Component } from '@angular/core';
 import { UserService } from '../user.service';
 
 @Component({
-  selector: 'app-list-users-deleted',
-  templateUrl: './list-users-deleted.component.html',
-  styleUrl: './list-users-deleted.component.css'
+  selector: 'app-list-clients-deleted',
+  templateUrl: './list-clients-deleted.component.html',
+  styleUrl: './list-clients-deleted.component.css'
 })
-export class ListUsersDeletedComponent {
-
+export class ListClientsDeletedComponent {
   users: any[] = [];
   pagedCategories: any[] = [];
   constructor(private userService: UserService) { }
@@ -22,30 +21,15 @@ export class ListUsersDeletedComponent {
     if (typeof localStorage !== 'undefined') {
       const accessToken = localStorage.getItem('loggedInUserToken');
       if (accessToken) {
-        const roleIds = [1, 2, 3]; // Role IDs from 1 to 3
-
-        // Use a variable to store all user data
-        let allUsers: string | any[] = [];
-
-        // Use a loop to fetch users for each role ID
-        for (const roleId of roleIds) {
-
-          this.userService.getUsers(1, accessToken, roleId).subscribe(
-            data => {
-              console.log("update",roleId ,allUsers);
-
-              // Merge the fetched users into allUsers
-              allUsers = [...allUsers, ...data.data];
-              
-              this.users = allUsers;
-              this.setPagedCategories();
-                          
-            },
-            error => {
-              console.error('Error fetching users', error);
-            }
-          );
-        }
+        this.userService.getUsers(1,accessToken,4).subscribe(
+          data => {
+            this.users = data.data;
+            this.setPagedCategories();
+          },
+          error => {
+            console.error('Error fetching users', error);
+          }
+        );
       } else {
         console.error('Access token not found in localStorage');
       }

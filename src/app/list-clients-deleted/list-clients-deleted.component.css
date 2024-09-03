@@ -1,0 +1,11 @@
+::ng-deep .form-control, .form-select {
+    background-color: #ffffff;
+    border: 2px solid #adb5bd;
+    font-size: 13px;
+    box-shadow: none;
+    padding-left: 20px;
+    color: #4f5d77;
+    width: 100%;
+    border-radius: 4px;
+    height: 41px;
+}

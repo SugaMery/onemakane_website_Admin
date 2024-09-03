@@ -108,6 +108,7 @@ type Status = 'approved' | 'pending' | 'draft' | 'rejected';
 })
 export class DetailAdComponent {
   ad: any = {};
+  telephone: string ="";
   categories: Category[] = [];
   selectedOption: any = {
     active: false,

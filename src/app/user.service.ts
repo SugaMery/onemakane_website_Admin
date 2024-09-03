@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root',
 })
 export class UserService {
-  private baseUrl = 'https://devapi.onemakan.com/v1';
+  private baseUrl = 'https://api.onemakan.com/v1';
 
   constructor(private http: HttpClient) {}
 
@@ -29,16 +29,21 @@ export class UserService {
 
     return this.http.delete(`${this.baseUrl}/users/${userId}`, { headers });
   }
-  getUsers(deleted: number, accessToken: string): Observable<any> {
+  getUsers(deleted: number, accessToken: string, roleId?: number): Observable<any> {
     const headers = new HttpHeaders({
       Authorization: `Bearer ${accessToken}`,
     });
   
-    const params = new HttpParams().set('deleted', deleted.toString());
+    let params = new HttpParams().set('deleted', deleted.toString());
+  
+    if (roleId !== undefined) {
+      params = params.set('role_id', roleId.toString());
+    }
   
     return this.http.get(`${this.baseUrl}/users`, { headers, params });
   }
   
+
 
   updateUser(
     userId: string,
