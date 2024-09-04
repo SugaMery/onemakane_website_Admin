@@ -26,7 +26,7 @@
             <!--  col.// -->
 
             <div class="col-xl-4 text-md-end">
-              <a class="btn btn-primary mr-10" >Modifier les informations</a>
+              <a class="btn btn-primary mr-10" [routerLink]="['/modifier-utilisateur', userData.id]" >Modifier les informations</a>
               <a *ngIf="adsCount == 0" class="btn btn-primary" style="background-color: red;" (click)="confirm1($event)" label="Delete" severity="danger"  >Supprimer cet utilisateur</a>
             </div>
             <!--  col.// -->
@@ -76,14 +76,12 @@
           <h3 class="card-title">Les annonces publiées par {{ userData.full_name }} :</h3>
         </header>
         <div class="card-body">
-          <div class="row gx-3 row-cols-xl-4">
-            <!-- Check if ads array is initialized and not empty -->
-            <ng-container *ngIf="ads && ads.length > 0; else noAdsMessage">
-              <div class="col" *ngFor="let ad of ads">
+          <div class="row gx-3 row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-xl-4 row-cols-xxl-5">
+            <ng-container *ngIf="ads.length > 0; else noAdsMessage">
+              <div class="col" *ngFor="let ad of ads.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage)">
                 <div class="card card-product-grid">
                   <div class="product-image">
                     <a [routerLink]="['/detail-annonce', ad.id]">
-                      <!-- Use safe navigation operator (?) for accessing ad.medias[0] -->
                       <img [src]="ad.medias[0]?.url || 'assets/imgs/default.jpg'" alt="{{ ad.title }}" class="product-image">
                     </a>
                   </div>
@@ -109,7 +107,6 @@
                 </div>
               </div>
             </ng-container>
-            <!-- Display this message if no ads are available -->
             <ng-template #noAdsMessage>
               <div class="col">
                 <div class="alert alert-info">Aucune annonce publiée pour le moment.</div>
@@ -117,9 +114,53 @@
             </ng-template>
           </div>
         </div>
-        
+      
+
       </div>
       
+      <div class="pagination-area mt-30 mb-50" *ngIf="totalAds > 0">
+        <nav aria-label="Pagination">
+          <ul class="pagination justify-content-start">
+            <!-- Bouton Précédent -->
+            <li class="page-item" [ngClass]="{'disabled': currentPage === 1}">
+              <a class="page-link" (click)="setCurrentPage(currentPage - 1)" aria-label="Précédent">
+                <span aria-hidden="true">&laquo;</span>
+              </a>
+            </li>
+            
+            <!-- Bouton Première Page -->
+            <li class="page-item" [ngClass]="{'disabled': currentPage === 1}">
+              <a class="page-link" (click)="setCurrentPage(1)" style="
+              width: auto;
+          ">Première</a>
+            </li>
+            
+            <!-- Boutons Numéros de Page -->
+            <li *ngFor="let page of visiblePages" class="page-item" [ngClass]="{'active': currentPage === page}">
+              <a class="page-link" (click)="setCurrentPage(page)">{{ page }}</a>
+            </li>
+            
+            <!-- Ellipse pour les Pages au Milieu -->
+            <li *ngIf="pages.length > 5 && !isLastPageVisible" class="page-item disabled">
+              <span class="page-link">...</span>
+            </li>
+            
+            <!-- Bouton Dernière Page -->
+            <li class="page-item" [ngClass]="{'disabled': currentPage === pages.length}">
+              <a class="page-link" (click)="setCurrentPage(pages.length)" style="
+              width: auto;
+          ">Dernière</a>
+            </li>
+            
+            <!-- Bouton Suivant -->
+            <li class="page-item" [ngClass]="{'disabled': currentPage === pages.length}">
+              <a class="page-link" (click)="setCurrentPage(currentPage + 1)" aria-label="Suivant">
+                <span aria-hidden="true">&raquo;</span>
+              </a>
+            </li>
+          </ul>
+        </nav>
+      </div>
       
     </section>
     <!-- content-main end// -->

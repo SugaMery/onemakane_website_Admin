@@ -9,11 +9,19 @@ import { UserService } from '../user.service';
 export class ListUserComponent {
   users: any[] = [];
   pagedCategories: any[] = [];
-  constructor(private userService: UserService) { }
+  searchTerm: string = '';
+  itemsPerPage: number = 8;
+  currentPage: number = 1;
+
+  constructor(private userService: UserService) {}
 
   ngOnInit(): void {
-    this.fetchUsers();
-
+    const accessToken = localStorage.getItem('loggedInUserToken');
+    if (accessToken) {
+      this.fetchUsers();
+    } else {
+      console.error('Access token not found in localStorage');
+    }
   }
 
   fetchUsers(): void {
@@ -55,30 +63,33 @@ export class ListUserComponent {
       console.error('localStorage is not available in this environment');
     }
   }
-  
-  itemsPerPage: number = 8; // Number of items per page
-  currentPage: number = 1; // Current page
-
-  setCurrentPage(page: number) {
+  setCurrentPage(page: number): void {
     this.currentPage = page;
     this.setPagedCategories();
   }
+
   get pages(): number[] {
-    const pageCount = Math.ceil(
-      this.users.length / this.itemsPerPage
-    );
+    const pageCount = Math.ceil(this.filteredUsers.length / this.itemsPerPage);
     return Array.from({ length: pageCount }, (_, i) => i + 1);
   }
-  setPagedCategories() {
+
+  setPagedCategories(): void {
     const startIndex = (this.currentPage - 1) * this.itemsPerPage;
     const endIndex = startIndex + this.itemsPerPage;
-    this.pagedCategories = this.users.slice(startIndex, endIndex);
-    console.log("rrr",this.pagedCategories)
+    this.pagedCategories = this.filteredUsers.slice(startIndex, endIndex);
+  }
+
+  get filteredUsers(): any[] {
+    if (!this.searchTerm) {
+      return this.users;
+    }
+    return this.users.filter(user => 
+      user.full_name.toLowerCase().includes(this.searchTerm.toLowerCase()) || 
+      user.email.toLowerCase().includes(this.searchTerm.toLowerCase())
+    );
   }
 
   getInitials(firstName: string, lastName: string): string {
-    const firstInitial = firstName.charAt(0).toUpperCase();
-    const lastInitial = lastName.charAt(0).toUpperCase();
-    return `${firstInitial}${lastInitial}`;
+    return `${firstName.charAt(0).toUpperCase()}${lastName.charAt(0).toUpperCase()}`;
   }
 }

@@ -29,10 +29,12 @@ export class LoginComponent {
         if (response.data.role_id <= 2) {
           // Stocker l'ID utilisateur et le token dans le local storage
           localStorage.removeItem('loggedInUserToken');
-          localStorage.removeItem('loggedInUser');
+          localStorage.removeItem('loggedInUserId');
+          localStorage.removeItem('loggedInRoleId');
 
           localStorage.setItem('loggedInUserId', response.data.id);
           localStorage.setItem('loggedInUserToken', response.data.token);
+          localStorage.setItem('loggedInRoleId', response.data.role_id);
 
           // Redirection vers le tableau de bord
           window.location.href = '/home';

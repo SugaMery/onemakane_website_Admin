@@ -1,6 +1,6 @@
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { forkJoin, map, Observable, of, switchMap } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -63,11 +63,25 @@ export class AnnonceService {
       headers: this.getHeaders(accessToken),
     });
   }
+  checkAdInJobAppliances(adIds: number[]): Observable<boolean> {
+    const checkObservables = adIds.map((adId) => {
+      return this.http.get(`${this.apiUrl}/ads/${adId}/job-appliances`).pipe(
+        map((response: any) => {
+          // Assuming the API returns a list of job appliances for the given adId
+          return response.length > 0; // True if there are job appliances
+        })
+      );
+    });
 
+    // Combine all the observables using forkJoin and check if any of them returned true
+    return forkJoin(checkObservables).pipe(
+      map((results: boolean[]) => results.some((result) => result === true))
+    );
+  }
   uploadFile(file: File, accessToken: string): Promise<any> {
     const formData = new FormData();
     formData.append('media_file', file);
-    //formData.append('media_type','image')
+    formData.append('media_type', 'file');
 
     const headers = new HttpHeaders({
       Authorization: `Bearer ${accessToken}`,
@@ -78,26 +92,139 @@ export class AnnonceService {
       .toPromise();
   }
 
+  getJobAppliances(adId: number, accessToken: string): Observable<any> {
+    const url = `${this.apiUrl}/ads/${adId}/job-appliances`;
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${accessToken}`,
+    });
+
+    return this.http.get<any>(url, { headers });
+  }
+
   getAds(): Observable<any> {
     const url = `${this.apiUrl}/ads`;
     return this.http.get<any>(url);
   }
-  getAdsWithFavoris(user_id: number): Observable<any> {
-    const url = `${this.apiUrl}/ads?user_id=${user_id}`;
+
+  getAdsFirst(page: number = 1): Observable<any> {
+    const url = `${this.apiUrl}/ads?page=${page}`;
     return this.http.get<any>(url);
   }
 
-  getAdsValidator(validationStatus: string): Observable<any> {
-    const url = `${this.apiUrl}/ads`;
-    let params = new HttpParams().set('validation_status', validationStatus);
+  getAllAds(): Observable<any[]> {
+    return this.getAdsFirst().pipe(
+      switchMap((response) => {
+        const totalPages = response.pagination.total_page;
+        const requests: Observable<any>[] = [];
 
-    return this.http.get<any>(url, { params });
+        // Push the first page response
+        requests.push(of(response));
+
+        // Create requests for all other pages
+        for (let page = 2; page <= totalPages; page++) {
+          requests.push(this.getAdsFirst(page));
+        }
+
+        // Execute all requests and combine results
+        return forkJoin(requests).pipe(
+          map((responses) => responses.flatMap((res) => res.data))
+        );
+      })
+    );
+  }
+
+  getAdsWithFavoris(user_id: number, page: number = 1): Observable<any> {
+    const url = `${this.apiUrl}/ads?user_id=${user_id}&page=${page}`;
+    return this.http.get<any>(url);
+  }
+
+  getAllAdsWithFavoris(user_id: number): Observable<any[]> {
+    return this.getAdsWithFavoris(user_id).pipe(
+      switchMap((response) => {
+        const totalPages = response.pagination.total_page;
+        const requests: Observable<any>[] = [];
+
+        // Push the first page response
+        requests.push(of(response));
+
+        // Create requests for all other pages
+        for (let page = 2; page <= totalPages; page++) {
+          requests.push(this.getAdsWithFavoris(user_id, page));
+        }
+
+        // Execute all requests and combine results
+        return forkJoin(requests).pipe(
+          map((responses) => responses.flatMap((res) => res.data))
+        );
+      })
+    );
+  }
+
+  getAdsWithUser(user_id: number, page: number = 1): Observable<any> {
+    const url = `${this.apiUrl}/users/${user_id}/ads?page=${page}`;
+    return this.http.get<any>(url);
+  }
+
+  getAllAdsWithUser(user_id: number): Observable<any[]> {
+    return this.getAdsWithUser(user_id).pipe(
+      switchMap((response) => {
+        const totalPages = response.pagination.total_page;
+        const requests: Observable<any>[] = [];
+
+        // Push the first page response
+        requests.push(of(response));
+
+        // Create requests for all other pages
+        for (let page = 2; page <= totalPages; page++) {
+          requests.push(this.getAdsWithUser(user_id, page));
+        }
+
+        // Execute all requests and combine results
+        return forkJoin(requests).pipe(
+          map((responses) => responses.flatMap((res) => res.data))
+        );
+      })
+    );
+  }
+
+  getAdsValidator(validationStatus: string, searchTerm?: string, page: number = 1): Observable<any> {
+    let url = `${this.apiUrl}/ads?validation_status=${validationStatus}&page=${page}`;
+    
+    if (searchTerm) {
+      url += `&search_term=${encodeURIComponent(searchTerm)}`;
+    }
+  
+    return this.http.get<any>(url);
+  }
+  
+
+  getAllAdsValidator(validationStatus: string,searchTerm?: string): Observable<any[]> {
+    return this.getAdsValidator(validationStatus,searchTerm).pipe(
+      switchMap((response) => {
+        const totalPages = response.pagination.total_page;
+        const requests: Observable<any>[] = [];
+
+        // Push the first page response
+        requests.push(of(response));
+
+        // Create requests for all other pages
+        for (let page = 2; page <= totalPages; page++) {
+          requests.push(this.getAdsValidator(validationStatus,searchTerm, page));
+        }
+
+        // Execute all requests and combine results
+        return forkJoin(requests).pipe(
+          map((responses) => responses.flatMap((res) => res.data))
+        );
+      })
+    );
   }
 
   getAdById(adId: string): Observable<any> {
     const url = `${this.apiUrl}/ads/${adId}`;
     return this.http.get<any>(url);
   }
+
   updateAnnonce(
     adId: string,
     adUuid: string,
@@ -106,6 +233,16 @@ export class AnnonceService {
   ): Observable<any> {
     const url = `${this.apiUrl}/ads/${adId}/${adUuid}`;
     return this.http.patch<any>(url, annonceData, {
+      headers: this.getHeaders(accessToken),
+    });
+  }
+  CreateAdsJobs(
+    adId: string,
+    annonceData: any,
+    accessToken: string
+  ): Observable<any> {
+    const url = `${this.apiUrl}/ads/${adId}/job-appliances`;
+    return this.http.post<any>(url, annonceData, {
       headers: this.getHeaders(accessToken),
     });
   }

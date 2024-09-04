@@ -1,0 +1,311 @@
+<app-menu></app-menu>
+<main class="main-wrap">
+    <app-header></app-header>
+    <section class="content-main">
+        <p-toast></p-toast>
+        <p-confirmDialog ></p-confirmDialog>
+        
+        <div class="content-header">
+            <a href="javascript:history.back()"><i class="material-icons md-arrow_back"></i> Retourner</a>
+
+        </div>
+        <div class="content-header">
+            <h2 class="content-title">Modifier l'utilisateur : </h2>
+
+        </div>
+        
+        <div class="card">
+
+            <div class="card-body">
+                <div class="row gx-5">
+                    <aside class="col-lg-3 border-end">
+                        <nav class="nav nav-pills flex-lg-column mb-4">
+                            <a class="nav-link" [ngClass]="{'active': currentSection === 'general'}" (click)="setSection('general')">Général</a>
+                            <a class="nav-link" [ngClass]="{'active': currentSection === 'annonces'}" (click)="setSection('annonces')">Les Annonces</a>
+                            <a class="nav-link" [ngClass]="{'active': currentSection === 'password'}" (click)="setSection('password')">Changer le Mot de Passe</a>
+                        </nav>
+                    </aside>
+                    <div class="col-lg-9">
+                        <div *ngIf="currentSection === 'general'">
+                            <section class="content-body p-xl-4">
+                                <form (ngSubmit)="saveChanges()">
+                                    <div class="row">
+                                        <div class="col-lg-8">
+                                            <div class="row gx-3">
+                                                <!-- Champ Nom (last_name) -->
+                                                <div class="col-6 mb-3">
+                                                    <label class="form-label">Nom</label>
+                                                    <input class="form-control" type="text" placeholder="Type here" [(ngModel)]="userData.last_name" name="last_name" maxlength="50">
+                                                </div>
+                                                <!-- col .// -->
+                                
+                                                <!-- Champ Prénom (first_name) -->
+                                                <div class="col-6 mb-3">
+                                                    <label class="form-label">Prénom</label>
+                                                    <input class="form-control" type="text" placeholder="Type here" [(ngModel)]="userData.first_name" name="first_name" maxlength="50">
+                                                </div>
+                                                <!-- col .// -->
+                                
+                                                <!-- Champ Téléphone (telephone) -->
+                                                <div class="col-lg-6 mb-3">
+                                                    <label class="form-label">Téléphone</label>
+                                                    <input class="form-control" type="tel" placeholder="+1234567890" [(ngModel)]="userData.telephone" name="telephone" maxlength="15">
+                                                </div>
+                                                <!-- col .// -->
+                                
+                                                <!-- Champ Email -->
+                                                <div class="col-lg-6 mb-3">
+                                                    <label class="form-label">Email</label>
+                                                    <input class="form-control" type="email" placeholder="example@mail.com" [(ngModel)]="userData.email" name="email" maxlength="100">
+                                                </div>
+                                                <!-- col .// -->
+                                
+                                                <!-- Champ Role ID (role_id) -->
+                                                <div class="col-lg-6 mb-3">
+                                                    <label class="form-label">Rôle</label>
+                                                    <select class="form-control" [(ngModel)]="userData.role_id" name="role_id">
+                                                        <option value="1">Super Admin</option>
+                                                        <option value="2">Admin</option>
+                                                        <option value="3">A définir</option>
+                                                        <option value="4">Utilisateur</option>
+    
+                                                        <!-- Ajoutez d'autres rôles ici -->
+                                                    </select>
+                                                </div>
+                                                <!-- col .// -->
+                                
+                                                <!-- Champ Civilité (civility) -->
+                                                <div class="col-6 mb-3">
+                                                    <label class="form-label">Civilité</label>
+                                                    <select class="form-control" [(ngModel)]="userData.civility" name="civility">
+                                                        <option value="Mr">Mr</option>
+                                                        <option value="Mrs">Mrs</option>
+                                                    </select>
+                                                </div>
+                                                <!-- col .// -->
+                                
+                                                <!-- Champ Adresse (address) -->
+                                                <div class="col-lg-12 mb-3">
+                                                    <label class="form-label">Adresse</label>
+                                                    <input class="form-control" type="text" placeholder="Type here" [(ngModel)]="userData.address" name="address" maxlength="255">
+                                                </div>
+                                                <!-- col .// -->
+                                
+                                                <!-- Champ Ville (city) -->
+                                                <div class="col-lg-6 mb-3">
+                                                    <label class="form-label">Ville</label>
+                                                    <input class="form-control" type="text" placeholder="Type here" [(ngModel)]="userData.city" name="city" maxlength="50">
+                                                </div>
+                                                <!-- col .// -->
+                                
+                                                <!-- Champ Code Postal (postal_code) -->
+                                                <div class="col-lg-6 mb-3">
+                                                    <label class="form-label">Code Postal</label>
+                                                    <input class="form-control" type="text" placeholder="Type here" [(ngModel)]="userData.postal_code" name="postal_code" maxlength="50">
+                                                </div>
+                                                <!-- col .// -->
+                                            </div>
+                                            <!-- row.// -->
+                                        </div>
+                                        <!-- col.// -->
+                                        <aside class="col-lg-4">
+                                            <div
+                                            class="img-md img-avatar"                      
+                                            style="
+                                                display: flex;
+                                                justify-content: center;
+                                                align-items: center;
+                                                background-color: #f0f0f0;
+                                                border-radius: 50%;
+                                                color: #3bb77e;
+                                                margin-left: 30%;
+                        
+                                              "
+                                            >
+                                              {{ userData?.first_name?.charAt(0)
+                                              }}{{  userData?.last_name?.charAt(0)}}
+                                            </div>
+                            
+                                        </aside>
+                                        <!-- col.// -->
+                                    </div>
+                                    <!-- row.// -->
+                                    <br>
+                                    <button class="btn btn-primary" type="submit">Modifier l'utilistaeur</button>
+                                </form>
+                                
+                                
+                                
+                                <hr class="my-5">
+                                <div class="row" style="max-width: 500px">
+                                    <!-- col.// -->
+                                    <div class="col-md" *ngIf="userData.deleted_at == null">
+                                        <article class="box mb-3 bg-light">
+                                          <a class="btn float-end btn-light rounded btn-sm font-md" (click)="confirmDeactivation()">Désactiver</a>
+                                          <h6>Supprimer le compte</h6>
+                                          <small class="text-muted d-block" style="width: 70%">Une fois que vous supprimez cette compte, toutes les annonces seront désactivées.</small>
+                                        </article>
+
+                                        <article class="box mb-3 bg-light" *ngIf="userData.deleted_at != null">
+                                            <a class="btn float-end btn-light rounded btn-sm font-md" (click)="confirmDeactivation()">Activer</a>
+                                            <h6>Activer le compte</h6>
+                                            <small class="text-muted d-block" style="width: 70%">Une fois que vous activez ce compte, toutes les annonces seront activées.</small>
+                                        </article>
+                                      </div>
+                                      
+                                    <!-- col.// -->
+                                </div>
+                                <!-- row.// -->
+                            </section>
+                        </div>
+
+
+                                    <!-- Annonces Section -->
+            <div *ngIf="currentSection === 'annonces'">
+                <!-- Place your content for Annonces section here -->
+                <section class="content-body p-xl-4">
+                    <div class="row gx-3">
+                        <div class="col-lg-12">
+                            <div class="row gx-3 row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-xl-4 row-cols-xxl-3">
+                                <ng-container *ngIf="ads.length > 0; else noAdsMessage">
+                                  <div class="col" *ngFor="let ad of ads.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage)">
+                                    <div class="card card-product-grid">
+                                      <div class="product-image">
+                                        <a [routerLink]="['/detail-annonce', ad.id]">
+                                          <img [src]="ad.medias[0]?.url || 'assets/imgs/default.jpg'" alt="{{ ad.title }}" class="product-image">
+                                        </a>
+                                      </div>
+                                      <div class="info-wrap">
+                                        <div class="mb-2">
+                                          <span class="badge" [ngClass]="{
+                                            'badge-success': ad.validation_status === 'approved',
+                                            'badge-danger': ad.validation_status === 'rejected',
+                                            'badge-warning': ad.validation_status === 'pending'
+                                          }">{{ ad.validation_status | titlecase }}</span>
+                                        </div>
+                                        <a [routerLink]="['/detail-annonce', ad.id]" class="title text-truncate">{{ ad.title }}</a>
+                                        <div class="price mb-2">{{ ad.price | currency:'USD':true }}</div>
+                                        <div class="button-container mt-2">
+                                          <a [routerLink]="['/detail-annonce', ad.id]" class="btn btn-sm font-sm rounded btn-brand">
+                                            <i class="material-icons md-edit"></i> Voir
+                                          </a>
+                                          <a href="#" class="btn btn-sm font-sm btn-light rounded btn-danger">
+                                            <i class="material-icons md-delete_forever"></i> Delete
+                                          </a>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </ng-container>
+                                <ng-template #noAdsMessage>
+                                  <div class="col">
+                                    <div class="alert alert-info">Aucune annonce publiée pour le moment.</div>
+                                  </div>
+                                </ng-template>
+                              </div>
+                            <!-- Pagination Controls -->
+                            <div class="pagination-area mt-30 mb-50" *ngIf="totalAds > 0">
+                                <nav aria-label="Pagination">
+                                  <ul class="pagination justify-content-start">
+                                    <!-- Bouton Précédent -->
+                                    <li class="page-item" [ngClass]="{'disabled': currentPage === 1}">
+                                      <a class="page-link" (click)="setCurrentPage(currentPage - 1)" aria-label="Précédent">
+                                        <span aria-hidden="true">&laquo;</span>
+                                      </a>
+                                    </li>
+                                    
+                                    <!-- Bouton Première Page -->
+                                    <li class="page-item" [ngClass]="{'disabled': currentPage === 1}">
+                                      <a class="page-link" (click)="setCurrentPage(1)" style="
+                                      width: auto;
+                                  ">Première</a>
+                                    </li>
+                                    
+                                    <!-- Boutons Numéros de Page -->
+                                    <li *ngFor="let page of visiblePages" class="page-item" [ngClass]="{'active': currentPage === page}">
+                                      <a class="page-link" (click)="setCurrentPage(page)">{{ page }}</a>
+                                    </li>
+                                    
+                                    <!-- Ellipse pour les Pages au Milieu -->
+                                    <li *ngIf="pages.length > 5 && !isLastPageVisible" class="page-item disabled">
+                                      <span class="page-link">...</span>
+                                    </li>
+                                    
+                                    <!-- Bouton Dernière Page -->
+                                    <li class="page-item" [ngClass]="{'disabled': currentPage === pages.length}">
+                                      <a class="page-link" (click)="setCurrentPage(pages.length)" style="
+                                      width: auto;
+                                  ">Dernière</a>
+                                    </li>
+                                    
+                                    <!-- Bouton Suivant -->
+                                    <li class="page-item" [ngClass]="{'disabled': currentPage === pages.length}">
+                                      <a class="page-link" (click)="setCurrentPage(currentPage + 1)" aria-label="Suivant">
+                                        <span aria-hidden="true">&raquo;</span>
+                                      </a>
+                                    </li>
+                                  </ul>
+                                </nav>
+                              </div>
+                        </div>
+                    </div>
+                    
+
+                </section>
+            </div>
+            
+            <!-- Change Password Section -->
+            <div *ngIf="currentSection === 'password'">
+                <!-- Place your content for Change Password section here -->
+                <section class="content-body p-xl-4">
+                    <!-- Add your password change form or related content here -->
+                    <form (ngSubmit)="saveChangesPassword()" #passwordForm="ngForm">
+                        <div class="row">
+                            <div class="col-lg-8">
+                                <div class="row gx-3">
+                                    <!-- Champ Nouveau Mot de Passe -->
+                                    <div class="col-6 mb-3">
+                                        <label class="form-label">Entrer un nouveau mot de passe</label>
+                                        <input class="form-control" type="password" placeholder="Type here" [(ngModel)]="password" name="password" maxlength="50" required #passwordInput="ngModel">
+                                        <div *ngIf="passwordInput.invalid && passwordInput.touched" class="text-danger">
+                                            Le mot de passe est requis.
+                                        </div>
+                                    </div>
+                    
+                                    <!-- Champ Répéter Mot de Passe -->
+                                    <div class="col-6 mb-3">
+                                        <label class="form-label">Répéter le mot de passe</label>
+                                        <input class="form-control" type="password" placeholder="Type here" [(ngModel)]="repartpassword" name="repartpassword" maxlength="50" required #repartPasswordInput="ngModel">
+                                        <div *ngIf="repartPasswordInput.invalid && repartPasswordInput.touched" class="text-danger">
+                                            Veuillez répéter le mot de passe.
+                                        </div>
+                                        <div *ngIf="passwordMismatch" class="text-danger">
+                                            Les mots de passe ne correspondent pas.
+                                        </div>
+                                    </div>
+                    
+                                </div>
+                                <!-- row.// -->
+                                <br>
+                                <button class="btn btn-primary" type="submit" [disabled]="passwordForm.invalid || passwordMismatch">Modifier l'utilisateur</button>
+                            </div>
+                        </div>
+                        <!-- row.// -->
+                    </form>
+                    
+                </section>
+            </div>
+                        <!-- content-body .// -->
+                    </div>
+                    <!-- col.// -->
+                </div>
+                <!-- row.// -->
+            </div>
+            <!-- card body end// -->
+        </div>
+        <!-- card end// -->
+    </section>
+    <!-- content-main end// -->
+    <app-footer></app-footer>
+  </main>
+  

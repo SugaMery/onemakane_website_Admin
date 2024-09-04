@@ -15,4 +15,17 @@ export class MenuComponent {
   isActive(item: string): boolean {
     return this.activeItem === item;
   }
+
+  isAdmin: boolean = false;
+
+  ngOnInit(): void {
+    this.checkUserRole();
+  }
+
+  checkUserRole(): void {
+    const roleId = localStorage.getItem('loggedInRoleId');
+    if (roleId === '1') {  // Vérifier si le role_id est 1
+      this.isAdmin = true;
+    }
+  }
 }

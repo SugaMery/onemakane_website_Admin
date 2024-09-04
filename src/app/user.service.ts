@@ -14,12 +14,18 @@ export class UserService {
     return this.http.post(`${this.baseUrl}/auth/login`, userDetails);
   }
 
-  getUserInfoById(userId: number, accessToken: string): Observable<any> {
+  getUserInfoById(userId: number, accessToken: string,deleted?: number): Observable<any> {
+
+    let url = `${this.baseUrl}/users/${userId}`;
+    
+    if (deleted) {
+      url += `?deleted=${encodeURIComponent(deleted)}`;
+    }
     const headers = new HttpHeaders({
       Authorization: `Bearer ${accessToken}`,
     });
+    return this.http.get<any>(url , { headers });
 
-    return this.http.get(`${this.baseUrl}/users/${userId}`, { headers });
   }
 
   deleteUser(userId: number, accessToken: string): Observable<any> {

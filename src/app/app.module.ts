@@ -44,6 +44,8 @@ import { AnnoncesApprouveesComponent } from './annonces-approuvees/annonces-appr
 import { AnnoncesRejeteesComponent } from './annonces-rejetees/annonces-rejetees.component';
 import { ListClientsComponent } from './list-clients/list-clients.component';
 import { ListClientsDeletedComponent } from './list-clients-deleted/list-clients-deleted.component';
+import { PagesComponent } from './pages/pages.component';
+import { EditUserComponent } from './edit-user/edit-user.component';
 
 @NgModule({
   declarations: [
@@ -68,7 +70,9 @@ import { ListClientsDeletedComponent } from './list-clients-deleted/list-clients
     AnnoncesApprouveesComponent,
     AnnoncesRejeteesComponent,
     ListClientsComponent,
-    ListClientsDeletedComponent
+    ListClientsDeletedComponent,
+    PagesComponent,
+    EditUserComponent
   ],
   imports: [
     BrowserModule,

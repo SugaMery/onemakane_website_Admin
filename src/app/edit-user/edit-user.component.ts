@@ -1,43 +1,152 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { UserService } from '../user.service';
 import { AnnonceService } from '../annonce.service';
 import { ConfirmationService, MessageService } from 'primeng/api';
 
 @Component({
-  selector: 'app-detail-user',
-  templateUrl: './detail-user.component.html',
-  styleUrls: ['./detail-user.component.css']
+  selector: 'app-edit-user',
+  templateUrl: './edit-user.component.html',
+  styleUrl: './edit-user.component.css'
 })
-export class DetailUserComponent implements OnInit {
+export class EditUserComponent {
   userData: any = {};
-  adsCount: number = 0;
-  ads: any[] = [];
+    adsCount: number = 0;
+  ads: any;
+  currentSection: string = 'general';
+  setSection(section: string): void {
+    this.currentSection = section;
+    // Optionally, load data specific to the section if needed
+  }
+
   currentPage: number = 1;
   itemsPerPage: number = 10;
   totalAds: number = 0;
   pages: number[] = [];
   visiblePages: number[] = [];
   isLastPageVisible: boolean = false;
-
+  password: string = '';
+  repartpassword: string = '';
+  passwordMismatch: boolean = false;
   constructor(
     private route: ActivatedRoute,
     private userService: UserService,
     private annonceService: AnnonceService,
-    private confirmationService: ConfirmationService,
-    private messageService: MessageService
+    private confirmationService: ConfirmationService, private messageService: MessageService
   ) {}
+  saveChanges() {
+    const userId = this.route.snapshot.paramMap.get('id');
+    const accessToken = localStorage.getItem('loggedInUserToken');
+    console.log('Utilisateur response', this.userData);
+const dataUser = {
+  'first_name': this.userData.first_name,
+  'last_name':  this.userData.last_name,
+  'telephone':  this.userData.telephone,
+  'email':  this.userData.email,
+  'role_id':  this.userData.role_id,
+  'civility':  this.userData.civility,
+  'address':  this.userData.address,
+  'city':  this.userData.city,
+  'postal_code':  this.userData.postal_code,
+  'uuid':  this.userData.uuid,
 
+}
+    this.userService.updateUser(userId!, accessToken!, dataUser).subscribe(
+      response => {
+        this.messageService.add({severity: 'success', summary: 'Succès', detail: 'Les informations ont été mises à jour avec succès.'});
+      
+        // Gérer la réponse (afficher un message de succès, rediriger, etc.)
+      },
+      error => {
+        this.messageService.add({severity: 'error', summary: 'Erreur', detail: 'Erreur lors de la mise à jour des informations.'});
+        // Gérer l'erreur (afficher un message d'erreur, etc.)
+      }
+    );
+  }
+
+  confirmDeactivation(): void {
+    this.confirmationService.confirm({
+      message: 'Êtes-vous sûr de vouloir supprimer cette compte ? Cette action désactivera toutes les annonces.',
+      header: 'Confirmation',
+      icon: 'pi pi-exclamation-triangle',
+      acceptLabel: 'Oui',
+      rejectLabel: 'Non',
+      accept: () => this.deactivateAccount(),
+      reject: () => this.messageService.add({severity: 'info', summary: 'Annulé', detail: 'L\'action a été annulée.'})
+    });
+  }
+
+  deactivateAccount(): void {
+    // Call your service to deactivate the account
+    const userId = this.route.snapshot.paramMap.get('id');
+    const accessToken = localStorage.getItem('loggedInUserToken');
+            // Logique de suppression de l'utilisateur
+            this.userService.deleteUser(Number(userId),accessToken!).subscribe(
+              (user) => {
+                console.log("greeeet",user)
+    
+                this.messageService.add({
+                  severity: 'success',
+                  summary: 'Utilisateur supprimé',
+                  detail: 'L\'utilisateur a été supprimé avec succès.'
+                });
+                // Mettre à jour la liste des utilisateurs ou rediriger vers une autre page
+              },
+              error => {
+                console.error('Erreur lors de la suppression de l\'utilisateur', error);
+                this.messageService.add({
+                  severity: 'error',
+                  summary: 'Erreur de suppression',
+                  detail: 'Une erreur s\'est produite lors de la suppression de l\'utilisateur.'
+                });
+              }
+            );
+  }
+
+  saveChangesPassword(): void {
+    if (this.password !== this.repartpassword) {
+      this.passwordMismatch = true;
+      this.messageService.add({severity: 'error', summary: 'Erreur', detail: 'Les mots de passe ne correspondent pas.'});
+      return;
+    }
+
+    if (this.password.length < 8) { // Example criteria
+      this.messageService.add({severity: 'error', summary: 'Erreur', detail: 'Le mot de passe doit contenir au moins 8 caractères.'});
+      return;
+    }
+
+    this.passwordMismatch = false;
+
+    const userId = this.route.snapshot.paramMap.get('id');
+    const accessToken = localStorage.getItem('loggedInUserToken');
+    const dataUser = {
+      'password': this.password,
+      'uuid': this.userData.uuid,
+    };
+
+    this.userService.updateUser(userId!, accessToken!, dataUser).subscribe(
+      response => {
+        this.messageService.add({severity: 'success', summary: 'Succès', detail: 'Mot de passe modifié avec succès.'});
+      },
+      error => {
+        this.messageService.add({severity: 'error', summary: 'Erreur', detail: 'Erreur lors de la modification du mot de passe.'});
+      }
+    );
+  }
   ngOnInit(): void {
     const adId = this.route.snapshot.paramMap.get('id');
   
+    // Check if localStorage is available
     if (typeof localStorage !== 'undefined') {
       const accessToken = localStorage.getItem('loggedInUserToken');
   
       if (accessToken) {
+    
         this.userService.getUserInfoById(Number(adId), accessToken).subscribe(
           data => {
             this.userData = data.data || {};
+            // Call initMap once user data is loaded
+            console.log("userrrrdata",this.userData)
             this.getAds();
             this.initMap();
           },
@@ -52,7 +161,6 @@ export class DetailUserComponent implements OnInit {
       console.error('localStorage is not available in this environment');
     }
   }
-
   getAds(): void {
     this.annonceService.getAllAds().subscribe(
       data => {
@@ -77,6 +185,7 @@ export class DetailUserComponent implements OnInit {
     this.currentPage = page;
     this.updatePagination();
   }
+
   initMap(): void {
     // Check if google.maps is defined (Google Maps API loaded)
     if (typeof google === 'undefined' || typeof google.maps === 'undefined') {
@@ -170,49 +279,5 @@ export class DetailUserComponent implements OnInit {
       }
     );
   }
-  confirm1(event: Event) {
-    const adId = this.route.snapshot.paramMap.get('id');
-    const accessToken = localStorage.getItem('loggedInUserToken');
-    this.confirmationService.confirm({
-      target: event.target as EventTarget,
-      message: 'Êtes-vous sûr de vouloir supprimer cet utilisateur?',
-      header: 'Confirmation',
-      icon: 'pi pi-exclamation-triangle',
-      acceptIcon: 'pi pi-check',
-      rejectIcon: 'pi pi-times',
-      rejectButtonStyleClass: 'p-button-text',
-      accept: () => {
-        // Logique de suppression de l'utilisateur
-        this.userService.deleteUser(Number(adId),accessToken!).subscribe(
-          (user) => {
-            console.log("greeeet",user)
 
-            this.messageService.add({
-              severity: 'success',
-              summary: 'Utilisateur supprimé',
-              detail: 'L\'utilisateur a été supprimé avec succès.'
-            });
-            // Mettre à jour la liste des utilisateurs ou rediriger vers une autre page
-          },
-          error => {
-            console.error('Erreur lors de la suppression de l\'utilisateur', error);
-            this.messageService.add({
-              severity: 'error',
-              summary: 'Erreur de suppression',
-              detail: 'Une erreur s\'est produite lors de la suppression de l\'utilisateur.'
-            });
-          }
-        );
-      },
-      reject: () => {
-        this.messageService.add({
-          severity: 'warn',
-          summary: 'Action annulée',
-          detail: 'Vous avez annulé la suppression de l\'utilisateur.'
-        });
-      }
-    });
-  }
-  
-  
 }

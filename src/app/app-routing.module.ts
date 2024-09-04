@@ -16,6 +16,7 @@ import { AnnoncesApprouveesComponent } from './annonces-approuvees/annonces-appr
 import { AnnoncesRejeteesComponent } from './annonces-rejetees/annonces-rejetees.component';
 import { ListClientsComponent } from './list-clients/list-clients.component';
 import { ListClientsDeletedComponent } from './list-clients-deleted/list-clients-deleted.component';
+import { EditUserComponent } from './edit-user/edit-user.component';
 
 const routes: Routes = [
   { path: 'add_category', component: AddCategoryComponent },
@@ -27,6 +28,7 @@ const routes: Routes = [
   { path: 'list-utilisateurs', component: ListUserComponent },
   { path: 'list-clients-actifs', component: ListClientsComponent },
   { path: 'list-clients-non-actifs', component: ListClientsDeletedComponent },
+  { path: 'modifier-utilisateur/:id', component: EditUserComponent },
 
   { path: 'detail-utilisateur/:id', component: DetailUserComponent },
   { path: 'detail-annonce/:id', component: DetailAdComponent },

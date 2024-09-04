@@ -17,7 +17,7 @@
                     <span class="text">Dashboard</span>
                 </a>
             </li>
-            <li class="menu-item has-submenu"  routerLink="/list-annonces" routerLinkActive="active">
+            <li class="menu-item has-submenu"  routerLink="/list-annonces/all" routerLinkActive="active">
                 <a class="menu-link">
                   <i class="icon material-icons md-shopping_bag"></i>
                   <span class="text">Annonces</span>
@@ -48,10 +48,10 @@
                     <a routerLink="/page-ajouter-photo">Ajouter une photo</a>
                 </div>
             </li>  -->           
-            <li class="menu-item has-submenu" routerLink="/list_category" routerLinkActive="active">
+            <li class="menu-item has-submenu"  routerLink="/list_category" routerLinkActive="active">
                 <a class="menu-link">
-                    <i class="icon material-icons md-add_box"></i>
-                    <span class="text">Catégories</span>
+                  <i class="icon material-icons md-shopping_bag"></i>
+                  <span class="text">Catégories</span>
                 </a>
                 <div class="submenu">
                     <a routerLink="/add_category">Ajouter une catégorie</a>
@@ -78,7 +78,7 @@
                     <a routerLink="/list-clients-non-actifs">Clients non actifs </a>
                 </div>    
             </li>
-            <li class="menu-item has-submenu" routerLinkActive="active">
+            <li class="menu-item has-submenu" *ngIf="isAdmin" routerLinkActive="active">
                 <a class="menu-link" routerLink="/list-utilisateurs">
                     <i class="icon material-icons md-person"></i>
                     <span class="text">Utilisateurs</span>

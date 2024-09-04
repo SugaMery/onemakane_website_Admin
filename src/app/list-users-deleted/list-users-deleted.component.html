@@ -10,8 +10,14 @@
       <header class="card-header">
         <div class="row gx-3">
           <div class="col-lg-4 col-md-6 me-auto">
-            <input type="text" placeholder="Rechercher..." class="form-control" style="background-color: #ffffff;border: 1px solid #adb5bd;"  />
-          </div>
+            <input
+              type="text"
+              placeholder="Rechercher un client...."
+              class="form-control"
+              [(ngModel)]="searchTerm"
+              (input)="setPagedCategories()"
+              style="background-color: #ffffff;border: 1px solid #adb5bd;"
+            />           </div>
 <!--           <div class="col-lg-2 col-6 col-md-3">
             <select class="form-select">
               <option>Afficher 20</option>
