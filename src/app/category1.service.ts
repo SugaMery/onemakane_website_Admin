@@ -1,6 +1,12 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
-import { Observable, catchError, throwError } from 'rxjs';
+import { forkJoin, Observable, of, throwError } from 'rxjs';
+import { catchError, map, switchMap } from 'rxjs/operators';
+interface Category {
+  id: string;
+  name: string;
+  children?: Category[];
+}
 
 @Injectable({
   providedIn: 'root',
@@ -21,7 +27,7 @@ export class Category1Service {
   getAdsByCategory(categoryId: number, params: any): Observable<any> {
     // Construct the URL with categoryId and additional params
     let url = `${this.devApiUrl}/categories/${categoryId}/ads`;
-    
+
     // Append query parameters if there are any
     if (params) {
       url += '?' + this.serializeParams(params);
@@ -31,10 +37,20 @@ export class Category1Service {
     return this.http.get(url);
   }
 
+  getAdsByCategorys(categoryId: number): Observable<any> {
+    // Construct the URL with categoryId and additional params
+    let url = `${this.devApiUrl}/categories/${categoryId}/ads`;
+
+    // Append query parameters if there are any
+    // Make the HTTP GET request
+    return this.http.get(url);
+  }
   // Helper function to serialize parameters
   private serializeParams(params: any): string {
     return Object.keys(params)
-      .map(key => `${encodeURIComponent(key)}=${encodeURIComponent(params[key])}`)
+      .map(
+        (key) => `${encodeURIComponent(key)}=${encodeURIComponent(params[key])}`
+      )
       .join('&');
   }
 
@@ -66,7 +82,36 @@ export class Category1Service {
       params: httpParams,
     });
   }
+  getAdsWithFavoris(
+    user_id: number,
+    categoryId: number,
+    page: number = 1
+  ): Observable<any> {
+    const url = `${this.devApiUrl}/categories/${categoryId}/ads?user_id=${user_id}&page=${page}`;
+    return this.http.get<any>(url);
+  }
 
+  getAllAdsWithFavoris(user_id: number, categoryId: number): Observable<any[]> {
+    return this.getAdsWithFavoris(user_id, categoryId).pipe(
+      switchMap((response) => {
+        const totalPages = response.pagination.total_page;
+        const requests: Observable<any>[] = [];
+
+        // Push the first page response
+        requests.push(of(response));
+
+        // Create requests for all other pages
+        for (let page = 2; page <= totalPages; page++) {
+          requests.push(this.getAdsWithFavoris(user_id, page));
+        }
+
+        // Execute all requests and combine results
+        return forkJoin(requests).pipe(
+          map((responses) => responses.flatMap((res) => res.data))
+        );
+      })
+    );
+  }
   getCategoryById(categoryId: string): Observable<any> {
     const url = `${this.devApiUrl}/categories/${categoryId}`;
     return this.http.get(url);
@@ -77,9 +122,45 @@ export class Category1Service {
     return throwError('Something went wrong');
   }
 
-  getCategoryByTreeList(): Observable<any> {
-    const url = `${this.devApiUrl}/categories/tree-list`;
-    return this.http.get(url);
+  getCategoryTree(): Observable<Category[]> {
+    return this.http
+      .get<{ status: string; message: string; data: any }>(
+        `${this.devApiUrl}/categories/tree-list`
+      )
+      .pipe(
+        map((response) => {
+          if (response.status === 'Success') {
+            return this.transformCategories(response.data);
+          }
+          return [];
+        })
+      );
+  }
+
+  private transformCategories(data: any): Category[] {
+    const categories: Category[] = [];
+    let currentParent: Category | null = null;
+
+    Object.keys(data).forEach((key) => {
+      const value = data[key];
+      if (!value.startsWith('- ')) {
+        // New parent category
+        currentParent = {
+          id: key,
+          name: value,
+          children: [],
+        };
+        categories.push(currentParent);
+      } else if (currentParent) {
+        // Child category
+        currentParent.children!.push({
+          id: key,
+          name: value.replace('- ', ''),
+        });
+      }
+    });
+
+    return categories;
   }
 
 }

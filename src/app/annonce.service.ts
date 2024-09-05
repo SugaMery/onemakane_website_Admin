@@ -106,13 +106,13 @@ export class AnnonceService {
     return this.http.get<any>(url);
   }
 
-  getAdsFirst(page: number = 1): Observable<any> {
+  getAdsFirst(deleted?: number,page: number = 1): Observable<any> {
     const url = `${this.apiUrl}/ads?page=${page}`;
     return this.http.get<any>(url);
   }
 
-  getAllAds(): Observable<any[]> {
-    return this.getAdsFirst().pipe(
+  getAllAds(deleted?: number): Observable<any[]> {
+    return this.getAdsFirst(deleted).pipe(
       switchMap((response) => {
         const totalPages = response.pagination.total_page;
         const requests: Observable<any>[] = [];
@@ -122,7 +122,7 @@ export class AnnonceService {
 
         // Create requests for all other pages
         for (let page = 2; page <= totalPages; page++) {
-          requests.push(this.getAdsFirst(page));
+          requests.push(this.getAdsFirst(deleted,page));
         }
 
         // Execute all requests and combine results

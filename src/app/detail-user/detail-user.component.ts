@@ -170,6 +170,95 @@ export class DetailUserComponent implements OnInit {
       }
     );
   }
+  confirmDeactivation(): void {
+    this.confirmationService.confirm({
+      message: 'Êtes-vous sûr de vouloir supprimer cette compte ? Cette action désactivera toutes les annonces.',
+      header: 'Confirmation',
+      icon: 'pi pi-exclamation-triangle',
+      acceptLabel: 'Oui',
+      rejectLabel: 'Non',
+      accept: () => this.deactivateAccount(),
+      reject: () => this.messageService.add({severity: 'info', summary: 'Annulé', detail: 'L\'action a été annulée.'})
+    });
+  }
+
+  deactivateAccount(): void {
+    // Call your service to deactivate the account
+    const userId = this.route.snapshot.paramMap.get('id');
+    const accessToken = localStorage.getItem('loggedInUserToken');
+            // Logique de suppression de l'utilisateur
+            this.userService.deleteUser(Number(userId),accessToken!).subscribe(
+              (user) => {
+                console.log("greeeet",user)
+    
+                this.messageService.add({
+                  severity: 'success',
+                  summary: 'Utilisateur supprimé',
+                  detail: 'L\'utilisateur a été supprimé avec succès.'
+                });
+                // Mettre à jour la liste des utilisateurs ou rediriger vers une autre page
+                        // Actualiser la page après un court délai pour que l'utilisateur voie le message
+        setTimeout(() => {
+          window.location.reload();
+        }, 1500); // Délai de 1,5 secondes avant de rafraîchir
+
+              },
+              error => {
+                console.error('Erreur lors de la suppression de l\'utilisateur', error);
+                this.messageService.add({
+                  severity: 'error',
+                  summary: 'Erreur de suppression',
+                  detail: 'Une erreur s\'est produite lors de la suppression de l\'utilisateur.'
+                });
+              }
+            );
+  }
+
+  confirmActivation(): void {
+    this.confirmationService.confirm({
+      message: 'Êtes-vous sûr de vouloir activer ce compte ? Cette action réactivera toutes les annonces.',
+      header: 'Confirmation',
+      icon: 'pi pi-exclamation-triangle',
+      acceptLabel: 'Oui',
+      rejectLabel: 'Non',
+      accept: () => this.activationAccount(),
+      reject: () => this.messageService.add({severity: 'info', summary: 'Annulé', detail: 'L\'action a été annulée.'})
+    });
+  }
+  
+
+  activationAccount(): void {
+    const userId = this.route.snapshot.paramMap.get('id');
+    const accessToken = localStorage.getItem('loggedInUserToken');
+    
+    // Logique d'activation de l'utilisateur
+    this.userService.updateUser(userId!, accessToken!, {'uuid':this.userData.uuid,'deleted_at': null}).subscribe(
+      (user) => {
+        console.log("Compte activé", user);
+        
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Compte activé',
+          detail: 'Le compte a été activé avec succès.'
+        });
+  
+        // Actualiser la page après un court délai pour que l'utilisateur voie le message
+        setTimeout(() => {
+          window.location.reload();
+        }, 1500); // Délai de 1,5 secondes avant de rafraîchir
+      },
+      error => {
+        console.error('Erreur lors de l\'activation du compte', error);
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Erreur d\'activation',
+          detail: 'Une erreur s\'est produite lors de l\'activation du compte.'
+        });
+      }
+    );
+  }
+  
+
   confirm1(event: Event) {
     const adId = this.route.snapshot.paramMap.get('id');
     const accessToken = localStorage.getItem('loggedInUserToken');

@@ -4,7 +4,7 @@
 
 
     <section class="content-main">
-      <p-toast />
+      <p-toast></p-toast>
       <div class="content-header">
         <a href="javascript:history.back()"><i class="material-icons md-arrow_back"></i> Retourner</a>
 
@@ -52,185 +52,163 @@
                             <h4 class="mb-20">Détails de l'annonce : </h4>
                       
                             <!-- Détails de l'annonce -->
-                            <div class="row mb-4">
-                              <label class="col-lg-3 col-form-label">Titre de l'annonce*</label>
-                              <div class="col-lg-9">
-                                <input type="text" class="form-control" [value]="ad.title"  />
-                              </div>
-                            </div>
-                            <div class="row mb-4">
-                              <label class="col-lg-3 col-form-label">Description*</label>
-                              <div class="col-lg-9">
-                                <textarea class="form-control" rows="4" [value]="ad.description" ></textarea>
-                              </div>
-                            </div>
-                            <div class="row mb-4">
-                              <label class="col-lg-3 col-form-label">Prix*</label>
-                              <div class="col-lg-9">
-                                <input type="text" class="form-control" [value]="ad.price | currency:'USD':true"  />
-                              </div>
-                            </div>
-                            <div class="row mb-4">
-                              <label class="col-lg-3 col-form-label">Ville*</label>
-                              <div class="col-lg-9">
-                                <input type="text" class="form-control" [value]="ad.city"  />
-                              </div>
-                            </div>
-                            <div class="row mb-4">
-                              <label class="col-lg-3 col-form-label">Code postal*</label>
-                              <div class="col-lg-9">
-                                <input type="text" class="form-control" [value]="ad.postal_code"  />
-                              </div>
-                            </div>
+  <!-- Détails de l'annonce -->
+<div class="row mb-4">
+  <label class="col-lg-3 col-form-label">Titre de l'annonce*</label>
+  <div class="col-lg-9">
+    <input type="text" class="form-control" [(ngModel)]="ad.title" name="title" />
+  </div>
+</div>
+
+<div class="row mb-4">
+  <label class="col-lg-3 col-form-label">Description*</label>
+  <div class="col-lg-9">
+    <textarea class="form-control" rows="4" [(ngModel)]="ad.description" name="description"></textarea>
+  </div>
+</div>
+
+<div class="row mb-4">
+  <label class="col-lg-3 col-form-label">Prix (Dirham Marocain) *</label>
+  <div class="col-lg-9">
+    <input type="text" class="form-control" [(ngModel)]="ad.price" name="price" />
+  </div>
+</div>
+
+<div class="row mb-4">
+  <label class="col-lg-3 col-form-label">Ville*</label>
+  <div class="col-lg-9">
+    <input type="text" class="form-control" [(ngModel)]="ad.city" name="city" />
+  </div>
+</div>
+
+<div class="row mb-4">
+  <label class="col-lg-3 col-form-label">Code postal*</label>
+  <div class="col-lg-9">
+    <input type="text" class="form-control" [(ngModel)]="ad.postal_code" name="postal_code" />
+  </div>
+</div>
+
+<div class="row mb-4">
+  <label class="col-lg-3 col-form-label">Catégorie*</label>
+  <div class="col-lg-9">
+    <div class="select-menu">
+      <div
+        class="select-btn"
+        style="
+          background: #fff;
+          border: 1px solid #ececec;
+          height: 40.99px;
+          box-shadow: none;
+          padding-left: 20px;
+          font-size: 13px;
+          width: 100%;
+        "
+        (click)="toggleOptions()"
+      >
+        <span class="sBtn-text" style="font-size: 13px">
+          <div style="display: flex; align-items: center">
+            <img
+              src="{{ selectedOption.parentCategoy?.media?.url }}"
+              *ngIf="selectedOption.name"
+              alt=""
+              class="iconUrl"
+              style="max-width: 2rem; margin-right: 1rem"
+            />
+            <p style="margin: 0; color: black">
+              {{ selectedOption.parentCategoy?.name || 'Choisissez' }}
+              <i
+                class="fa fa-chevron-right"
+                *ngIf="selectedOption.name"
+                style="
+                  padding-left: 1rem;
+                  padding-right: 0.5rem;
+                  font-size: 15px;
+                  color: #3BB77E;
+                "
+                aria-hidden="true"
+              ></i>
+              {{ selectedOption.name }}
+            </p>
+          </div>
+        </span>
+        <i class="bx bx-chevron-down"></i>
+      </div>
+      <ul
+        style="font-size: smaller; position: absolute !important;"
+        class="options"
+        [ngClass]="{ active: optionsVisible }"
+      >
+        <li
+          class="option"
+          *ngFor="let category of categories"
+          (click)="selectOption(category)"
+        >
+          <span class="d-inline-flex align-items-center" style="font-size: 13px">
+            <img
+              src="{{ category.parentCategoy?.media?.url }}"
+              alt=""
+              class="iconUrl"
+              style="max-width: 2rem; margin-right: 1rem"
+            />
+            {{ category.parentCategoy?.name }}
+            <i
+              class="fa fa-chevron-right"
+              style="
+                padding-left: 1rem;
+                padding-right: 0.5rem;
+                font-size: 15px;
+                color: #3BB77E;
+              "
+            ></i>
+            {{ category.name }}
+          </span>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="row mb-4">
+  <label class="col-lg-3 col-form-label">Date de création*</label>
+  <div class="col-lg-9">
+    <input disabled type="text" class="form-control" [value]="ad.created_at | date:'dd/MM/yyyy'" name="created_at" />
+  </div>
+</div>
+
+<div class="row mb-4">
+  <label class="col-lg-3 col-form-label">Date de mise à jour*</label>
+  <div class="col-lg-9">
+    <input disabled type="text" class="form-control" [value]="ad.updated_at | date:'dd/MM/yyyy'" name="updated_at" />
+  </div>
+</div>
+
+<div class="row mb-4">
+  <label class="col-lg-3 col-form-label">Statut de validation*</label>
+  <div class="col-lg-9">
+    <select class="form-control" [(ngModel)]="ad.validation_status" name="validation_status">
+      <option value="draft">Brouillon</option>
+      <option value="pending">En attente</option>
+      <option value="approved">Approuvé</option>
+      <option value="rejected">Rejeté</option>
+    </select>
+  </div>
+</div>
 
 
+<div class="row mb-4">
+  <label class="col-lg-3 col-form-label">Utilisateur*</label>
+  <div class="col-lg-9">
+    <input disabled type="text" class="form-control" [(ngModel)]="ad.user.full_name" name="last_name" />
+  </div>
+</div>
 
+<div class="row mb-4">
+  <label class="col-lg-3 col-form-label">Téléphone de l'utilisateur*</label>
+  <div class="col-lg-9">
+    <input disabled type="text" class="form-control" [(ngModel)]="ad.user.telephone" name="telephone" />
+  </div>
+</div>
 
-
-
-                            <div class="row mb-4">
-                              <label class="col-lg-3 col-form-label">Catégorie *</label>
-                              <div class="col-lg-9">
-                                <div class="select-menu">
-                                  <!--                           <div
-                                    class="select-btn"
-                                    style="
-                                      margin-bottom: 1rem;
-                                      background: #fff;
-                                      border: 1px solid #ececec;
-                                      height: 64px;
-                                      box-shadow: none;
-                                      padding-left: 20px;
-                                      font-size: 16px;
-                                      width: 100%;
-                                    "
-                                    (click)="toggleOptions()"
-                                  > -->
-                                  <div
-                                    class="select-btn"
-                                    style="
-                                      background: #fff;
-                                      border: 1px solid #ececec;
-                                      height: 40.99px;
-                                      box-shadow: none;
-                                      padding-left: 20px;
-                                      font-size: 13px;
-                                      width: 100%;
-                                    "
-                                     (click)="toggleOptions()"
-                                  >
-                                    <span class="sBtn-text" style="font-size: 13px">
-                                      <div style="display: flex; align-items: center">
-                                        <img
-                                          src="{{
-                                            selectedOption.parentCategoy?.media?.url
-                                          }}"
-                                          *ngIf="selectedOption.name"
-                                          alt=""
-                                          class="iconUrl"
-                                          style="max-width: 2rem; margin-right: 1rem"
-                                        />
-                                        <p style="margin: 0; color: black">
-                                          {{
-                                            selectedOption.parentCategoy?.name ||
-                                              "Choisissez"
-                                          }}
-                                          <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-                                          <i class="fa fa-chevron-right"                                             *ngIf="selectedOption.name"
-                                          style="
-                                            padding-left: 1rem;
-                                            padding-right: 0.5rem;
-                                            font-size: 15px;
-                                            color: #3BB77E;
-                                          " aria-hidden="true"></i>
-  
-                                          {{ selectedOption.name }}
-                                        </p>
-                                      </div>
-                                    </span>
-                                    <i class="bx bx-chevron-down"></i>
-                                  </div>
-                                  <ul
-                                  style="font-size: smaller;position: absolute !important;"
-                                    class="options"
-                                    [ngClass]="{
-                                      active: optionsVisible
-                                    }"
-                                  >
-                                    <li
-                                      class="option"
-                                      *ngFor="let category of categories"
-                                      (click)="selectOption(category)"
-                                    >
-                                      <span
-                                        class="d-inline-flex align-items-center"
-                                        style="font-size: 13px"
-                                      >
-                                        <img
-                                          src="{{ category.parentCategoy?.media?.url }}"
-                                          alt=""
-                                          class="iconUrl"
-                                          style="max-width: 2rem; margin-right: 1rem"
-                                        />
-                                        {{ category.parentCategoy?.name }}
-                                        <i
-                                          class="fa fa-chevron-right"
-                                          style="
-                                            padding-left: 1rem;
-                                            padding-right: 0.5rem;
-                                            font-size: 15px;
-                                            color: #3BB77E;
-
-                                          "
-                                        ></i>
-                                        {{ category.name }}
-                                      </span>
-                                    </li>
-                                  </ul>
-                                </div>                              </div>
-                            </div>
-
-                        
-
-
-
-
-
-
-
-
-
-
-                            <div class="row mb-4">
-                              <label class="col-lg-3 col-form-label">Date de création*</label>
-                              <div class="col-lg-9">
-                                <input type="text" class="form-control" [value]="ad.created_at | date:'dd/MM/yyyy'"  />
-                              </div>
-                            </div>
-                            <div class="row mb-4">
-                              <label class="col-lg-3 col-form-label">Date de mise à jour*</label>
-                              <div class="col-lg-9">
-                                <input type="text" class="form-control" [value]="ad.updated_at | date:'dd/MM/yyyy'"  />
-                              </div>
-                            </div>
-                            <div class="row mb-4">
-                              <label class="col-lg-3 col-form-label">Statut de validation*</label>
-                              <div class="col-lg-9">
-                                <input type="text" class="form-control" [value]="ad.validation_status"  />
-                              </div>
-                            </div>
-                            <div class="row mb-4">
-                              <label class="col-lg-3 col-form-label">Utilisateur*</label>
-                              <div class="col-lg-9">
-                                <input type="text" class="form-control" [value]="ad.user.first_name + ' ' + ad.user.last_name"  />
-                              </div>
-                            </div>
-                            <div class="row mb-4">
-                              <label class="col-lg-3 col-form-label">Téléphone de l'utilisateur*</label>
-                              <div class="col-lg-9">
-                                <input type="text" class="form-control" [value]="ad.user.telephone"  />
-                              </div>
-                            </div>
                             <h4 class="mb-20">Les critéres de l'annonce : </h4>
                       
     
@@ -300,7 +278,119 @@
                                       >
                                     </li>
                                   </ul>
-      
+                                  <div
+                                  *ngIf="setting.type === 'table'"
+                                  style="margin-bottom: 1rem"
+                                >
+                                  <input
+                                    id="table"
+                                    name="table"
+                                    [(ngModel)]="selectedOptionName"
+                                    placeholder="{{
+                                      setting.label
+                                    }}"
+                                    type="text"
+                                    required
+                                    maxlength="50"
+                                    (input)="
+                                      onInput($event, setting)
+                                    "
+                                    (focus)="
+                                      onInput($event, setting)
+                                    "
+                                    (blur)="
+                                      onInput($event, setting)
+                                    "
+                                    (click)="toggleOptionr(setting)"
+                                  />
+                                  <i class="bx bx-chevron-down"></i>
+                                </div>
+
+                                <!-- Display Select Options -->
+                                <ul
+                                  *ngIf="
+                                    setting.type === 'table' &&
+                                    (inputFocused ||
+                                      setting.optionsVisible)
+                                  "
+                                  class="options"
+                                  [class.active]="
+                                    setting.optionsVisible
+                                  "
+                                  style="
+                                    font-size: smaller;
+                                    margin-top: 5px;
+                                  "
+                                >
+                                  <ng-container
+                                    *ngFor="
+                                      let optioned of filteredOptions;
+                                      trackBy: trackByOptioned
+                                    "
+                                  >
+                                    <ng-container
+                                      *ngIf="
+                                        optioned.filteredContent
+                                          .length > 0
+                                      "
+                                    >
+                                      <div>
+                                        {{ optioned.label }}
+                                      </div>
+                                      <li
+                                        class="option"
+                                        *ngFor="
+                                          let option of optioned.filteredContent;
+                                          trackBy: trackByOption
+                                        "
+                                        [value]="option.id"
+                                        (click)="
+                                          selectOptionr(
+                                            option,
+                                            setting
+                                          )
+                                        "
+                                      >
+                                        <span
+                                          class="d-inline-flex align-items-center"
+                                          >{{ option.name }}</span
+                                        >
+                                      </li>
+                                    </ng-container>
+                                  </ng-container>
+                                  <!-- No Results Message -->
+                                  <div
+                                    class="no-results-message"
+                                    *ngIf="!hasFilteredOptions()"
+                                  >
+                                    Aucun résultat trouvé
+                                  </div>
+                                </ul>
+                                                                            <!-- Display Date Input for 'date' type -->
+                                                                            <div
+                                                                            *ngIf="setting.type === 'date'"
+                                                                            style="margin-bottom: 1rem"
+                                                                          >
+                                                                            <div
+                                                                              id="calendarContainer"
+                                                                              class="calendar-container"
+                                                                            ></div>
+                                                                            <p-calendar
+                                                                              name="date"
+                                                                              [(ngModel)]="date"
+                                                                              [iconDisplay]="'input'"
+                                                                              [showIcon]="true"
+                                                                              [locale]="locale"
+                                                                              placeholder="{{
+                                                                                setting.label
+                                                                              }}"
+                                                                              inputId="icondisplay"
+                                                                              class="full-width-calendar"
+                                                                              [style]="{ width: '100%' }"
+                                                                            >
+                                                                              ></p-calendar
+                                                                            >
+                                                                          </div>
                                   <!-- Display dependant select button -->
                                   <div
                                     *ngIf="

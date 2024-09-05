@@ -1,6 +1,6 @@
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { forkJoin, map, Observable, of, switchMap } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -27,6 +27,48 @@ export class UserService {
     return this.http.get<any>(url , { headers });
 
   }
+  // Méthode pour obtenir les annonces d'un utilisateur
+  getUserAdsById(userId: number, accessToken: string,deleted?: number, page: number = 1): Observable<any> {
+    let url = `${this.baseUrl}/users/${userId}/ads?page=${page}`; // Endpoint pour les annonces d'un utilisateur
+    if (deleted) {
+      url += `?deleted=${encodeURIComponent(deleted)}`;
+    }
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${accessToken}`, // Ajouter l'en-tête d'autorisation avec le token
+    });
+
+    return this.http.get<any>(url, { headers });
+  }
+
+
+
+  getUserAllAdsById(userId: number, accessToken: string,deleted?: number): Observable<any[]> {
+    return this.getUserAdsById(userId,accessToken,deleted).pipe(
+      switchMap((response) => {
+        const totalPages = response.pagination.total_page;
+        const requests: Observable<any>[] = [];
+
+        // Push the first page response
+        requests.push(of(response));
+
+        // Create requests for all other pages
+        for (let page = 2; page <= totalPages; page++) {
+          requests.push(this.getUserAdsById(userId,accessToken,deleted, page));
+        }
+
+        // Execute all requests and combine results
+        return forkJoin(requests).pipe(
+          map((responses) => responses.flatMap((res) => res.data))
+        );
+      })
+    );
+  }
+
+
+
+
+
+
 
   deleteUser(userId: number, accessToken: string): Observable<any> {
     const headers = new HttpHeaders({

@@ -249,3 +249,6 @@ margin-bottom: 0rem !important;
 ::ng-deep button.p-element.p-ripple.p-button-text.p-confirm-dialog-reject.p-button.p-component.ng-star-inserted {
   color: #212529 !important;
 }
+::ng-deep .p-confirm-dialog {
+  width: 20% !important;
+}

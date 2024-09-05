@@ -84,13 +84,38 @@ const dataUser = {
             this.userService.deleteUser(Number(userId),accessToken!).subscribe(
               (user) => {
                 console.log("greeeet",user)
-    
+      
                 this.messageService.add({
                   severity: 'success',
                   summary: 'Utilisateur supprimé',
                   detail: 'L\'utilisateur a été supprimé avec succès.'
                 });
                 // Mettre à jour la liste des utilisateurs ou rediriger vers une autre page
+                        // Actualiser la page après un court délai pour que l'utilisateur voie le message
+                        this.userService.getUserAllAdsById(Number(userId), accessToken!,0).subscribe((data: any[]) => {
+                          console.log("Annonces récupérées:", data);
+                        
+                          // Parcourir chaque annonce et mettre à jour son statut
+                          data.forEach((ad) => {
+                            this.annonceService.updateAnnonce(ad.id, ad.uuid, { 'validation_status': 'rejected' }, accessToken!)
+                              .subscribe(
+                                (response) => {
+                                  console.log(`Annonce ${ad.id} mise à jour avec succès`, response);
+                                },
+                                (error) => {
+                                  console.error(`Erreur lors de la mise à jour de l'annonce ${ad.id}`, error);
+                                }
+                              );
+                          });
+                        });
+                        
+        setTimeout(() => {
+          window.location.reload();
+        }, 1500); // Délai de 1,5 secondes avant de rafraîchir
+
+
+
+
               },
               error => {
                 console.error('Erreur lors de la suppression de l\'utilisateur', error);
@@ -102,6 +127,70 @@ const dataUser = {
               }
             );
   }
+
+
+
+  confirmActivation(): void {
+    this.confirmationService.confirm({
+      message: 'Êtes-vous sûr de vouloir activer ce compte ? Cette action réactivera toutes les annonces.',
+      header: 'Confirmation',
+      icon: 'pi pi-exclamation-triangle',
+      acceptLabel: 'Oui',
+      rejectLabel: 'Non',
+      accept: () => this.activationAccount(),
+      reject: () => this.messageService.add({severity: 'info', summary: 'Annulé', detail: 'L\'action a été annulée.'})
+    });
+  }
+  
+
+  activationAccount(): void {
+    const userId = this.route.snapshot.paramMap.get('id');
+    const accessToken = localStorage.getItem('loggedInUserToken');
+    
+    // Logique d'activation de l'utilisateur
+    this.userService.updateUser(userId!, accessToken!, {'uuid':this.userData.uuid,'deleted_at': null}).subscribe(
+      (user) => {
+        console.log("Compte activé", user);
+        
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Compte activé',
+          detail: 'Le compte a été activé avec succès.'
+        });
+        this.userService.getUserAllAdsById(Number(userId), accessToken!,1).subscribe((data: any[]) => {
+          console.log("Annonces récupérées:", data);
+        
+          // Parcourir chaque annonce et mettre à jour son statut
+          data.forEach((ad) => {
+            this.annonceService.updateAnnonce(ad.id, ad.uuid, { 'validation_status': 'approved' }, accessToken!)
+              .subscribe(
+                (response) => {
+                  console.log(`Annonce ${ad.id} mise à jour avec succès`, response);
+                },
+                (error) => {
+                  console.error(`Erreur lors de la mise à jour de l'annonce ${ad.id}`, error);
+                }
+              );
+          });
+        });
+        
+        // Actualiser la page après un court délai pour que l'utilisateur voie le message
+        setTimeout(() => {
+          window.location.reload();
+        }, 1500); // Délai de 1,5 secondes avant de rafraîchir
+      },
+      error => {
+        console.error('Erreur lors de l\'activation du compte', error);
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Erreur d\'activation',
+          detail: 'Une erreur s\'est produite lors de l\'activation du compte.'
+        });
+      }
+    );
+  }
+  
+
 
   saveChangesPassword(): void {
     if (this.password !== this.repartpassword) {
@@ -162,8 +251,12 @@ const dataUser = {
     }
   }
   getAds(): void {
-    this.annonceService.getAllAds().subscribe(
+    const userId = this.route.snapshot.paramMap.get('id');
+    const accessToken = localStorage.getItem('loggedInUserToken');
+
+    this.annonceService.getAllAdsValidator("all").subscribe(
       data => {
+        console.log("fiilllllllkkkkkkk",data)
         this.totalAds = data.filter((ad: any) => ad.user_id === this.userData.id).length;
         this.ads = data.filter((ad: any) => ad.user_id === this.userData.id);
         this.updatePagination();
