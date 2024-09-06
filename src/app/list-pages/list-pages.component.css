@@ -1,7 +1,7 @@
 /* Ensure the column takes full height of the viewport */
 /* Ensure the card takes up the full height of its container */
 
-  ::ng-deep textarea.form-control {
+::ng-deep textarea.form-control {
     min-height: 230px !important;
     border-radius: 4px !important;
 }
@@ -13,6 +13,6 @@
 }
 
 ::ng-deep .material-icons {
-  vertical-align: bottom !important;
-  font-weight: 600;
+    vertical-align: bottom !important;
+    font-weight: 600;
 }

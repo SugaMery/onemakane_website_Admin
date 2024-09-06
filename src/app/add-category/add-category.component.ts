@@ -47,40 +47,82 @@ export class AddCategoryComponent {
       }
     }
   }
+  resizeImage(file: File, width: number, height: number): Promise<File> {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = (event: any) => {
+        const img = new Image();
+        img.onload = () => {
+          const canvas = document.createElement('canvas');
+          const ctx = canvas.getContext('2d');
+          if (ctx) {
+            canvas.width = width;
+            canvas.height = height;
+            ctx.drawImage(img, 0, 0, width, height);
+
+            canvas.toBlob((blob) => {
+              if (blob) {
+                const resizedFile = new File([blob], file.name, {
+                  type: file.type,
+                  lastModified: file.lastModified,
+                });
+                resolve(resizedFile);
+              } else {
+                reject('Could not resize image.');
+              }
+            }, file.type);
+          } else {
+            reject('Could not get canvas context.');
+          }
+        };
+        img.src = event.target.result;
+      };
+      reader.onerror = reject;
+      reader.readAsDataURL(file);
+    });
+  }
+
+  onFileSelected(event: any) {
+    const file: File = event.target.files[0]; // Get the selected file
+    this.resizeImage(file, 128, 128).then((resizedFile) => {
+      this.selectedFile = resizedFile;
+    }).catch((error) => {
+      console.error('Error resizing image:', error);
+    });
+  }
 
   addCategory(): void {
     const accessToken = localStorage.getItem('loggedInUserToken');
     console.log(`Media uploaded successfully2: `, this.selectedFile?.name);
-    this.categoryService
-      .uploadFile(this.selectedFile!, accessToken!)
-      .then((mediaResponse) => {
-        const icon_id = mediaResponse.id;
-        console.log(
-          `Media uploaded successfully: ${mediaResponse.data.id}`,
-          mediaResponse
-        );
-        const active = 0;
+
+    if (!this.selectedFile) {
+      console.error('No file selected');
+      return;
+    }
+
+    this.categoryService.uploadFile(this.selectedFile, accessToken!)
+      .then((mediaResponse: any) => {
+        const icon_id = mediaResponse.data.id;
+        console.log(`Media uploaded successfully: ${icon_id}`, mediaResponse);
+
         const formData = {
-          icon_id: mediaResponse.data.id,
+          icon_id: icon_id,
           name: this.category.name,
           parent_id: this.category.parent_id,
           type: this.category.type,
           active: 1,
         };
         console.log('formData ADMIN OneMakane', formData);
-        // Send the FormData containing both category details and file data
+
         this.categoryService.createCategory(formData, accessToken!).subscribe({
           next: (response) => {
             this.selectedFile = null;
             console.log('Category added successfully:');
-            // Reset form fields after successful submission if needed
-            this.category = {};
+            this.category = {}; // Reset form fields after successful submission
             this.fetchCategories(); // Fetch updated categories
 
             // Reset file input field to null
-            const fileInput = document.getElementById(
-              'icon_path'
-            ) as HTMLInputElement;
+            const fileInput = document.getElementById('icon_path') as HTMLInputElement;
             fileInput.value = ''; // Reset the value to empty string
           },
           error: (error) => {
@@ -96,36 +138,35 @@ export class AddCategoryComponent {
   addCategoryToDraft(): void {
     const accessToken = localStorage.getItem('loggedInUserToken');
     console.log(`Media uploaded successfully2: `, this.selectedFile?.name);
-    this.categoryService
-      .uploadFile(this.selectedFile!, accessToken!)
-      .then((mediaResponse) => {
-        const icon_id = mediaResponse.id;
-        console.log(
-          `Media uploaded successfully: ${mediaResponse.data.id}`,
-          mediaResponse
-        );
-        const active = 0;
+
+    if (!this.selectedFile) {
+      console.error('No file selected');
+      return;
+    }
+
+    this.categoryService.uploadFile(this.selectedFile, accessToken!)
+      .then((mediaResponse: any) => {
+        const icon_id = mediaResponse.data.id;
+        console.log(`Media uploaded successfully: ${icon_id}`, mediaResponse);
+
         const formData = {
-          icon_id: mediaResponse.data.id,
+          icon_id: icon_id,
           name: this.category.name,
           parent_id: this.category.parent_id,
           type: this.category.type,
           active: 0,
         };
         console.log('formData ADMIN OneMakane', formData);
-        // Send the FormData containing both category details and file data
+
         this.categoryService.createCategory(formData, accessToken!).subscribe({
           next: (response) => {
             this.selectedFile = null;
             console.log('Category added successfully:');
-            // Reset form fields after successful submission if needed
-            this.category = {};
+            this.category = {}; // Reset form fields after successful submission
             this.fetchCategories(); // Fetch updated categories
 
             // Reset file input field to null
-            const fileInput = document.getElementById(
-              'icon_path'
-            ) as HTMLInputElement;
+            const fileInput = document.getElementById('icon_path') as HTMLInputElement;
             fileInput.value = ''; // Reset the value to empty string
           },
           error: (error) => {
@@ -136,9 +177,5 @@ export class AddCategoryComponent {
       .catch((error) => {
         console.error('Error uploading file:', error);
       });
-  }
-
-  onFileSelected(event: any) {
-    this.selectedFile = event.target.files[0]; // Get the selected file
   }
 }

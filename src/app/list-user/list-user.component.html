@@ -79,14 +79,52 @@
       </div>
     </div>
     <div class="pagination-area mt-30 mb-50" *ngIf="users.length > 0">
-      <nav aria-label="Navigation par pages">
+      <nav aria-label="Pagination">
         <ul class="pagination justify-content-start">
-          <li class="page-item" *ngFor="let page of pages" [class.active]="currentPage === page">
+          <!-- Previous Button -->
+          <li class="page-item" [ngClass]="{'disabled': currentPage === 1}">
+            <a class="page-link" (click)="setCurrentPage(currentPage - 1)" aria-label="Précédent">
+              <span aria-hidden="true">&laquo;</span>
+            </a>
+          </li>
+          
+          <!-- First Page Button -->
+          <li class="page-item" [ngClass]="{'disabled': currentPage === 1}">
+            <a class="page-link" (click)="setCurrentPage(1)" style="
+            width: auto;
+        ">Première</a>
+          </li>
+          
+          <!-- Page Number Buttons -->
+          <li *ngFor="let page of visiblePages" class="page-item" [ngClass]="{'active': currentPage === page}">
             <a class="page-link" (click)="setCurrentPage(page)">{{ page }}</a>
+          </li>
+    
+          <!-- Ellipsis for middle pages -->
+          <li *ngIf="pages.length > 5 && !isLastPageVisible" class="page-item disabled">
+            <span class="page-link">...</span>
+          </li>
+    
+          <!-- Last Page Button -->
+          <li class="page-item" [ngClass]="{'disabled': currentPage === pages.length}">
+            <a class="page-link" (click)="setCurrentPage(pages.length)" style="
+            width: auto;
+        ">Dernière</a>
+          </li>
+    
+          <!-- Next Button -->
+          <li class="page-item" [ngClass]="{'disabled': currentPage === pages.length}">
+            <a class="page-link" (click)="setCurrentPage(currentPage + 1)" aria-label="Suivant">
+              <span aria-hidden="true">&raquo;</span>
+            </a>
           </li>
         </ul>
       </nav>
     </div>
+    
+
+
+    
   </section>
   
 

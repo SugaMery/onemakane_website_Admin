@@ -47,6 +47,47 @@ export class ListCategoryComponent implements OnInit {
   date: Date | undefined;
   isPhone: boolean = false;
   date2: Date | undefined;
+  visiblePages: number[] = [];
+  isLastPageVisible: boolean = false;
+
+  setCurrentPage(page: number): void {
+    if (page < 1 || page > this.pages.length) return;
+    this.currentPage = page;
+    this.setPagedCategories();
+    this.updateVisiblePages();
+  }
+
+  get pages(): number[] {
+    const pageCount = Math.ceil(this.categories.length / this.itemsPerPage);
+    return Array.from({ length: pageCount }, (_, i) => i + 1);
+  }
+
+  setPagedCategories(): void {
+    //console.log("categoriescategoriescategoriescategories",this.categories)
+    const startIndex = (this.currentPage - 1) * this.itemsPerPage;
+    const endIndex = startIndex + this.itemsPerPage;
+    this.pagedCategories = this.categories.slice(startIndex, endIndex);
+  }
+
+  updateVisiblePages(): void {
+    const totalPages = this.pages.length;
+    const maxVisiblePages = 5;
+    const halfVisible = Math.floor(maxVisiblePages / 2);
+
+    if (totalPages <= maxVisiblePages) {
+      this.visiblePages = this.pages;
+    } else {
+      if (this.currentPage <= halfVisible) {
+        this.visiblePages = this.pages.slice(0, maxVisiblePages);
+      } else if (this.currentPage + halfVisible >= totalPages) {
+        this.visiblePages = this.pages.slice(totalPages - maxVisiblePages, totalPages);
+      } else {
+        this.visiblePages = this.pages.slice(this.currentPage - halfVisible - 1, this.currentPage + halfVisible);
+      }
+    }
+
+    this.isLastPageVisible = this.visiblePages.includes(totalPages);
+  }
   getParentCategoryName(parentId: string): string {
     const parentCategory = this.categories.find(
       (category) => category.id === parentId
@@ -107,17 +148,7 @@ export class ListCategoryComponent implements OnInit {
 
   visible: boolean = false;
 
-  get pages(): number[] {
-    const pageCount = Math.ceil(
-      this.filteredCategories.length / this.itemsPerPage
-    );
-    return Array.from({ length: pageCount }, (_, i) => i + 1);
-  }
 
-  setCurrentPage(page: number) {
-    this.currentPage = page;
-    this.setPagedCategories();
-  }
   // Inside your component class
   statusOptions: SelectItem[] = [
     { label: 'Afficher tout', value: null },
@@ -126,11 +157,7 @@ export class ListCategoryComponent implements OnInit {
   ];
   selectedStatus: any = { label: 'Afficher tout', value: null };
 
-  setPagedCategories() {
-    const startIndex = (this.currentPage - 1) * this.itemsPerPage;
-    const endIndex = startIndex + this.itemsPerPage;
-    this.pagedCategories = this.filteredCategories.slice(startIndex, endIndex);
-  }
+
   constructor(
     private categoryService: CategoryService,
     private datePipe: DatePipe,
@@ -148,7 +175,7 @@ export class ListCategoryComponent implements OnInit {
   ngOnInit(): void {
     if (typeof localStorage !== 'undefined') {
       this.fetchCategories();
-      this.setPagedCategories();
+
       const accessToken = localStorage.getItem('loggedInUserToken');
 
       this.categoryStatuses = [
@@ -213,9 +240,11 @@ export class ListCategoryComponent implements OnInit {
             .getCategoryById(category.id, accessToken!)
             .subscribe((categorys) => {
               this.categories.push(categorys.data);
+              this.setPagedCategories();
+              this.updateVisiblePages();
+  
             });
         });
-
         this.filteredCategories = this.categories; // Initialize filteredCategories
       },
       error: (error) => {
@@ -365,13 +394,65 @@ export class ListCategoryComponent implements OnInit {
   }
   selectedFile: File | null = null; // Variable to store the selected file
   icon_id: number = 0;
+  resizeImage(file: File, width: number, height: number): Promise<File> {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = (event: any) => {
+        const img = new Image();
+        img.onload = () => {
+          const canvas = document.createElement('canvas');
+          const ctx = canvas.getContext('2d');
+          if (ctx) {
+            canvas.width = width;
+            canvas.height = height;
+            ctx.drawImage(img, 0, 0, width, height);
+
+            canvas.toBlob((blob) => {
+              if (blob) {
+                const resizedFile = new File([blob], file.name, {
+                  type: file.type,
+                  lastModified: file.lastModified,
+                });
+                resolve(resizedFile);
+              } else {
+                reject('Could not resize image.');
+              }
+            }, file.type);
+          } else {
+            reject('Could not get canvas context.');
+          }
+        };
+        img.src = event.target.result;
+      };
+      reader.onerror = reject;
+      reader.readAsDataURL(file);
+    });
+  }
+
+  onFileSelected(event: any): void {
+    const file: File = (this.selectedFile = event.target.files[0]);
+
+    this.resizeImage(file, 128, 128).then((resizedFile) => {
+      this.selectedFile = resizedFile;
+
+      const reader = new FileReader();
+      reader.onload = () => {
+        this.selectedCategory.media.url = reader.result as string;
+        console.log("this.selectedCategory", this.selectedCategory);
+      };
+      reader.readAsDataURL(resizedFile);
+    }).catch((error) => {
+      console.error('Error resizing image:', error);
+    });
+  }
+
   updateCategory(): void {
     const accessToken = localStorage.getItem('loggedInUserToken');
 
     this.selectedCategory.status =
       this.selectedCategoryStatus === 'ACTIVE' ? 1 : 0;
     this.selectedCategory.parent_id = this.selectedParentCategory.value;
-    const formData = {
+    const formData: any = {
       name: this.selectedCategory.name,
       parent_id: this.selectedParentCategory.value,
       type: this.selectedCategory.type,
@@ -380,43 +461,38 @@ export class ListCategoryComponent implements OnInit {
     };
 
     if (this.selectedFile) {
-      this.categoryService
-        .uploadFile(this.selectedFile, accessToken!)
+      this.categoryService.uploadFile(this.selectedFile, accessToken!)
         .then((response: { data: { id: any } }) => {
           formData.icon_id = response.data.id;
-          this.categoryService
-            .updateCategoryById(
-              this.selectedCategory.id,
-              formData,
-              accessToken!
-            )
-            .subscribe(
-              (response) => {
-                this.messageService.add({
-                  severity: 'success',
-                  summary: 'Succès',
-                  detail: 'Catégorie modifiée avec succès',
-                  life: 3000,
-                });
-                console.log('updateCategoryById', formData, response);
-                this.selectedCategory.active = formData.active;
-                this.hideDialog();
-                //window.location.reload(); // Refresh the page
-              },
-              (error) => {
-                console.error('Error updating category:', error);
-              }
-            );
+          this.categoryService.updateCategoryById(
+            this.selectedCategory.id,
+            formData,
+            accessToken!
+          ).subscribe(
+            (response) => {
+              this.messageService.add({
+                severity: 'success',
+                summary: 'Succès',
+                detail: 'Catégorie modifiée avec succès',
+                life: 3000,
+              });
+              console.log('updateCategoryById', formData, response);
+              this.selectedCategory.active = formData.active;
+              this.hideDialog();
+              // window.location.reload(); // Refresh the page
+            },
+            (error) => {
+              console.error('Error updating category:', error);
+            }
+          );
         })
         .catch((error: any) => {
           console.error('Error uploading file:', error);
           // Handle error
         });
     } else {
-      // If no selected file, remove icon_id property
       delete formData.icon_id;
-      this.categoryService
-        .updateCategoryById(this.selectedCategory.id, formData, accessToken!)
+      this.categoryService.updateCategoryById(this.selectedCategory.id, formData, accessToken!)
         .subscribe(
           (response) => {
             this.messageService.add({
@@ -428,7 +504,7 @@ export class ListCategoryComponent implements OnInit {
             console.log('updateCategoryById', formData, response);
             this.selectedCategory.active = formData.active;
             this.hideDialog();
-            //window.location.reload(); // Refresh the page
+            // window.location.reload(); // Refresh the page
           },
           (error) => {
             console.error('Error updating category:', error);
@@ -437,13 +513,6 @@ export class ListCategoryComponent implements OnInit {
     }
   }
 
-  onFileSelected(event: any): void {
-    const file: File = (this.selectedFile = event.target.files[0]);
 
-    const reader = new FileReader();
-    reader.onload = () => {
-      this.selectedCategory.media.url = reader.result as string;
-    };
-    reader.readAsDataURL(file);
-  }
+  
 }

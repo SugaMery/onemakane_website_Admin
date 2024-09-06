@@ -4,7 +4,7 @@ import { UserService } from '../user.service';
 @Component({
   selector: 'app-list-user',
   templateUrl: './list-user.component.html',
-  styleUrl: './list-user.component.css'
+  styleUrls: ['./list-user.component.css']
 })
 export class ListUserComponent {
   users: any[] = [];
@@ -12,6 +12,8 @@ export class ListUserComponent {
   searchTerm: string = '';
   itemsPerPage: number = 8;
   currentPage: number = 1;
+  visiblePages: number[] = [];
+  isLastPageVisible: boolean = false;
 
   constructor(private userService: UserService) {}
 
@@ -25,47 +27,34 @@ export class ListUserComponent {
   }
 
   fetchUsers(): void {
-    // Check if localStorage is available (typically used in browser environments)
-    if (typeof localStorage !== 'undefined') {
-      const accessToken = localStorage.getItem('loggedInUserToken');
-      if (accessToken) {
-        
-        const roleIds = [1, 2, 3]; // Role IDs from 1 to 3
+    const accessToken = localStorage.getItem('loggedInUserToken');
+    if (accessToken) {
+      const roleIds = [1, 2, 3];
+      let allUsers: any[] = [];
 
-        // Use a variable to store all user data
-        let allUsers: string | any[] = [];
-
-        // Use a loop to fetch users for each role ID
-        for (const roleId of roleIds) {
-
-          this.userService.getUsers(0, accessToken, roleId).subscribe(
-            data => {
-              console.log("update",roleId ,allUsers);
-
-              // Merge the fetched users into allUsers
-              allUsers = [...allUsers, ...data.data];
-
-              this.users = allUsers;
-              this.setPagedCategories();
-                          
-            },
-            error => {
-              console.error('Error fetching users', error);
-            }
-          );
-        }
-        
-        
-      } else {
-        console.error('Access token not found in localStorage');
+      for (const roleId of roleIds) {
+        this.userService.getAllUsers(0, accessToken, roleId).subscribe(
+          data => {
+            allUsers = [...allUsers, ...data];
+            this.users = allUsers;
+            this.setPagedCategories();
+            this.updateVisiblePages();
+          },
+          error => {
+            console.error('Error fetching users', error);
+          }
+        );
       }
     } else {
-      console.error('localStorage is not available in this environment');
+      console.error('Access token not found in localStorage');
     }
   }
+
   setCurrentPage(page: number): void {
+    if (page < 1 || page > this.pages.length) return;
     this.currentPage = page;
     this.setPagedCategories();
+    this.updateVisiblePages();
   }
 
   get pages(): number[] {
@@ -79,6 +68,26 @@ export class ListUserComponent {
     this.pagedCategories = this.filteredUsers.slice(startIndex, endIndex);
   }
 
+  updateVisiblePages(): void {
+    const totalPages = this.pages.length;
+    const maxVisiblePages = 5;
+    const halfVisible = Math.floor(maxVisiblePages / 2);
+
+    if (totalPages <= maxVisiblePages) {
+      this.visiblePages = this.pages;
+    } else {
+      if (this.currentPage <= halfVisible) {
+        this.visiblePages = this.pages.slice(0, maxVisiblePages);
+      } else if (this.currentPage + halfVisible >= totalPages) {
+        this.visiblePages = this.pages.slice(totalPages - maxVisiblePages, totalPages);
+      } else {
+        this.visiblePages = this.pages.slice(this.currentPage - halfVisible - 1, this.currentPage + halfVisible);
+      }
+    }
+
+    this.isLastPageVisible = this.visiblePages.includes(totalPages);
+  }
+
   get filteredUsers(): any[] {
     if (!this.searchTerm) {
       return this.users;
@@ -87,9 +96,5 @@ export class ListUserComponent {
       user.full_name.toLowerCase().includes(this.searchTerm.toLowerCase()) || 
       user.email.toLowerCase().includes(this.searchTerm.toLowerCase())
     );
-  }
-
-  getInitials(firstName: string, lastName: string): string {
-    return `${firstName.charAt(0).toUpperCase()}${lastName.charAt(0).toUpperCase()}`;
   }
 }

@@ -12,33 +12,50 @@ export class ListClientsDeletedComponent {
   searchTerm: string = '';
   itemsPerPage: number = 8;
   currentPage: number = 1;
+  visiblePages: number[] = [];
+  isLastPageVisible: boolean = false;
 
   constructor(private userService: UserService) {}
 
   ngOnInit(): void {
     const accessToken = localStorage.getItem('loggedInUserToken');
     if (accessToken) {
-      this.fetchUsers(accessToken);
+      this.fetchUsers();
     } else {
       console.error('Access token not found in localStorage');
     }
   }
 
-  fetchUsers(accessToken: string): void {
-    this.userService.getUsers(1, accessToken, 4).subscribe(
-      data => {
-        this.users = data.data;
-        this.setPagedCategories();
-      },
-      error => {
-        console.error('Error fetching users', error);
+
+  fetchUsers(): void {
+    const accessToken = localStorage.getItem('loggedInUserToken');
+    if (accessToken) {
+      const roleIds = [4];
+      let allUsers: any[] = [];
+
+      for (const roleId of roleIds) {
+        this.userService.getAllUsers(1, accessToken, roleId).subscribe(
+          data => {
+            allUsers = [...allUsers, ...data];
+            this.users = allUsers;
+            this.setPagedCategories();
+            this.updateVisiblePages();
+          },
+          error => {
+            console.error('Error fetching users', error);
+          }
+        );
       }
-    );
+    } else {
+      console.error('Access token not found in localStorage');
+    }
   }
 
   setCurrentPage(page: number): void {
+    if (page < 1 || page > this.pages.length) return;
     this.currentPage = page;
     this.setPagedCategories();
+    this.updateVisiblePages();
   }
 
   get pages(): number[] {
@@ -52,6 +69,26 @@ export class ListClientsDeletedComponent {
     this.pagedCategories = this.filteredUsers.slice(startIndex, endIndex);
   }
 
+  updateVisiblePages(): void {
+    const totalPages = this.pages.length;
+    const maxVisiblePages = 5;
+    const halfVisible = Math.floor(maxVisiblePages / 2);
+
+    if (totalPages <= maxVisiblePages) {
+      this.visiblePages = this.pages;
+    } else {
+      if (this.currentPage <= halfVisible) {
+        this.visiblePages = this.pages.slice(0, maxVisiblePages);
+      } else if (this.currentPage + halfVisible >= totalPages) {
+        this.visiblePages = this.pages.slice(totalPages - maxVisiblePages, totalPages);
+      } else {
+        this.visiblePages = this.pages.slice(this.currentPage - halfVisible - 1, this.currentPage + halfVisible);
+      }
+    }
+
+    this.isLastPageVisible = this.visiblePages.includes(totalPages);
+  }
+
   get filteredUsers(): any[] {
     if (!this.searchTerm) {
       return this.users;
@@ -60,9 +97,5 @@ export class ListClientsDeletedComponent {
       user.full_name.toLowerCase().includes(this.searchTerm.toLowerCase()) || 
       user.email.toLowerCase().includes(this.searchTerm.toLowerCase())
     );
-  }
-
-  getInitials(firstName: string, lastName: string): string {
-    return `${firstName.charAt(0).toUpperCase()}${lastName.charAt(0).toUpperCase()}`;
   }
 }

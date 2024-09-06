@@ -28,22 +28,22 @@ export class UserService {
 
   }
   // Méthode pour obtenir les annonces d'un utilisateur
-  getUserAdsById(userId: number, accessToken: string,deleted?: number, page: number = 1): Observable<any> {
+  getUserAdsById(userId: number, accessToken: string,validation_status?: string, page: number = 1): Observable<any> {
     let url = `${this.baseUrl}/users/${userId}/ads?page=${page}`; // Endpoint pour les annonces d'un utilisateur
-    if (deleted) {
-      url += `?deleted=${encodeURIComponent(deleted)}`;
+    if (validation_status) {
+      url += `&validation_status=${encodeURIComponent(validation_status)}`;
     }
     const headers = new HttpHeaders({
       Authorization: `Bearer ${accessToken}`, // Ajouter l'en-tête d'autorisation avec le token
     });
-
+console.log("uriiiilll",url);
     return this.http.get<any>(url, { headers });
   }
 
 
 
-  getUserAllAdsById(userId: number, accessToken: string,deleted?: number): Observable<any[]> {
-    return this.getUserAdsById(userId,accessToken,deleted).pipe(
+  getUserAllAdsById(userId: number, accessToken: string,validation_status?: string): Observable<any[]> {
+    return this.getUserAdsById(userId,accessToken,validation_status).pipe(
       switchMap((response) => {
         const totalPages = response.pagination.total_page;
         const requests: Observable<any>[] = [];
@@ -53,7 +53,7 @@ export class UserService {
 
         // Create requests for all other pages
         for (let page = 2; page <= totalPages; page++) {
-          requests.push(this.getUserAdsById(userId,accessToken,deleted, page));
+          requests.push(this.getUserAdsById(userId,accessToken,validation_status, page));
         }
 
         // Execute all requests and combine results
@@ -77,7 +77,7 @@ export class UserService {
 
     return this.http.delete(`${this.baseUrl}/users/${userId}`, { headers });
   }
-  getUsers(deleted: number, accessToken: string, roleId?: number): Observable<any> {
+  getUsers(deleted: number, accessToken: string, roleId?: number,page: number = 1): Observable<any> {
     const headers = new HttpHeaders({
       Authorization: `Bearer ${accessToken}`,
     });
@@ -88,8 +88,31 @@ export class UserService {
       params = params.set('role_id', roleId.toString());
     }
   
-    return this.http.get(`${this.baseUrl}/users`, { headers, params });
+    return this.http.get(`${this.baseUrl}/users?page=${page}`, { headers, params });
   }
+
+  getAllUsers(deleted: number, accessToken: string, roleId?: number): Observable<any[]> {
+    return this.getUsers(deleted,accessToken,roleId).pipe(
+      switchMap((response) => {
+        const totalPages = response.pagination.total_page;
+        const requests: Observable<any>[] = [];
+
+        // Push the first page response
+        requests.push(of(response));
+
+        // Create requests for all other pages
+        for (let page = 2; page <= totalPages; page++) {
+          requests.push(this.getUsers(deleted,accessToken,roleId, page));
+        }
+
+        // Execute all requests and combine results
+        return forkJoin(requests).pipe(
+          map((responses) => responses.flatMap((res) => res.data))
+        );
+      })
+    );
+  }
+
   
 
 

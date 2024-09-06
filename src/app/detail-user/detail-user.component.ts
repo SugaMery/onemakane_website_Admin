@@ -54,7 +54,9 @@ export class DetailUserComponent implements OnInit {
   }
 
   getAds(): void {
-    this.annonceService.getAllAds().subscribe(
+    const userId = this.route.snapshot.paramMap.get('id');
+    const accessToken = localStorage.getItem('loggedInUserToken');
+    this.userService.getUserAllAdsById(Number(userId), accessToken!,"all").subscribe(
       data => {
         this.totalAds = data.filter((ad: any) => ad.user_id === this.userData.id).length;
         this.ads = data.filter((ad: any) => ad.user_id === this.userData.id);
@@ -190,7 +192,7 @@ export class DetailUserComponent implements OnInit {
             this.userService.deleteUser(Number(userId),accessToken!).subscribe(
               (user) => {
                 console.log("greeeet",user)
-    
+      
                 this.messageService.add({
                   severity: 'success',
                   summary: 'Utilisateur supprimé',
@@ -198,9 +200,29 @@ export class DetailUserComponent implements OnInit {
                 });
                 // Mettre à jour la liste des utilisateurs ou rediriger vers une autre page
                         // Actualiser la page après un court délai pour que l'utilisateur voie le message
+                        this.userService.getUserAllAdsById(Number(userId), accessToken!,"all").subscribe((data: any[]) => {
+                          console.log("Annonces récupérées:", data);
+                        
+                          // Parcourir chaque annonce et mettre à jour son statut
+                          data.forEach((ad) => {
+                            this.annonceService.updateAnnonce(ad.id, ad.uuid, { 'validation_status': 'rejected' }, accessToken!)
+                              .subscribe(
+                                (response) => {
+                                  console.log(`Annonce ${ad.id} mise à jour avec succès`, response);
+                                },
+                                (error) => {
+                                  console.error(`Erreur lors de la mise à jour de l'annonce ${ad.id}`, error);
+                                }
+                              );
+                          });
+                        });
+                        
         setTimeout(() => {
           window.location.reload();
         }, 1500); // Délai de 1,5 secondes avant de rafraîchir
+
+
+
 
               },
               error => {
@@ -213,6 +235,8 @@ export class DetailUserComponent implements OnInit {
               }
             );
   }
+
+
 
   confirmActivation(): void {
     this.confirmationService.confirm({
@@ -241,7 +265,23 @@ export class DetailUserComponent implements OnInit {
           summary: 'Compte activé',
           detail: 'Le compte a été activé avec succès.'
         });
-  
+        this.userService.getUserAllAdsById(Number(userId), accessToken!,"all").subscribe((data: any[]) => {
+          console.log("Annonces récupérées:", data);
+        
+          // Parcourir chaque annonce et mettre à jour son statut
+          data.forEach((ad) => {
+            this.annonceService.updateAnnonce(ad.id, ad.uuid, { 'validation_status': 'approved' }, accessToken!)
+              .subscribe(
+                (response) => {
+                  console.log(`Annonce ${ad.id} mise à jour avec succès`, response);
+                },
+                (error) => {
+                  console.error(`Erreur lors de la mise à jour de l'annonce ${ad.id}`, error);
+                }
+              );
+          });
+        });
+        
         // Actualiser la page après un court délai pour que l'utilisateur voie le message
         setTimeout(() => {
           window.location.reload();

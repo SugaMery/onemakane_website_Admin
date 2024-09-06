@@ -3,11 +3,11 @@ import { PageService } from '../page.service';
 import { CategoryService } from '../category.service';
 
 @Component({
-  selector: 'app-pages',
-  templateUrl: './pages.component.html',
-  styleUrl: './pages.component.css'
+  selector: 'app-list-pages',
+  templateUrl: './list-pages.component.html',
+  styleUrls: ['./list-pages.component.css']
 })
-export class PagesComponent {
+export class ListPagesComponent implements OnInit {
   pageContent: string = '';
   titrePage: string = '';
   pages: any[] = [];  // Array to store multiple pages (id, title, langId)
@@ -26,9 +26,9 @@ export class PagesComponent {
 
     // Example list of pages to display in the sidebar
     this.pages = [
-      { id: '1', langId: '2', title: 'A propos de nous' },
-      { id: '2', langId: '2', title: 'Conditions Générales d\'Utilisation' },
-      { id: '3', langId: '2', title: 'Mentions légales' }
+      { id: '1', langId: '1', title: 'A propos de nous' },
+      { id: '2', langId: '1', title: 'Conditions Générales d\'Utilisation' },
+      { id: '3', langId: '1', title: 'Mentions légales' }
     ];
 
     // Load the first page by default
@@ -79,5 +79,4 @@ export class PagesComponent {
         // Optionally handle error response
       }
     );
-  }
-}
+  }}

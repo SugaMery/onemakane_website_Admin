@@ -92,7 +92,7 @@ const dataUser = {
                 });
                 // Mettre à jour la liste des utilisateurs ou rediriger vers une autre page
                         // Actualiser la page après un court délai pour que l'utilisateur voie le message
-                        this.userService.getUserAllAdsById(Number(userId), accessToken!,0).subscribe((data: any[]) => {
+                        this.userService.getUserAllAdsById(Number(userId), accessToken!,"all").subscribe((data: any[]) => {
                           console.log("Annonces récupérées:", data);
                         
                           // Parcourir chaque annonce et mettre à jour son statut
@@ -157,7 +157,7 @@ const dataUser = {
           summary: 'Compte activé',
           detail: 'Le compte a été activé avec succès.'
         });
-        this.userService.getUserAllAdsById(Number(userId), accessToken!,1).subscribe((data: any[]) => {
+        this.userService.getUserAllAdsById(Number(userId), accessToken!,"all").subscribe((data: any[]) => {
           console.log("Annonces récupérées:", data);
         
           // Parcourir chaque annonce et mettre à jour son statut

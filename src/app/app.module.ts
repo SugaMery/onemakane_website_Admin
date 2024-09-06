@@ -46,6 +46,7 @@ import { ListClientsComponent } from './list-clients/list-clients.component';
 import { ListClientsDeletedComponent } from './list-clients-deleted/list-clients-deleted.component';
 import { PagesComponent } from './pages/pages.component';
 import { EditUserComponent } from './edit-user/edit-user.component';
+import { ListPagesComponent } from './list-pages/list-pages.component';
 
 @NgModule({
   declarations: [
@@ -72,7 +73,8 @@ import { EditUserComponent } from './edit-user/edit-user.component';
     ListClientsComponent,
     ListClientsDeletedComponent,
     PagesComponent,
-    EditUserComponent
+    EditUserComponent,
+    ListPagesComponent
   ],
   imports: [
     BrowserModule,

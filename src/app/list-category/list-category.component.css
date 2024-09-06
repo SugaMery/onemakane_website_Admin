@@ -198,3 +198,10 @@ ol, ul {
 ::ng-deep button.p-element.p-ripple.p-button-text.p-confirm-dialog-reject.p-button.p-component.ng-star-inserted {
     color: #212529 !important;
 }
+
+::ng-deep .image-resize {
+    width: 128px;
+    height: 128px;
+    object-fit: cover; /* Ensures the image is scaled correctly while maintaining aspect ratio */
+  }
+  
