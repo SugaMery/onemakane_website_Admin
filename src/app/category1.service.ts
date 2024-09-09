@@ -37,14 +37,61 @@ export class Category1Service {
     return this.http.get(url);
   }
 
-  getAdsByCategorys(categoryId: number): Observable<any> {
+  getAdsByCategorys(categoryId: number, page: number = 1): Observable<any> {
     // Construct the URL with categoryId and additional params
-    let url = `${this.devApiUrl}/categories/${categoryId}/ads`;
+    let url = `${this.devApiUrl}/categories/${categoryId}/ads?page=${page}`;
 
     // Append query parameters if there are any
     // Make the HTTP GET request
     return this.http.get(url);
   }
+
+
+
+
+  getAllAdsByCategorys(categoryId: number): Observable<any[]> {
+    return this.getAdsByCategorys(categoryId).pipe(
+      switchMap((response) => {
+        const totalPages = response.pagination.total_page;
+        const requests: Observable<any>[] = [];
+
+        // Push the first page response
+        requests.push(of(response));
+
+        // Create requests for all other pages
+        for (let page = 2; page <= totalPages; page++) {
+          requests.push(this.getAdsByCategorys(categoryId));
+        }
+
+        // Execute all requests and combine results
+        return forkJoin(requests).pipe(
+          map((responses) => responses.flatMap((res) => res.data))
+        );
+      })
+    );
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   // Helper function to serialize parameters
   private serializeParams(params: any): string {
     return Object.keys(params)

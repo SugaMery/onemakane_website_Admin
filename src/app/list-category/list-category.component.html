@@ -64,7 +64,7 @@
                   <input class="form-check-input" type="checkbox" />
                 </div>
               </div>
-              <div class="col-lg-2 col-sm-2 col-4 col-price">
+              <div class="col-lg-1 col-sm-2 col-4 col-price">
                 <a class="itemside" href="#">
                   <div class="left">
                     <img
@@ -105,7 +105,7 @@
                 <span>{{ formatCreatedAt(category.created_at) }}</span>
               </div>
               <!-- Original HTML -->
-              <div class="col-lg-2 col-sm-2 col-4 col-action text-end">
+              <div class="col-lg-3 col-sm-2 col-4 col-action text-end">
                 <a
                   class="btn btn-sm font-sm rounded btn-brand edit"
                   (click)="showDialog(category)"
@@ -113,11 +113,18 @@
                   <i class="material-icons md-edit"></i> Edit
                 </a>
                 <a
-                  class="btn btn-sm font-sm btn-light rounded"
+                  class="btn btn-sm font-sm btn-light rounded edit"
                   (click)="deleteCategory(category)"
                 >
                   <i class="material-icons md-delete_forever"></i> Delete
                 </a>
+                <a
+                class="btn btn-sm font-sm btn-light rounded"
+                [routerLink]="['/lists-annonces-by-category', category.id]" 
+              >
+                <i class="material-icons md-shopping_bag"></i> Annonces
+              </a>
+              
               </div>
 
               <!-- Modified HTML for phones -->
@@ -140,6 +147,7 @@
                     >Delete</a
                   >
                 </div>
+
               </div>
             </div>
             <!-- row .// -->

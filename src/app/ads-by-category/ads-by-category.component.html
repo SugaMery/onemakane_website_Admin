@@ -1,0 +1,180 @@
+
+<app-menu></app-menu>
+<main class="main-wrap">
+  
+  <app-header></app-header>
+
+  <section class="content-main">
+    <div class="content-header">
+      <h2 class="content-title">Listes des annonces de categorie </h2>
+      <p-messages [value]="messages"></p-messages>
+    </div>
+    <div class="card mb-4">
+      <header class="card-header">
+        <div class="row gx-3">
+            <div class="col-search">
+              <div class="input-group" style="width: 35% !important; float: inline-end;">
+                <input
+                  list="search_terms"
+                  type="text"
+                  placeholder="Rechercher des annonces..."
+                  [(ngModel)]="searchTerm"
+                  (input)="applyFilter()"
+                  class="form-control"
+                  style="background-color: white;"
+                />
+                <button
+                  type="button"
+                  class="btn btn-light bg"
+                  style="background-color: #3BB77E; color: white;"
+                  (click)="applyFilter()"
+                >
+                  <i class="material-icons md-search" style="color: white;"></i>
+                </button>
+              </div>
+              
+              </div>
+          <div class="col-lg-4 col-md-6 me-auto"></div>
+<!--           <div class="col-md-2 col-6" style="float: right;">
+            <p-dropdown
+              [options]="statusOptions"
+              [style]="{ width: '100%' }"
+              [(ngModel)]="selectedStatus"
+              optionLabel="label"
+              [appendTo]="'body'"
+              (onChange)="filterByStatus($event)"
+            ></p-dropdown>
+          </div> -->
+        </div>
+      </header>
+      <div class="card-body">
+        <div class="row gx-3 row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-xl-4 row-cols-xxl-5">
+          <div *ngIf="pagedAds.length === 0" class="col-12">
+            <div class="alert alert-info" role="alert" style="font-weight: 700;">
+                Aucune annonce approuvée disponible.
+            </div>
+          </div>
+          <div class="col" *ngFor="let ad of pagedAds">
+            <div class="card card-product-grid">
+              <div class="product-image">
+                <a [routerLink]="['/detail-annonce', ad.id]">
+                  <img
+                    [src]="ad.medias[0]?.url || 'assets/imgs/default.jpg'"
+                    alt="{{ ad.title }}"
+                    class="product-image"
+                  />
+                </a>
+              </div>
+              <div class="info-wrap">
+                <div class="mb-2">
+                  <span class="badge" [ngClass]="{
+                    'badge-success': ad.validation_status === 'approved',
+                    'badge-danger': ad.validation_status === 'rejected',
+                    'badge-warning': ad.validation_status === 'pending'
+                  }">{{ ad.validation_status | titlecase }}</span>
+                </div>
+                <a
+                  [routerLink]="['/detail-annonce', ad.id]"
+                  class="title text-truncate"
+                  >{{ ad.title }}</a
+                >
+                <div class="price mb-2">{{ ad.price | currency:'USD':'symbol-narrow'  }}</div>
+                <div class="button-container mt-2">
+                  <a
+                    [routerLink]="['/detail-annonce', ad.id]"
+                    class="btn btn-sm font-sm rounded btn-brand"
+                  >
+                    <i class="material-icons md-edit"></i> Voir
+                  </a>
+                  <button
+                    (click)="openDeleteDialog(ad)"
+                    class="btn btn-sm font-sm btn-light rounded btn-danger"
+                  >
+                    <i class="material-icons md-delete_forever"></i> Delete
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Delete Confirmation Dialog -->
+    <p-dialog header="Confirmer la suppression" [(visible)]="adDialog" [modal]="true" [closable]="false">
+      <div *ngIf="selectedAd">
+        <p>Êtes-vous sûr de vouloir supprimer cette annonce?</p>
+        <p>Veuillez sélectionner une raison:</p>
+        <div *ngFor="let reason of deleteReasons">
+          <input type="radio" [value]="reason.id" name="reason" /> {{ reason.long_name }}
+        </div>
+      </div>
+
+      <p-footer>
+        <button type="button" pButton icon="pi pi-times" label="Annuler" (click)="adDialog = false" style="
+        background: #6b7280e0;
+        border-color: gray;
+    "></button>
+        <button type="button " pButton icon="pi pi-check" label="Confirmer" (click)="confirmDeletion()" style="
+        background: #3bb77e;
+        border-color: #3bb77e;
+    "></button>
+      </p-footer>
+    </p-dialog>
+    
+    
+    <div class="pagination-area mt-30 mb-50" *ngIf="filteredAds.length > 0">
+      <nav aria-label="Pagination">
+        <ul class="pagination justify-content-start">
+          <!-- Bouton Précédent -->
+          <li class="page-item" [ngClass]="{'disabled': currentPage === 1}">
+            <a class="page-link" (click)="setCurrentPage(currentPage - 1)"  aria-label="Précédent">
+              <span aria-hidden="true">&laquo;</span>
+            </a>
+          </li>
+    
+          <!-- Bouton Première Page -->
+          <li class="page-item" [ngClass]="{'disabled': currentPage === 1}">
+            <a class="page-link" (click)="setCurrentPage(1)" style="
+            width: auto;
+        ">Première</a>
+          </li>
+    
+          <!-- Boutons Numéros de Page -->
+          <li *ngFor="let page of visiblePages" class="page-item" [ngClass]="{'active': currentPage === page}">
+            <a class="page-link" (click)="setCurrentPage(page)">{{ page }}</a>
+          </li>
+    
+          <!-- Ellipse pour les Pages au Milieu -->
+          <li *ngIf="pages.length > 5 && !isLastPageVisible" class="page-item disabled">
+            <span class="page-link">...</span>
+          </li>
+    
+          <!-- Bouton Dernière Page -->
+          <li class="page-item" [ngClass]="{'disabled': currentPage === pages.length}">
+            <a class="page-link" style="
+            width: auto;
+        " (click)="setCurrentPage(pages.length)">Dernière</a>
+          </li>
+    
+          <!-- Bouton Suivant -->
+          <li class="page-item" [ngClass]="{'disabled': currentPage === pages.length}">
+            <a class="page-link" (click)="setCurrentPage(currentPage + 1)" aria-label="Suivant">
+              <span aria-hidden="true">&raquo;</span>
+            </a>
+          </li>
+        </ul>
+      </nav>
+    </div>
+  </section>
+  
+  
+
+
+
+  <!-- content-main end// -->
+  <app-footer></app-footer>
+  
+</main>
+
+

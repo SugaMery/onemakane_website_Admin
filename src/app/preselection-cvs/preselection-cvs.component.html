@@ -1,0 +1,173 @@
+
+<app-menu></app-menu>
+<main class="main-wrap">
+  
+  <app-header></app-header>
+
+
+  <section class="content-main">
+    <div class="row">
+        <div class="col-6">
+            <div class="content-header">
+                <h2 class="content-title">Add New Product</h2>
+                <div>
+                    <button class="btn btn-light rounded font-sm mr-5 text-body hover-up">Save to draft</button>
+                    <button class="btn btn-md rounded font-sm hover-up">Publich</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-7">
+          <div
+            class="tab-content account dashboard-content"
+          >
+
+            <div class="card">
+              <div class="card-header">
+                <h3 class="mb-0">
+                  Liste des candidats pour cette offre d'emploi
+                </h3>
+              </div>
+              <div class="card-body">
+                <div class="table-responsive">
+                  <div class="table-responsive shopping-summery">
+                    <!-- Message when there are no candidates -->
+
+                    <!-- Table displaying candidates when there are candidates -->
+                    <table class="table table-wishlist">
+                      <thead>
+                        <tr class="main-heading">
+                          <th scope="col">Nom Complet</th>
+                          <th scope="col">Email</th>
+                          <th scope="col">Téléphone</th>
+                          <th scope="col">Date de Postulation</th>
+                          <th scope="col">CV</th>
+                          <th scope="col" class="end">Supprimé</th>
+                        </tr>
+                      </thead>
+                      <tbody *ngIf="pagedAds.length > 0">
+                        <tr
+                          *ngFor="let appliance of pagedAds"
+                          class="pt-30"
+                        >
+
+                          <td>{{ appliance.user.full_name }}</td>
+                          <td>{{ appliance.user.email }}</td>
+                          <td>{{ appliance.user.telephone }}</td>
+                          <td>{{ extractDate(appliance.created_at) }}</td>
+                          <td>
+                            <a
+                              (click)="
+                                updateCvUrl(
+                                  'https://medias.onemakan.com/' +
+                                    appliance.c_v.path +
+                                    appliance.c_v.filename +
+                                    '.' +
+                                    appliance.c_v.extension
+                                )
+                              "
+                              target="_blank"
+                              class="appliance"
+                            >
+                              Voir le CV
+                            </a>
+                          </td>
+                          <td class="text-center" data-title="Supprimer">
+                            <a
+                              class="text-body"
+                              (click)="showDialog(appliance)"
+                            >
+                              <i class="fi-rs-trash"></i>
+                            </a>
+                          </td>
+                        </tr>
+                      </tbody>
+                      <tr *ngIf="pagedAds.length === 0">
+                        <td colspan="7" class="text-center">
+                          Aucun candidat n'a postulé pour cette offre
+                          d'emploi.
+                        </td>
+                      </tr>
+                    </table>
+
+                    <!-- Pagination -->
+
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="pagination-area mt-30 mb-50" *ngIf="filteredAds.length > 0">
+                <nav aria-label="Pagination">
+                  <ul class="pagination justify-content-start">
+                    <!-- Bouton Précédent -->
+                    <li class="page-item" [ngClass]="{'disabled': currentPage === 1}">
+                      <a class="page-link" (click)="setCurrentPage(currentPage - 1)"  aria-label="Précédent">
+                        <span aria-hidden="true">&laquo;</span>
+                      </a>
+                    </li>
+              
+                    <!-- Bouton Première Page -->
+                    <li class="page-item" [ngClass]="{'disabled': currentPage === 1}">
+                      <a class="page-link" (click)="setCurrentPage(1)" style="
+                      width: auto;
+                  ">Première</a>
+                    </li>
+              
+                    <!-- Boutons Numéros de Page -->
+                    <li *ngFor="let page of visiblePages" class="page-item" [ngClass]="{'active': currentPage === page}">
+                      <a class="page-link" (click)="setCurrentPage(page)">{{ page }}</a>
+                    </li>
+              
+                    <!-- Ellipse pour les Pages au Milieu -->
+                    <li *ngIf="pages.length > 5 && !isLastPageVisible" class="page-item disabled">
+                      <span class="page-link">...</span>
+                    </li>
+              
+                    <!-- Bouton Dernière Page -->
+                    <li class="page-item" [ngClass]="{'disabled': currentPage === pages.length}">
+                      <a class="page-link" style="
+                      width: auto;
+                  " (click)="setCurrentPage(pages.length)">Dernière</a>
+                    </li>
+              
+                    <!-- Bouton Suivant -->
+                    <li class="page-item" [ngClass]="{'disabled': currentPage === pages.length}">
+                      <a class="page-link" (click)="setCurrentPage(currentPage + 1)" aria-label="Suivant">
+                        <span aria-hidden="true">&raquo;</span>
+                      </a>
+                    </li>
+                  </ul>
+                </nav>
+              </div>
+          </div>
+        </div>
+
+        <div class="col-md-4">
+          <div
+            class="tab-content account dashboard-content"
+          >
+            <div>
+              <iframe
+                [src]="cvUrl"
+                style="width: 100%; height: 700px"
+              ></iframe>
+            </div>
+            <div>
+              <!-- Additional content if needed -->
+            </div>
+          </div>
+        </div>
+      </div>
+    
+</section>
+  
+
+
+
+  <!-- content-main end// -->
+  <app-footer></app-footer>
+  
+</main>
+
+

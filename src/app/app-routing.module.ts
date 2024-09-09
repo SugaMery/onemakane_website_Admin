@@ -19,6 +19,9 @@ import { ListClientsDeletedComponent } from './list-clients-deleted/list-clients
 import { EditUserComponent } from './edit-user/edit-user.component';
 import { ListPagesComponent } from './list-pages/list-pages.component';
 import { PagesComponent } from './pages/pages.component';
+import { AdsByCategoryComponent } from './ads-by-category/ads-by-category.component';
+import { JobsComponent } from './jobs/jobs.component';
+import { PreselectionCvsComponent } from './preselection-cvs/preselection-cvs.component';
 
 const routes: Routes = [
   { path: 'add_category', component: AddCategoryComponent },
@@ -36,6 +39,10 @@ const routes: Routes = [
   { path: 'list-pages-ar', component: PagesComponent },
   { path: 'detail-utilisateur/:id', component: DetailUserComponent },
   { path: 'detail-annonce/:id', component: DetailAdComponent },
+  { path: 'lists-annonces-by-category/:id', component: AdsByCategoryComponent },
+  { path: 'lists-annonces-jobs', component: JobsComponent },
+  { path: 'présélection-cvs/:id', component: PreselectionCvsComponent },
+
   { path: 'list-annonces/all', component: ListAdsComponent },
   { path: 'dashboard', component: DashboardComponent },
   { path: 'list-utilisateurs-non-actifs', component: ListUsersDeletedComponent },

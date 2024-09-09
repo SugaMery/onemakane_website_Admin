@@ -47,6 +47,9 @@ import { ListClientsDeletedComponent } from './list-clients-deleted/list-clients
 import { PagesComponent } from './pages/pages.component';
 import { EditUserComponent } from './edit-user/edit-user.component';
 import { ListPagesComponent } from './list-pages/list-pages.component';
+import { AdsByCategoryComponent } from './ads-by-category/ads-by-category.component';
+import { JobsComponent } from './jobs/jobs.component';
+import { PreselectionCvsComponent } from './preselection-cvs/preselection-cvs.component';
 
 @NgModule({
   declarations: [
@@ -74,7 +77,10 @@ import { ListPagesComponent } from './list-pages/list-pages.component';
     ListClientsDeletedComponent,
     PagesComponent,
     EditUserComponent,
-    ListPagesComponent
+    ListPagesComponent,
+    AdsByCategoryComponent,
+    JobsComponent,
+    PreselectionCvsComponent
   ],
   imports: [
     BrowserModule,

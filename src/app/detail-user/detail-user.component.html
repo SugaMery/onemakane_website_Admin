@@ -25,7 +25,7 @@
             </div>
             <!--  col.// -->
 
-            <div class="col-xl-4 text-md-end">
+            <div class="col-xl-6 text-md-end">
               <a class="btn btn-primary mr-10" [routerLink]="['/modifier-utilisateur', userData.id]" >Modifier les informations</a>
               <a *ngIf="userData.deleted_at=== null" class="btn btn-primary" style="background-color: red;" (click)="confirmDeactivation()" label="Delete" severity="danger"  >Désactiver cet utilisateur</a>
               <a *ngIf="userData.deleted_at!== null" class="btn btn-primary" style="background-color: #3b6db7;" (click)="confirmActivation()" label="Active" severity="success"  >Activer cet utilisateur</a>
