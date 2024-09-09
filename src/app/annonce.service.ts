@@ -101,6 +101,38 @@ export class AnnonceService {
     return this.http.get<any>(url, { headers });
   }
 
+  getJobApplianceDetails(
+    jobApplianceId: number,
+    accessToken: string
+  ): Observable<any> {
+    const url = `${this.apiUrl}/job-appliances/${jobApplianceId}`;
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${accessToken}`,
+    });
+
+    return this.http.get<any>(url, { headers });
+  }
+  
+  updateJobApplianceStatus(
+    jobApplianceId: number, 
+    isSelected: boolean, 
+    accessToken: string
+  ): Observable<any> {
+    const url = `${this.apiUrl}/job-appliances/change-status/${jobApplianceId}`;
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${accessToken}`,
+      'Content-Type': 'application/json',
+    });
+
+    // Determine the status based on the selection
+    const status = isSelected ? 'approved' : 'rejected';
+
+    // Prepare the payload for the PATCH request
+    const body = { status: status };
+
+    return this.http.patch<any>(url, body, { headers });
+  }
+
   getAds(): Observable<any> {
     const url = `${this.apiUrl}/ads`;
     return this.http.get<any>(url);

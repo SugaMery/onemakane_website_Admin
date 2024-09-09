@@ -1,0 +1,185 @@
+
+<app-menu></app-menu>
+<main class="main-wrap">
+  
+  <app-header></app-header>
+
+
+  
+  
+  <section class="content-main">
+    <div class="content-header">
+        <div>
+            <h2 class="content-title card-title">Tableau de bord</h2>
+            <p>Toutes les données concernant OneMakan ici</p>
+        </div>
+        
+        <div>
+            <a href="#" class="btn btn-primary"><i class="text-muted material-icons md-post_add"></i>Create report</a>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-3">
+            <div class="card card-body mb-4">
+                <article class="icontext">
+                    <span class="icon icon-sm rounded-circle bg-primary-light">
+                        <i class="text-primary material-icons md-shopping_bag"></i>
+                    </span>
+                    <div class="text">
+                        <h6 class="mb-1 card-title">Nombre d'annonces</h6>
+                        <span>{{ totalAds }} annonce{{ totalAds > 1 ? 's' : '' }}</span>
+                        <span class="text-sm">Détails disponibles pour chaque annonce.</span>
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+        <div class="col-lg-3">
+            <div class="card card-body mb-4">
+                <article class="icontext">
+                    <span class="icon icon-sm rounded-circle bg-primary-light">
+                        <i class="text-success  material-icons md-person"></i>
+                    </span>
+                    <div class="text">
+                        <h6 class="mb-1 card-title">Nombre des clients</h6>
+                        <span>{{ totalClients | number }}</span> <!-- Assuming totalUsers is a variable in your component -->
+                        <span class="text-sm">Clients inscrits sur la plateforme</span>
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+        <div class="col-lg-3">
+            <div class="card card-body mb-4">
+                <article class="icontext">
+                    <span class="icon icon-sm rounded-circle bg-warning-light">
+                        <i class="text-warning material-icons md-category"></i>
+                    </span>
+                    <div class="text">
+                        <h6 class="mb-1 card-title">Catégories</h6>
+                        <span>{{ totalCategorys | number }}</span> <!-- Assuming totalCategories is a variable in your component -->
+                        <span class="text-sm">Nombre total de catégories disponibles</span>
+                    </div>
+                </article>
+                
+            </div>
+        </div>
+        <div class="col-lg-3">
+            <div class="card card-body mb-4">
+                <article class="icontext">
+                    <span class="icon icon-sm rounded-circle bg-info-light"><i class="text-info material-icons md-shopping_basket"></i></span>
+                    <div class="text">
+                        <h6 class="mb-1 card-title">Nombre d'Utilisateurs</h6>
+                        <span>{{ totalUsers | number }}</span> <!-- Assuming totalUsers is a variable in your component -->
+                        <span class="text-sm">Utilisateurs inscrits sur la plateforme</span>
+                    </div>
+                </article>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xl-8 col-lg-12">
+            <div class="card mb-4">
+                <article class="card-body">
+                    <h5 class="card-title">Répartition mensuelle des annonces : approuvées, rejetées, en attente</h5>
+                    <div class="card">
+                        <p-chart type="line" [data]="data" [options]="options"></p-chart>
+                    </div>
+                    
+                                    </article>
+                    
+            </div>
+            <div class="row">
+                <div class="col-lg-5">
+                    <div class="card mb-4">
+                        <article class="card-body">
+                            <h5 class="card-title">5 Clients les Plus Récents</h5>
+                            <div class="new-member-list">
+                                <div class="d-flex align-items-center justify-content-between mb-4" *ngFor="let client of recentClients">
+                                    <div class="d-flex align-items-center">
+                                        <div
+                                        class="img-md img-avatar"                      
+                                        style="
+                                            display: flex;
+                                            justify-content: center;
+                                            align-items: center;
+                                            background-color: #f0f0f0;
+                                            border-radius: 50%;
+                                            color: #3bb77e;
+                            
+                        
+                                          "
+                                        >
+                                          {{ client?.first_name?.slice(0, 1)
+                                          }}{{ client?.last_name?.slice(0, 1) }}
+                                        </div>
+                                        <div>
+                                            <h6>{{ client.full_name }}</h6>
+                                            <p class="text-muted font-xs"> {{ client.email }}</p>
+                                        </div>
+                                    </div>
+                                    <a                     [routerLink]="['/detail-utilisateur', client.id]"
+                                    class="btn btn-xs"><i class="material-icons md-person"></i> Voir détails </a>
+                                </div>
+
+                            </div>
+                        </article>
+                    </div>
+                </div>
+                <div class="col-lg-7">
+                    <div class="card mb-4">
+                        <article class="card-body">
+                            <h5 class="card-title">Recent Announcements</h5>
+                            <ul class="verti-timeline list-unstyled font-sm">
+                                <li *ngFor="let announcement of recentAnnouncements" class="event-list">
+                                    <div class="event-timeline-dot">
+                                        <i class="material-icons md-play_circle_outline font-xxl"></i>
+                                    </div>
+                                    <div class="media">
+                                        <div class="me-3">
+                                            <h6><span>{{ announcement.created_at | date: 'd MMM' }}</span> 
+                                                <i class="material-icons md-trending_flat text-brand ml-15 d-inline-block"></i>
+                                            </h6>
+                                        </div>
+                                        <div class="media-body">
+                                            <div>  {{ announcement.title | capitalizeFirst }}</div>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </article>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-4 col-lg-12">
+            <div class="card mb-4">
+                <article class="card-body">
+                    <h5 class="card-title">Catégories Principales par Nombre d'Annonces</h5>
+                    <p-chart type="bar" [data]="topCategoriesData" [options]="topCategoriesOptions"></p-chart>                
+                </article>
+            </div>
+            <div class="card mb-4">
+                <article class="card-body">
+                    <h5 class="card-title">Marketing Chanel</h5>
+                    <div *ngFor="let ad of topJobAds">
+
+                    <span class="text-muted font-xs">{{ ad.title | capitalizeFirst }}</span>
+                    <div class="progress mb-3">
+                        <div class="progress-bar" role="progressbar" [style.width.%]="(jobApplications[ad.id] / 10)" >15%</div>
+                    </div>
+                </div>
+                </article>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+  <!-- content-main end// -->
+  <app-footer></app-footer>
+  
+</main>
+
+

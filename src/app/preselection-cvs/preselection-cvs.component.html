@@ -7,18 +7,21 @@
 
   <section class="content-main">
     <div class="row">
-        <div class="col-6">
+        <div class="col-12">
+          <div class="content-header">
+            <a href="javascript:history.back()"><i class="material-icons md-arrow_back"></i> Retourner</a>
+          </div>    
             <div class="content-header">
-                <h2 class="content-title">Add New Product</h2>
-                <div>
+                <h2 class="content-title">Préselection des candidats pour cette offre d'emploi</h2>
+<!--                 <div>
                     <button class="btn btn-light rounded font-sm mr-5 text-body hover-up">Save to draft</button>
                     <button class="btn btn-md rounded font-sm hover-up">Publich</button>
-                </div>
+                </div> -->
             </div>
         </div>
     </div>
     <div class="row">
-        <div class="col-md-7">
+        <div class="col-md-8">
           <div
             class="tab-content account dashboard-content"
           >
@@ -26,7 +29,7 @@
             <div class="card">
               <div class="card-header">
                 <h3 class="mb-0">
-                  Liste des candidats pour cette offre d'emploi
+                  Liste des candidats 
                 </h3>
               </div>
               <div class="card-body">
@@ -43,15 +46,12 @@
                           <th scope="col">Téléphone</th>
                           <th scope="col">Date de Postulation</th>
                           <th scope="col">CV</th>
-                          <th scope="col" class="end">Supprimé</th>
+                          <th scope="col">Sélectionné</th>
+                          <th scope="col">Non Sélectionné</th>
                         </tr>
                       </thead>
                       <tbody *ngIf="pagedAds.length > 0">
-                        <tr
-                          *ngFor="let appliance of pagedAds"
-                          class="pt-30"
-                        >
-
+                        <tr *ngFor="let appliance of pagedAds; let i = index" class="pt-30">
                           <td>{{ appliance.user.full_name }}</td>
                           <td>{{ appliance.user.email }}</td>
                           <td>{{ appliance.user.telephone }}</td>
@@ -61,10 +61,10 @@
                               (click)="
                                 updateCvUrl(
                                   'https://medias.onemakan.com/' +
-                                    appliance.c_v.path +
-                                    appliance.c_v.filename +
-                                    '.' +
-                                    appliance.c_v.extension
+                                  appliance.c_v.path +
+                                  appliance.c_v.filename +
+                                  '.' +
+                                  appliance.c_v.extension
                                 )
                               "
                               target="_blank"
@@ -73,23 +73,33 @@
                               Voir le CV
                             </a>
                           </td>
-                          <td class="text-center" data-title="Supprimer">
-                            <a
-                              class="text-body"
-                              (click)="showDialog(appliance)"
-                            >
-                              <i class="fi-rs-trash"></i>
-                            </a>
+                          <td style="text-align: center;">
+                            <input
+                              type="radio"
+                              name="selection-{{i}}" 
+                              [checked]="appliance.status === 'approved'"
+                              (change)="toggleSelection(i, 'selected')"
+                            />
                           </td>
+                          <td style="text-align: center;">
+                            <input
+                              type="radio"
+                              name="selection-{{i}}" 
+                              [checked]="appliance.status === 'rejected'"
+                              (change)="toggleSelection(i, 'notSelected')"
+                            />
+                          </td>
+                          
+                          
                         </tr>
                       </tbody>
                       <tr *ngIf="pagedAds.length === 0">
                         <td colspan="7" class="text-center">
-                          Aucun candidat n'a postulé pour cette offre
-                          d'emploi.
+                          Aucun candidat n'a postulé pour cette offre d'emploi.
                         </td>
                       </tr>
                     </table>
+                    
 
                     <!-- Pagination -->
 
@@ -149,9 +159,10 @@
           >
             <div>
               <iframe
-                [src]="cvUrl"
-                style="width: 100%; height: 700px"
-              ></iframe>
+              [src]="firstelement ? firstelement : cvUrl"
+              style="width: 100%; height: 700px"
+            ></iframe>
+            
             </div>
             <div>
               <!-- Additional content if needed -->

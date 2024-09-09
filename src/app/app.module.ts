@@ -50,7 +50,8 @@ import { ListPagesComponent } from './list-pages/list-pages.component';
 import { AdsByCategoryComponent } from './ads-by-category/ads-by-category.component';
 import { JobsComponent } from './jobs/jobs.component';
 import { PreselectionCvsComponent } from './preselection-cvs/preselection-cvs.component';
-
+import { ChartModule } from 'primeng/chart';
+import { CapitalizeFirstPipe } from './capitalize-first.pipe';
 @NgModule({
   declarations: [
     AppComponent,
@@ -80,8 +81,9 @@ import { PreselectionCvsComponent } from './preselection-cvs/preselection-cvs.co
     ListPagesComponent,
     AdsByCategoryComponent,
     JobsComponent,
-    PreselectionCvsComponent
-  ],
+    PreselectionCvsComponent,
+    CapitalizeFirstPipe
+    ],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -101,7 +103,8 @@ import { PreselectionCvsComponent } from './preselection-cvs/preselection-cvs.co
     ToastModule ,
     ImageModule,
     MessagesModule,
-    MessageModule
+    MessageModule,
+    ChartModule
   ],
   providers: [
     provideClientHydration(),

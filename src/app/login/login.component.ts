@@ -37,7 +37,7 @@ export class LoginComponent {
           localStorage.setItem('loggedInRoleId', response.data.role_id);
 
           // Redirection vers le tableau de bord
-          window.location.href = '/home';
+          window.location.href = '/dashboard';
         } else {
           // Afficher le message d'erreur
           this.errorMessage = 'Vous n\'avez pas accès.';

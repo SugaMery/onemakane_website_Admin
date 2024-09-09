@@ -27,17 +27,16 @@ export class PreselectionCvsComponent {
   itemsPerPage: number = 10; // Updated to show 6 items per page
   currentPage: number = 1;
   searchTerm: string = '';
+  firstelement: any;
   constructor(
     private route: ActivatedRoute,
     private annonceService: AnnonceService,
     private sanitizer: DomSanitizer
   ) {
-    this.cvUrl = this.sanitizer.bypassSecurityTrustResourceUrl(
-      '../../assets/Contrat Ecom_V3108 (2).pdf'
-    );
+    this.cvUrl = this.firstelement;
   }
   updateCvUrl(url: string) {
-    this.cvUrl = this.sanitizer.bypassSecurityTrustResourceUrl(url);
+    this.cvUrl = this.sanitizer.bypassSecurityTrustResourceUrl(this.firstelement);
   }
   ngOnInit(): void {
     const adId = this.route.snapshot.paramMap.get('id');
@@ -45,19 +44,38 @@ export class PreselectionCvsComponent {
 
     this.annonceService.getJobAppliances(Number(adId), accessToken!).subscribe(
       (response) => {
-        this.ads = response.data; // Assuming the response contains data
-        this.filteredAds = this.ads;
-        this.setPagedAds(); // Update paged ads after filtering
-        console.log('jobAppliances jobAppliances', this.ads);
+        // Directly access response.data if it's an array
+        if (Array.isArray(response.data)) {
+          response.data.forEach((element: { id: number; }) => {
+            console.log("Element ID:", element.id);
+            this.annonceService.getJobApplianceDetails(element.id, accessToken!).subscribe(
+              (dats) => {
+                console.log("Element IDyyyyyyy:", element.id);
+
+                this.ads.push(dats.data);
+                this.filteredAds = this.ads;
+                this.setPagedAds(); // Update paged ads after filtering
+                console.log('jobAppliances jobAppliances', this.ads, this.firstelement);
+        
+              },
+              (error) => {
+                console.error('Error fetching job appliance details:', error);
+              }
+            );
+          });
+        } else {
+          console.error('Unexpected response structure:', response.data);
+        }
+    
       },
       (error) => {
         console.error('Error fetching job appliances:', error);
       }
     );
-
-
-
+    
+    
   }
+
   extractDate(dateString: string): string {
     const date = new Date(dateString);
     const options: Intl.DateTimeFormatOptions = {
@@ -218,9 +236,41 @@ export class PreselectionCvsComponent {
   setPagedAds() {
     const startIndex = (this.currentPage - 1) * this.itemsPerPage;
     const endIndex = startIndex + this.itemsPerPage;
+    this.firstelement = 
+                                    this.sanitizer.bypassSecurityTrustResourceUrl('https://medias.onemakan.com/' +
+    this.filteredAds[0].c_v.path +
+    this.filteredAds[0].c_v.filename +
+                                    '.' +
+                                    this.filteredAds[0].c_v.extension)
     this.pagedAds = this.filteredAds.slice(startIndex, endIndex);
   }
+  toggleSelection(index: number, type: string): void {
+    const jobAppliance = this.pagedAds[index];
+    
+    if (type === 'selected') {
+      jobAppliance.isSelected = true; // Selected
+    } else if (type === 'notSelected') {
+      jobAppliance.isSelected = false; // Not Selected
+    }
 
+    // Call the service to update the status
+    this.updateStatus(jobAppliance.id, jobAppliance.isSelected);
+  }
+
+  // Method to call the service to update status
+  updateStatus(jobApplianceId: number, isSelected: boolean): void {
+    const accessToken = localStorage.getItem('loggedInUserToken');
+
+    this.annonceService.updateJobApplianceStatus(jobApplianceId, isSelected, accessToken!)
+      .subscribe(
+        response => {
+          console.log('Status updated successfully:', response);
+        },
+        error => {
+          console.error('Error updating status:', error);
+        }
+      );
+  }
   
   pagedCategories: any[] = [];
 

@@ -1,0 +1,5 @@
+::ng-deep .img-md {
+    width: 70px !important;
+    height: 70px !important;
+    margin-right: 0.5rem;
+}

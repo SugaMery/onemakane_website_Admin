@@ -39,9 +39,10 @@ export class JobsComponent {
   ) {}
 
   ngOnInit(): void {
-   this.getAds();
+   
     this.categoryService.getCategoryTree().subscribe((data) => {
       this.categories = data;
+      this.getAds();
       console.log('categorient parent', this.categories);
     });
 
