@@ -98,12 +98,10 @@ export class DashboardComponent implements OnInit {
 
     forkJoin(applicationRequests).subscribe(
       responses => {
-        responses.forEach((applications: any[], index: number) => {
-          this.jobApplications[this.topJobAds[index].id] = applications.length;
-        });
 
+     
         // Log the result for debugging
-        console.log('Job Applications Count:', this.jobApplications);
+        console.log('Job Applications Count:', responses);
       },
       error => {
         console.error('Error fetching job applications', error);
@@ -127,24 +125,25 @@ export class DashboardComponent implements OnInit {
   }
 
   processData(approvedAds: any[], rejectedAds: any[], pendingAds: any[]): void {
-    const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-
+    // Convert month names to French
+    const months = ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'];
+  
     const approvedCounts = this.countByMonth(approvedAds);
     const rejectedCounts = this.countByMonth(rejectedAds);
     const pendingCounts = this.countByMonth(pendingAds);
-
+  
     this.data = {
-      labels: months,
+      labels: months, // Use French month names
       datasets: [
         {
-          label: 'Approved Ads',
+          label: 'Annonces approuvées',
           data: approvedCounts,
           fill: false,
           tension: 0.4,
           borderColor: '#42A5F5'
         },
         {
-          label: 'Rejected Ads',
+          label: 'Annonces rejetées',
           data: rejectedCounts,
           fill: false,
           borderDash: [5, 5],
@@ -152,7 +151,7 @@ export class DashboardComponent implements OnInit {
           borderColor: '#66BB6A'
         },
         {
-          label: 'Pending Ads',
+          label: 'Annonces en attente',
           data: pendingCounts,
           fill: true,
           borderColor: '#FFA726',
@@ -161,7 +160,7 @@ export class DashboardComponent implements OnInit {
         }
       ]
     };
-
+  
     this.options = {
       maintainAspectRatio: false,
       aspectRatio: 0.6,
@@ -192,6 +191,7 @@ export class DashboardComponent implements OnInit {
       }
     };
   }
+  
 
   countByMonth(ads: any[]): number[] {
     const counts = new Array(12).fill(0); // Array of 12 months, initialized to 0
@@ -237,23 +237,23 @@ export class DashboardComponent implements OnInit {
   }
 
   prepareTopCategoriesData(): void {
-    // Sort categories by number of ads in descending order
+    // Trier les catégories par nombre d'annonces en ordre décroissant
     const sortedCategories = Object.entries(this.adsByCategory)
-      .sort(([, a], [, b]) => b - a) // Sort descending
-      .slice(0, 5); // Get top 5 categories
-
+      .sort(([, a], [, b]) => b - a) // Tri décroissant
+      .slice(0, 5); // Obtenir les 5 meilleures catégories
+  
     const labels = sortedCategories.map(([id]) => {
       const category = this.categorys.find(cat => cat.id === Number(id));
-      return category ? category.name : 'Unknown';
+      return category ? category.name : 'Inconnu';
     });
-
+  
     const data = sortedCategories.map(([, count]) => count);
-
+  
     this.topCategoriesData = {
       labels: labels,
       datasets: [
         {
-          label: 'Number of Ads',
+          label: 'Nombre d\'annonces',
           data: data,
           backgroundColor: '#42A5F5',
           borderColor: '#1E88E5',
@@ -261,7 +261,7 @@ export class DashboardComponent implements OnInit {
         }
       ]
     };
-
+  
     this.topCategoriesOptions = {
       maintainAspectRatio: false,
       aspectRatio: 0.6,
@@ -292,6 +292,7 @@ export class DashboardComponent implements OnInit {
       }
     };
   }
+  
 
   getTotalClients(): void {
     const accessToken = localStorage.getItem('loggedInUserToken');
