@@ -242,6 +242,8 @@ export class PreselectionCvsComponent {
     this.filteredAds[0].c_v.filename +
                                     '.' +
                                     this.filteredAds[0].c_v.extension)
+
+                                    
     this.pagedAds = this.filteredAds.slice(startIndex, endIndex);
   }
   toggleSelection(index: number, type: string): void {

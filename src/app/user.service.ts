@@ -6,7 +6,7 @@ import { forkJoin, map, Observable, of, switchMap } from 'rxjs';
   providedIn: 'root',
 })
 export class UserService {
-  private baseUrl = 'https://api.onemakan.com/v1';
+  private baseUrl = 'https://devapi.onemakan.com/v1';
 
   constructor(private http: HttpClient) {}
 

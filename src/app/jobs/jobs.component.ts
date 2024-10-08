@@ -224,7 +224,8 @@ export class JobsComponent {
   setPagedAds() {
     const startIndex = (this.currentPage - 1) * this.itemsPerPage;
     const endIndex = startIndex + this.itemsPerPage;
-    this.pagedAds = this.filteredAds.slice(startIndex, endIndex);
+  
+    this.pagedAds = this.filteredAds.slice(startIndex, endIndex).filter(ad => ad.candidacy_pre_selection === true);;
   }
 
   

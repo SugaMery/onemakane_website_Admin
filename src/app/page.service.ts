@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root',
 })
 export class PageService {
-  private apiUrl = 'https://api.onemakan.com/v1/pages';
+  private apiUrl = 'https://devapi.onemakan.com/v1/pages';
   //getPageBySlug: any;
 
   constructor(private http: HttpClient) {}
@@ -21,7 +21,7 @@ export class PageService {
   }
 
   updatePage(pageLangId: string, body: any ,accessToken: string): Observable<any> {
-    const url = `https://api.onemakan.com/v1/page-langs/${pageLangId}`;
+    const url = `https://devapi.onemakan.com/v1/page-langs/${pageLangId}`;
     const headers = new HttpHeaders({
       Authorization: `Bearer ${accessToken}`, // Ajouter l'en-tête d'autorisation avec le token
     });
