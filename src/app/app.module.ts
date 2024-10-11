@@ -52,6 +52,16 @@ import { JobsComponent } from './jobs/jobs.component';
 import { PreselectionCvsComponent } from './preselection-cvs/preselection-cvs.component';
 import { ChartModule } from 'primeng/chart';
 import { CapitalizeFirstPipe } from './capitalize-first.pipe';
+import { GestionRolesComponent } from './gestion-roles/gestion-roles.component';
+import { EditGestionRolesComponent } from './edit-gestion-roles/edit-gestion-roles.component';
+import { TaxesComponent } from './taxes/taxes.component';
+import { EditTaxesComponent } from './edit-taxes/edit-taxes.component';
+import { ProduitsComponent } from './produits/produits.component';
+import { AttributsComponent } from './attributs/attributs.component';
+import { CaracteristiquesComponent } from './caracteristiques/caracteristiques.component';
+import { MarquesComponent } from './marques/marques.component';
+import { EditAttributsComponent } from './edit-attributs/edit-attributs.component';
+import { EditCaracteristiquesComponent } from './edit-caracteristiques/edit-caracteristiques.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -82,7 +92,17 @@ import { CapitalizeFirstPipe } from './capitalize-first.pipe';
     AdsByCategoryComponent,
     JobsComponent,
     PreselectionCvsComponent,
-    CapitalizeFirstPipe
+    CapitalizeFirstPipe,
+    GestionRolesComponent,
+    EditGestionRolesComponent,
+    TaxesComponent,
+    EditTaxesComponent,
+    ProduitsComponent,
+    AttributsComponent,
+    CaracteristiquesComponent,
+    MarquesComponent,
+    EditAttributsComponent,
+    EditCaracteristiquesComponent
     ],
   imports: [
     BrowserModule,

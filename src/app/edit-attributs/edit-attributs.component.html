@@ -1,0 +1,102 @@
+<app-menu></app-menu>
+<main class="main-wrap">
+  <app-header></app-header>
+  <section class="content-main">
+    <div class="content-header">
+      <a [routerLink]="['/attributs']"><i class="material-icons md-arrow_back"></i> Retourner</a>
+    </div>
+    <div class="content-header">
+      <h2 class="content-title">Modifier l'attribut</h2>
+    </div>
+    <form (ngSubmit)="saveAttribute()">
+      <div class="row">
+        <div class="col-lg-6">
+          <div class="card mb-4">
+            <div class="card-header">
+              <h4>Détails de l'attribut</h4>
+            </div>
+            <div class="card-body">
+              <div class="mb-4">
+                <label for="role_name" class="form-label">Nom*</label>
+                <input
+                  type="text"
+                  [(ngModel)]="attribute.name"
+                  name="role_name"  
+                  placeholder="Type here"
+                  class="form-control"
+                  id="role_name"
+                  required>
+              </div>
+
+              <div class="mb-4">
+                <label for="role_slug" class="form-label">Slug*</label>
+                <input
+                  type="text"
+                  [(ngModel)]="attribute.slug"
+                  name="role_slug" 
+                  placeholder="Type here"
+                  class="form-control"
+                  id="role_slug"
+                  required>
+              </div>
+
+              <button type="submit" class="btn btn-primary">Modifier</button>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <div class="card mb-4">
+            <div class="card-header d-flex justify-content-between align-items-center">
+              <h4 class="mb-0">Valeurs de l'attribut</h4>
+              <button type="button" class="btn btn-primary" style="
+              padding: 5px;
+          " (click)="showDialog()" title="Ajouter une valeur">
+                <i class="material-icons md-plus" style="margin: 0;"></i>
+              </button>
+            </div>
+            <div class="card-body">
+              <!-- Attribute Values Section -->
+              <div class="mb-3">
+                <div *ngFor="let value of attribute.attribute_values" class="mb-3">
+                  <div class="row">
+                    <div class="col-lg-10">
+                      <input
+                        type="text"
+                        class="form-control"
+                        [(ngModel)]="value.name"
+                        name="value_{{value.id}}"  
+                        required>
+                    </div>
+                    <div class="col-lg-2 d-flex align-items-end">
+                      <button style="font-size: small;" type="button" class="btn btn-danger" (click)="removeAttributeValue(value.id)">Supprimer</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Dialog for adding new attribute value -->
+      <p-dialog header="Ajouter une valeur" [style]="{ width: '450px' }" [(visible)]="displayDialog" [closable]="true" [modal]="true" styleClass="p-fluid">
+        <div class="p-fluid">
+          <div class="mb-3">
+            <label for="newValue" class="form-label">Nom*</label>
+            <input
+              type="text"
+              id="newValue"
+              [(ngModel)]="newValueName"
+              name="newValue"  
+              class="form-control"
+              required>
+          </div>
+        </div>
+        <div class="dialog-footer d-flex justify-content-end">
+          <button type="button" class="btn btn-secondary me-2" (click)="displayDialog = false">Annuler</button>
+          <button type="button" class="btn btn-primary" (click)="addAttributeValue()">Ajouter</button>
+        </div>
+      </p-dialog>
+    </form>
+  </section>
+  <app-footer></app-footer>
+</main>

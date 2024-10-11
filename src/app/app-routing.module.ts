@@ -22,15 +22,40 @@ import { PagesComponent } from './pages/pages.component';
 import { AdsByCategoryComponent } from './ads-by-category/ads-by-category.component';
 import { JobsComponent } from './jobs/jobs.component';
 import { PreselectionCvsComponent } from './preselection-cvs/preselection-cvs.component';
+import { GestionRolesComponent } from './gestion-roles/gestion-roles.component';
+import { EditGestionRolesComponent } from './edit-gestion-roles/edit-gestion-roles.component';
+import { TaxesComponent } from './taxes/taxes.component';
+import { EditTaxesComponent } from './edit-taxes/edit-taxes.component';
+import { ProduitsComponent } from './produits/produits.component';
+import { AttributsComponent } from './attributs/attributs.component';
+import { CaracteristiquesComponent } from './caracteristiques/caracteristiques.component';
+import { MarquesComponent } from './marques/marques.component';
+import { EditAttributsComponent } from './edit-attributs/edit-attributs.component';
+import { EditCaracteristiquesComponent } from './edit-caracteristiques/edit-caracteristiques.component';
 
 const routes: Routes = [
   { path: 'add_category', component: AddCategoryComponent },
-  { path: 'list_category', component: ListCategoryComponent },
+  { path: 'categories', component: ListCategoryComponent },
   { path: 'page-ajouter-photo', component: AddPhotoWebsiteComponent },
   { path: 'page-photos-list', component: ListPhotoWebsiteComponent },
   { path: 'home', component: ListCategoryComponent },
   { path: '', component: LoginComponent },
-  { path: 'list-utilisateurs', component: ListUserComponent },
+  { path: 'utilisateurs-actifs', component: ListUserComponent },
+
+
+  { path: 'produits', component: ProduitsComponent },
+  { path: 'attributs', component: AttributsComponent },
+  { path: 'attributs/edit/:id', component: EditAttributsComponent },
+
+  { path: 'caracteristiques', component: CaracteristiquesComponent },
+  { path: 'caracteristiques/edit/:id', component: EditCaracteristiquesComponent },
+
+  { path: 'marques', component: MarquesComponent },
+
+  { path: 'taxes', component: TaxesComponent },
+
+  { path: 'taxes/edit/:id', component: EditTaxesComponent },
+
   { path: 'list-clients-actifs', component: ListClientsComponent },
   { path: 'list-clients-non-actifs', component: ListClientsDeletedComponent },
   { path: 'modifier-utilisateur/:id', component: EditUserComponent },
@@ -42,10 +67,11 @@ const routes: Routes = [
   { path: 'lists-annonces-by-category/:id', component: AdsByCategoryComponent },
   { path: 'lists-annonces-jobs', component: JobsComponent },
   { path: 'présélection-cvs/:id', component: PreselectionCvsComponent },
-
+  { path: 'gestion-roles', component: GestionRolesComponent },
+  { path: 'gestion-roles/edit/:id', component: EditGestionRolesComponent },
   { path: 'list-annonces/all', component: ListAdsComponent },
   { path: 'dashboard', component: DashboardComponent },
-  { path: 'list-utilisateurs-non-actifs', component: ListUsersDeletedComponent },
+  { path: 'utilisateurs-non-actifs', component: ListUsersDeletedComponent },
   { path: 'list-annonces/attente', component: AnnoncesEnAttenteComponent },
   { path: 'list-annonces/approuve', component: AnnoncesApprouveesComponent },
   { path: 'list-annonces/rejete', component: AnnoncesRejeteesComponent },

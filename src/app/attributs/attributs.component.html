@@ -1,0 +1,44 @@
+<app-menu></app-menu>
+<main class="main-wrap">
+  <app-header></app-header>
+  <section class="content-main">
+    <div class="content-header">
+      <h2 class="content-title">Gestion des Attributs</h2>
+    </div>
+
+    <div class="card mb-4">
+      <header class="card-header">
+        <div class="row align-items-center itemlist listd">
+          <div class="col-lg-4 col-sm-4 col-8 flex-grow-1 col-name"><strong>Nom</strong></div>
+          <div class="col-lg-4 col-sm-4 col-8  col-created"><strong>Date de création</strong></div>
+          <div class="col-lg-2 col-sm-2 col-4 col-action text-center"><strong>Action</strong></div>
+        </div>
+      </header>
+
+      <div class="card-body">
+        <article *ngFor="let attribute of attributes" class="itemlist">
+          <div class="row align-items-center">
+            <div class="col-lg-4 col-sm-4 col-8 flex-grow-1 col-name">
+              <a class="itemside" href="#">
+                <div class="info">
+                  <h6 class="mb-0">{{ attribute.name }}</h6> <!-- Display attribute name -->
+                </div>
+              </a>
+            </div>
+
+            <div class="col-lg-4 col-sm-4 col-8 col-created">
+              {{ attribute.created_at | date:'dd/MM/yyyy' }} <!-- Display created_at -->
+            </div>
+
+            <div class="col-lg-2 col-sm-2 col-4 col-action text-center">
+              <a [routerLink]="['/attributs/edit', attribute.id]" class="btn btn-sm font-sm rounded btn-brand">
+                <i class="material-icons md-edit"></i> Modifier
+              </a>
+            </div>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+  <app-footer></app-footer>
+</main>

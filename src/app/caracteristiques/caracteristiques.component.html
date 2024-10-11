@@ -1,0 +1,51 @@
+<app-menu></app-menu>
+<main class="main-wrap">
+  <app-header></app-header>
+  <section class="content-main">
+    <div class="content-header">
+      <h2 class="content-title">Gestion des Caractéristiques</h2>
+      <!-- Uncomment if you want to add a button for creating new features
+      <div>
+        <a href="#" class="btn btn-" style="background-color: #3bb77e; color: white;">
+          <i class="material-icons md-plus"></i> Créer une nouvelle caractéristique
+        </a>
+      </div>
+      -->
+    </div>
+
+    <div class="card mb-4">
+      <header class="card-header">
+        <div class="row align-items-center itemlist listd">
+          <div class="col-lg-4 col-sm-4 col-8 flex-grow-1 col-name"><strong>Nom</strong></div>
+          <div class="col-lg-2 col-sm-2 col-4 col-action text-center"><strong>Action</strong></div>
+        </div>
+        <!-- row .// -->
+      </header>
+      
+      <!-- card-header end// -->
+      <div class="card-body">
+        <article *ngFor="let feature of features" class="itemlist">
+          <div class="row align-items-center">
+            <div class="col-lg-4 col-sm-4 col-8 flex-grow-1 col-name">
+              <a class="itemside" href="#">
+                <div class="info">
+                  <h6 class="mb-0">{{ feature.name }}</h6> <!-- Affichage du nom de la caractéristique -->
+                </div>
+              </a>
+            </div>
+
+            <div class="col-lg-2 col-sm-2 col-4 col-action text-center">
+              <a [routerLink]="['/caracteristiques/edit', feature.id]" class="btn btn-sm font-sm rounded btn-brand">
+                <i class="material-icons md-edit"></i> Modifier
+              </a>
+            </div>
+          </div>
+          <!-- row .// -->
+        </article>
+      </div>
+      <!-- card-body end// -->
+    </div>
+  </section>
+  <!-- content-main end// -->
+  <app-footer></app-footer>
+</main>

@@ -27,6 +27,21 @@ export class UserService {
     return this.http.get<any>(url , { headers });
 
   }
+
+  updateRole(roleId: number, roleData: any, accessToken: string): Observable<any> {
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${accessToken}`,
+    });
+
+    return this.http.patch(`${this.baseUrl}/roles/${roleId}`, roleData, { headers });
+  }
+  getRoles(accessToken: string): Observable<any> {
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${accessToken}`
+    });
+
+    return this.http.get<any>(`${this.baseUrl}/roles`, { headers });
+  }
   // Méthode pour obtenir les annonces d'un utilisateur
   getUserAdsById(userId: number, accessToken: string,validation_status?: string, page: number = 1): Observable<any> {
     let url = `${this.baseUrl}/users/${userId}/ads?page=${page}`; // Endpoint pour les annonces d'un utilisateur

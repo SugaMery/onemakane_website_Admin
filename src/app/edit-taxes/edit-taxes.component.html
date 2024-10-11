@@ -1,0 +1,61 @@
+<app-menu></app-menu>
+<main class="main-wrap">
+  <app-header></app-header>
+  <section class="content-main">
+    <div class="content-header">
+      <a href="javascript:history.back()"><i class="material-icons md-arrow_back"></i> Retourner</a>
+    </div>
+    <div class="content-header">
+      <h2 class="content-title">Éditer les Paramètres de la Taxe</h2>
+    </div>
+    <div class="row">
+      <div class="col-lg-6">
+        <div class="card mb-4">
+          <div class="card-header">
+            <h4>Modifier la taxe</h4>
+          </div>
+          <div class="card-body">
+            <form (ngSubmit)="updateTax()">
+
+              <div class="mb-4">
+                <label for="tax_rate" class="form-label">Taux*</label>
+                <input 
+                  type="number" 
+                  [(ngModel)]="taxData.rate" 
+                  name="tax_rate" 
+                  placeholder="Type here" 
+                  class="form-control" 
+                  id="tax_rate" 
+                  required>
+              </div>
+              <div class="mb-4">
+                <label for="tax_name" class="form-label">Nom*</label>
+                <input 
+                  type="text" 
+                  [(ngModel)]="taxData.name" 
+                  name="tax_name" 
+                  placeholder="Type here" 
+                  class="form-control" 
+                  id="tax_name" 
+                  required>
+              </div>
+              <div class="mb-4">
+                <label class="form-check mb-4">
+                  <input 
+                    class="form-check-input" 
+                    type="checkbox" 
+                    [(ngModel)]="taxData.active" 
+                    name="tax_active">
+                  <span class="form-check-label">Active</span>
+                </label>
+              </div>
+
+              <button type="submit" class="btn btn-primary">Mettre à jour la taxe</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <app-footer></app-footer>
+</main>

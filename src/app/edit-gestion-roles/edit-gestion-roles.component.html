@@ -1,0 +1,74 @@
+<app-menu></app-menu>
+<main class="main-wrap">
+  <app-header></app-header>
+  <section class="content-main">
+    <div class="content-header">
+        <a href="javascript:history.back()"><i class="material-icons md-arrow_back"></i> Retourner</a>
+
+    </div>
+    <div class="content-header">
+      <h2 class="content-title">Éditer les Paramètres du Rôle</h2>
+    </div>
+    <div class="row">
+      <div class="col-lg-6">
+        <div class="card mb-4">
+          <div class="card-header">
+            <h4>Modifier le rôle</h4>
+          </div>
+          <div class="card-body">
+            <form (ngSubmit)="updateRole()">
+              <div class="mb-4">
+                <label for="role_name" class="form-label">Nom*</label>
+                <input 
+                  type="text" 
+                  [(ngModel)]="roleData.name" 
+                  name="role_name" 
+                  placeholder="Type here" 
+                  class="form-control" 
+                  id="role_name" 
+                  required>
+              </div>
+
+              <div class="mb-4">
+                <label for="role_slug" class="form-label">Slug*</label>
+                <input 
+                  type="text" 
+                  [(ngModel)]="roleData.slug" 
+                  name="role_slug" 
+                  placeholder="Type here" 
+                  class="form-control" 
+                  id="role_slug" 
+                  required>
+              </div>
+
+              <div class="mb-4">
+                <label for="role_level" class="form-label">Niveau</label>
+                <input 
+                  type="number" 
+                  [(ngModel)]="roleData.level" 
+                  name="role_level" 
+                  placeholder="Type here" 
+                  class="form-control" 
+                  id="role_level">
+              </div>
+
+              <div class="mb-4">
+                <label class="form-check mb-4">
+                  <input 
+                    class="form-check-input" 
+                    type="checkbox" 
+                    [(ngModel)]="roleData.active" 
+                    name="role_active">
+                  <span class="form-check-label">Actif</span>
+                </label>
+              </div>
+
+              <button type="submit" class="btn btn-primary">Mettre à jour le rôle</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <app-footer></app-footer>
+</main>

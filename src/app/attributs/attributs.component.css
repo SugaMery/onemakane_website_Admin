@@ -1,0 +1,14 @@
+.itemlist.listd{
+
+    border-bottom: none;
+
+}
+
+.itemlist.listd:hover {
+    background: none !important;
+} 
+
+.rounded-pill {
+    padding-right: 2em;
+    padding-left: 2em;
+}

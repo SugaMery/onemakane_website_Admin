@@ -1,0 +1,71 @@
+<app-menu></app-menu>
+<main class="main-wrap">
+  <app-header></app-header>
+  <section class="content-main">
+    <div class="content-header">
+      <h2 class="content-title">Gestion des Rôles</h2>
+<!--       <div>
+        <a href="#" class="btn btn-" style="
+          background-color: #3bb77e;
+          color: white;
+        "><i class="material-icons md-plus"></i> Créer un nouveau rôle</a>
+      </div> -->
+    </div>
+
+    <div class="card mb-4">
+        <header class="card-header ">
+            <div class="row align-items-center itemlist listd"  >
+                <div class="col-lg-4 col-sm-4 col-8 flex-grow-1 col-name"><strong>Nom</strong></div>
+                <div class="col-lg-2 col-sm-2 col-4 col-level"><strong>Niveau</strong></div>
+                <div class="col-lg-2 col-sm-2 col-4 col-count"><strong>Nombre</strong></div>
+                <div class="col-lg-2 col-sm-2 col-4 col-status"><strong>Statut</strong></div>
+                <div class="col-lg-2 col-sm-2 col-4 col-action text-center"><strong>Action</strong></div>
+            </div>
+            <!-- row .// -->
+        </header>
+        
+      <!-- card-header end// -->
+      <div class="card-body">
+        <article *ngFor="let role of roles" class="itemlist">
+            <div class="row align-items-center">
+                <div class="col-lg-4 col-sm-4 col-8 flex-grow-1 col-name">
+                    <a class="itemside" href="#">
+                        <div class="info">
+                            <h6 class="mb-0">{{ role.name }}</h6> <!-- Affichage du nom du rôle -->
+                        </div>
+                    </a>
+                </div>
+        
+                <div class="col-lg-2 col-sm-2 col-4 col-level">{{ role.level }}</div> <!-- Affichage du niveau -->
+                <div class="col-lg-2 col-sm-2 col-4 col-count">{{ role.user_count }}</div> <!-- Utilisez user_count à la place de count -->
+        
+                <div class="col-lg-2 col-sm-2 col-4 col-status">
+                    <span class="badge rounded-pill" 
+                          [ngClass]="{
+                              'bg-success': role.active,
+                              'bg-danger': !role.active
+                          }">
+                        {{ role.active ? 'Active' : 'Inactive' }} <!-- Affichage de l'état -->
+                    </span>
+                </div>
+        
+                <div class="col-lg-2 col-sm-2 col-4 col-action text-center">
+                    <a [routerLink]="['/gestion-roles/edit', role.id]" class="btn btn-sm font-sm rounded btn-brand">
+                        <i class="material-icons md-edit"></i> Modifier
+                    </a>
+                    
+
+                </div>
+            </div>
+            <!-- row .// -->
+        </article>
+        
+        
+
+      </div>
+      <!-- card-body end// -->
+    </div>
+  </section>
+  <!-- content-main end// -->
+  <app-footer></app-footer>
+</main>

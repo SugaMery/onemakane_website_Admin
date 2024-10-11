@@ -14,122 +14,106 @@
             <li class="menu-item">
                 <a class="menu-link" routerLink="/dashboard" routerLinkActive="active">
                     <i class="icon material-icons md-home"></i>
-                    <span class="text">Dashboard</span>
+                    <span class="text">Tableau de bord</span>
                 </a>
             </li>
-            <li class="menu-item has-submenu"  routerLink="/list-annonces/all" routerLinkActive="active">
-                <a class="menu-link">
-                  <i class="icon material-icons md-shopping_bag"></i>
-                  <span class="text">Annonces</span>
-                </a>
-                <div class="submenu">
-                    <a routerLink="/list-annonces/all" routerLinkActive="active" class="submenu-link">
-                      Toutes les annonces
-                    </a>
-                    <a routerLink="/list-annonces/attente" routerLinkActive="active" class="submenu-link">
-                      Annonces en attente
-                    </a>
-                    <a routerLink="/list-annonces/approuve" routerLinkActive="active" class="submenu-link">
-                      Annonces approuvées
-                    </a>
-                    <a routerLink="/list-annonces/rejete" routerLinkActive="active" class="submenu-link">
-                      Annonces rejetées
-                    </a>
-                  </div>
-              </li>
-              
-<!--             <li class="menu-item has-submenu" routerLinkActive="active">
-                <a class="menu-link">
-                    <i class="icon material-icons md-photo"></i>
-                    <span class="text">Photos</span>
-                </a>
-                <div class="submenu">
-                    <a routerLink="/page-photos-list">Liste des photos</a>
-                    <a routerLink="/page-ajouter-photo">Ajouter une photo</a>
-                </div>
-            </li>  -->           
-            <li class="menu-item has-submenu"  routerLink="/list_category" routerLinkActive="active">
-                <a class="menu-link">
-                  <i class="icon material-icons md-category"></i>
-                  <span class="text">Catégories</span>
-                </a>
-                <div class="submenu">
-                    <a routerLink="/add_category">Ajouter une catégorie</a>
-                    <a routerLink="/list_category">Liste des catégories</a>
-                </div>                
-            </li>
-
-            <li class="menu-item "  routerLink="/lists-annonces-jobs" routerLinkActive="active">
-                <a class="menu-link">
-                  <i class="icon material-icons md-shopping_bag"></i>
-                  <span class="text">Les annonces d'emploi</span>
-                </a>
-              </li>
-
-            <li class="menu-item has-submenu"  routerLink="/list-pages-fr" routerLinkActive="active">
-                <a class="menu-link">
-                  <i class="icon material-icons md-pages"></i>
-                  <span class="text">Pages</span>
-                </a>  
-                <div class="submenu">
-                    <a routerLink="/list-pages-fr">Pages Français </a>
-                    <a routerLink="/list-pages-ar">Pages Arabe</a>
-                </div>           
-            </li>
-<!--             <li class="menu-item has-submenu" routerLinkActive="active">
-                <a class="menu-link" routerLink="/page-transactions-1">
-                    <i class="icon material-icons md-monetization_on"></i>
-                    <span class="text">Transactions</span>
-                </a>
-                <div class="submenu">
-                    <a routerLink="/page-transactions-1">Transaction 1</a>
-                    <a routerLink="/page-transactions-2">Transaction 2</a>
-                </div>
-            </li> -->
             <li class="menu-item has-submenu" routerLinkActive="active">
-                <a class="menu-link" routerLink="/list-clients-actifs">
-                    <i class="icon material-icons md-person"></i>
-                    <span class="text">Clients</span>
+                <a class="menu-link">
+                    <i class="icon material-icons md-business"></i>
+                    <span class="text">Gestion commerciale</span>
                 </a>
                 <div class="submenu">
-                    <a routerLink="/list-clients-actifs">Clients actifs</a>
-                    <a routerLink="/list-clients-non-actifs">Clients non actifs </a>
-                </div>    
+                    <a routerLink="/clients" routerLinkActive="active" class="submenu-link">
+                        <i class="icon material-icons md-person" style="font-size: 16px !important;"></i>
+                        Clients
+                    </a>
+                    <a routerLink="/commandes" routerLinkActive="active" class="submenu-link">
+                        <i class="icon material-icons md-shopping_cart" style="font-size: 16px !important;"></i>
+                        Commandes
+                    </a>
+                </div>
             </li>
-            <li class="menu-item has-submenu" *ngIf="isAdmin" routerLinkActive="active">
-                <a class="menu-link" routerLink="/list-utilisateurs">
+            <li class="menu-item has-submenu" routerLink="/produits" routerLinkActive="active">
+                <a class="menu-link">
+                    <i class="icon material-icons md-store"></i>
+                    <span class="text">Gestion produits</span>
+                </a>
+                <div class="submenu">
+                    <a routerLink="/produits" routerLinkActive="active" class="submenu-link">
+                        <i class="icon material-icons md-store" style="font-size: 16px !important;"></i>
+                        Produits
+                    </a>
+                    <a routerLink="/categories" routerLinkActive="active" class="submenu-link">
+                        <i class="icon material-icons md-category" style="font-size: 16px !important;"></i>
+                        Catégories
+                    </a>
+                    <a routerLink="/attributs" routerLinkActive="active" class="submenu-link">
+                        <i class="icon material-icons md-tune" style="font-size: 16px !important;"></i>
+                        Attributs
+                    </a>
+                    <a routerLink="/caracteristiques" routerLinkActive="active" class="submenu-link">
+                        <i class="icon material-icons md-featured_play_list" style="font-size: 16px !important;"></i>
+                        Caractéristiques
+                    </a>
+                    <a routerLink="/marques" routerLinkActive="active" class="submenu-link">
+                        <i class="icon material-icons md-label" style="font-size: 16px !important;"></i>
+                        Marques
+                    </a>
+                </div>
+            </li>
+            <li class="menu-item has-submenu" routerLink="/utilisateurs-actifs" routerLinkActive="active">
+                <a class="menu-link">
                     <i class="icon material-icons md-person"></i>
                     <span class="text">Utilisateurs</span>
                 </a>
                 <div class="submenu">
-                    <a routerLink="/list-utilisateurs">Utilisateurs actifs</a>
-                    <a routerLink="/list-utilisateurs-non-actifs">Utilisateurs non actifs </a>
-                </div>    
+                    <a routerLink="/utilisateurs-actifs" routerLinkActive="active" class="submenu-link">
+                        <i class="icon material-icons md-check_circle" style="font-size: 16px !important;"></i>
+                        Utilisateurs actifs
+                    </a>
+                    <a routerLink="/utilisateurs-non-actifs" routerLinkActive="active" class="submenu-link">
+                        <i class="icon material-icons md-remove_circle" style="font-size: 16px !important;"></i>
+                        Utilisateurs non actifs
+                    </a>
+                </div>
             </li>
-<!--             <li class="menu-item" routerLinkActive="active">
-                <a class="menu-link" routerLink="/page-reviews">
-                    <i class="icon material-icons md-comment"></i>
-                    <span class="text">commentaires</span>
+            <li class="menu-item "  routerLinkActive="active">
+                <a class="menu-link" routerLink="/gestion-roles">
+                    <i class="icon material-icons md-security"></i>
+                    <span class="text">Rôles</span>
                 </a>
-            </li> -->
-<!--             <li class="menu-item">
-                <a class="menu-link" href="#" disabled>
-                    <i class="icon material-icons md-pie_chart"></i>
-                    <span class="text">Statistique</span>
+            </li>
+            <li class="menu-item "  routerLinkActive="active">
+                <a class="menu-link" routerLink="/modules">
+                    <i class="icon material-icons md-extension"></i>
+                    <span class="text">Modules</span>
                 </a>
-            </li> -->
+            </li>
+            <li class="menu-item "  routerLinkActive="active">
+                <a class="menu-link" routerLink="/taxes">
+                    <i class="icon material-icons md-attach_money"></i>
+                    <span class="text">Taxes</span>
+                </a>
+            </li>
+            <li class="menu-item "  routerLinkActive="active">
+                <a class="menu-link" routerLink="/parametres">
+                    <i class="icon material-icons md-settings"></i>
+                    <span class="text">Paramètres</span>
+                </a>
+            </li>
+            <li class="menu-item "  routerLinkActive="active">
+                <a class="menu-link" routerLink="/connexions">
+                    <i class="icon material-icons md-exit_to_app"></i>
+                    <span class="text">Connexions</span>
+                </a>
+            </li>
         </ul>
         <hr />
-<!--         <ul class="menu-aside">
-            <li class="menu-item has-submenu">
-                <a class="menu-link" href="#">
-                    <span class="text">Settings</span>
-                </a>
-            </li>
-        </ul> -->
         <br />
         <br />
     </nav>
+    
+
     
     
 </aside>
