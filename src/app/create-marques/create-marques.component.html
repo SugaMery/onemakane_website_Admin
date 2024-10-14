@@ -1,0 +1,41 @@
+<app-menu></app-menu>
+<main class="main-wrap">
+  <app-header></app-header>
+  <section class="content-main">
+    <div class="content-header">
+      <a href="javascript:history.back()"><i class="material-icons md-arrow_back"></i> Retourner</a>
+    </div>
+    <div class="content-header">
+      <h2 class="content-title">Créer une Nouvelle Marque</h2>
+    </div>
+    <div class="row">
+      <div class="col-lg-6">
+        <div class="card mb-4">
+          <div class="card-header">
+            <h4>Ajouter une Marque</h4>
+          </div>
+          <div class="card-body">
+            <form (ngSubmit)="createBrand()">
+
+              <div class="mb-4">
+                <label for="brand_name" class="form-label">Nom*</label>
+                <input 
+                  type="text" 
+                  [(ngModel)]="brandData.name" 
+                  name="brand_name" 
+                  placeholder="Type here" 
+                  class="form-control" 
+                  id="brand_name" 
+                  required>
+              </div>
+
+
+              <button type="submit" class="btn btn-primary">Ajouter</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <app-footer></app-footer>
+</main>

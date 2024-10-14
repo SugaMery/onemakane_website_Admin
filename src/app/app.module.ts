@@ -62,6 +62,10 @@ import { CaracteristiquesComponent } from './caracteristiques/caracteristiques.c
 import { MarquesComponent } from './marques/marques.component';
 import { EditAttributsComponent } from './edit-attributs/edit-attributs.component';
 import { EditCaracteristiquesComponent } from './edit-caracteristiques/edit-caracteristiques.component';
+import { EditMarquesComponent } from './edit-marques/edit-marques.component';
+import { CreateMarquesComponent } from './create-marques/create-marques.component';
+import { EditProduitsComponent } from './edit-produits/edit-produits.component';
+import { CreateProduitsComponent } from './create-produits/create-produits.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -102,7 +106,11 @@ import { EditCaracteristiquesComponent } from './edit-caracteristiques/edit-cara
     CaracteristiquesComponent,
     MarquesComponent,
     EditAttributsComponent,
-    EditCaracteristiquesComponent
+    EditCaracteristiquesComponent,
+    EditMarquesComponent,
+    CreateMarquesComponent,
+    EditProduitsComponent,
+    CreateProduitsComponent
     ],
   imports: [
     BrowserModule,

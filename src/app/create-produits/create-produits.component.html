@@ -1,0 +1,90 @@
+<app-menu></app-menu>
+<main class="main-wrap">
+  <app-header></app-header>
+  <section class="content-main">
+    <div class="row">
+      <div class="col-9">
+        <div class="content-header">
+            <a [routerLink]="['/produits']"><i class="material-icons md-arrow_back"></i> Retourner</a>
+          </div>
+        <div class="content-header">
+
+          <h2 class="content-title">Ajouter un nouveau produit</h2>
+
+<!--           <div>
+            <button class="btn btn-light rounded font-sm mr-5 text-body hover-up">Enregistrer en brouillon</button>
+            <button class="btn btn-md rounded font-sm hover-up" type="submit" (click)="publishProduct()">Publier</button>
+          </div> -->
+        </div>
+      </div>
+      <div class="col-12">
+        <div class="card">
+          <div class="card-body">
+            <div class="row gx-5">
+              <aside class="col-lg-3 border-end">
+                <nav class="nav nav-pills flex-column mb-4">
+                  <a class="nav-link active" aria-current="page" href="#">Informations</a>
+                  <a class="nav-link" href="#">Prix</a>
+                  <a class="nav-link" href="#">SEO</a>
+                  <a class="nav-link" href="#">Catégories</a>
+                  <a class="nav-link" href="#">Caractéristiques</a>
+                  <a class="nav-link" href="#">Images</a>
+                  <a class="nav-link" href="#">Déclinaisons</a>
+                  <a class="nav-link" href="#">Livraison</a>
+                </nav>
+              </aside>
+              <div class="col-lg-9">
+                <section class="content-body p-xl-4">
+                  <form (ngSubmit)="createProduct()" #productForm="ngForm">
+                    <div class="row mb-4">
+                      <label class="col-lg-3 col-form-label">Nom du produit*</label>
+                      <div class="col-lg-9">
+                        <input
+                          type="text"
+                          class="form-control"
+                          placeholder="Tapez ici"
+                          [(ngModel)]="productData.name"
+                          name="name"
+                          required
+                        />
+                      </div>
+                    </div>
+                    <div class="row mb-4">
+                        <label class="col-lg-3 col-form-label">Résumé du produit*</label>
+                        <div class="col-lg-9">
+                          <input
+                            type="text"
+                            class="form-control"
+                            placeholder="Tapez ici"
+                            [(ngModel)]="productData.resume"
+                            name="name"
+                            required
+                          />
+                        </div>
+                      </div>
+                    <div class="row mb-4">
+                      <label class="col-lg-3 col-form-label">Description*</label>
+                      <div class="col-lg-9">
+                        <textarea
+                          class="form-control"
+                          placeholder="Tapez ici"
+                          rows="4"
+                          [(ngModel)]="productData.description"
+                          name="description"
+                          required
+                        ></textarea>
+                      </div>
+                    </div>
+                    <br>
+                    <button class="btn btn-primary" type="submit" [disabled]="!productForm.valid">Continuer vers la suite</button>
+                  </form>
+                </section>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <app-footer></app-footer>
+</main>

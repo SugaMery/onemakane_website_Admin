@@ -32,6 +32,10 @@ import { CaracteristiquesComponent } from './caracteristiques/caracteristiques.c
 import { MarquesComponent } from './marques/marques.component';
 import { EditAttributsComponent } from './edit-attributs/edit-attributs.component';
 import { EditCaracteristiquesComponent } from './edit-caracteristiques/edit-caracteristiques.component';
+import { EditMarquesComponent } from './edit-marques/edit-marques.component';
+import { CreateMarquesComponent } from './create-marques/create-marques.component';
+import { CreateProduitsComponent } from './create-produits/create-produits.component';
+import { EditProduitsComponent } from './edit-produits/edit-produits.component';
 
 const routes: Routes = [
   { path: 'add_category', component: AddCategoryComponent },
@@ -41,21 +45,20 @@ const routes: Routes = [
   { path: 'home', component: ListCategoryComponent },
   { path: '', component: LoginComponent },
   { path: 'utilisateurs-actifs', component: ListUserComponent },
-
-
   { path: 'produits', component: ProduitsComponent },
+  { path: 'produits/add', component: CreateProduitsComponent },
+  { path: 'produits/edit/:id', component: EditProduitsComponent },
+
   { path: 'attributs', component: AttributsComponent },
   { path: 'attributs/edit/:id', component: EditAttributsComponent },
-
   { path: 'caracteristiques', component: CaracteristiquesComponent },
   { path: 'caracteristiques/edit/:id', component: EditCaracteristiquesComponent },
-
   { path: 'marques', component: MarquesComponent },
+  { path: 'marques/edit/:id', component: EditMarquesComponent },
+  { path: 'marques/add', component: CreateMarquesComponent },
 
   { path: 'taxes', component: TaxesComponent },
-
   { path: 'taxes/edit/:id', component: EditTaxesComponent },
-
   { path: 'list-clients-actifs', component: ListClientsComponent },
   { path: 'list-clients-non-actifs', component: ListClientsDeletedComponent },
   { path: 'modifier-utilisateur/:id', component: EditUserComponent },
@@ -75,7 +78,6 @@ const routes: Routes = [
   { path: 'list-annonces/attente', component: AnnoncesEnAttenteComponent },
   { path: 'list-annonces/approuve', component: AnnoncesApprouveesComponent },
   { path: 'list-annonces/rejete', component: AnnoncesRejeteesComponent },
-
 ];
 
 @NgModule({

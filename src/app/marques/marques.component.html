@@ -1,1 +1,54 @@
-<p>marques works!</p>
+<app-menu></app-menu>
+<main class="main-wrap">
+  <app-header></app-header>
+  <section class="content-main">
+    <div class="content-header">
+      <h2 class="content-title">Gestion des Marques</h2>
+      <!-- Optional button to create a new brand -->
+      <div>
+        <a [routerLink]="['/marques/add']" class="btn btn-" style="background-color: #3bb77e; color: white;">
+          <i class="material-icons md-plus"></i> Créer une nouvelle marque
+        </a>
+      </div>
+    </div>
+
+    <div class="card mb-4">
+      <header class="card-header">
+        <div class="row align-items-center itemlist listd">
+          <div class="col-lg-4 col-sm-4 col-8 flex-grow-1 col-name"><strong>Nom</strong></div>
+          <div class="col-lg-3 col-sm-3 col-4 col-name"><strong>Slug</strong></div> <!-- New Slug Column -->
+          <div class="col-lg-2 col-sm-2 col-4 col-name"><strong>Créée le</strong></div> <!-- New Créée le Column -->
+          <div class="col-lg-2 col-sm-2 col-4 col-action text-center"><strong>Action</strong></div>
+        </div>
+        <!-- row .// -->
+      </header>
+      <!-- card-header end// -->
+      <div class="card-body">
+        <article *ngFor="let brand of brands" class="itemlist">
+          <div class="row align-items-center">
+            <div class="col-lg-4 col-sm-4 col-8 flex-grow-1 col-name">
+              <a class="itemside" href="#">
+                <div class="info">
+                  <h6 class="mb-0">{{ brand.name }}</h6> <!-- Display brand name -->
+                </div>
+              </a>
+            </div>
+
+            <div class="col-lg-3 col-sm-3 col-4 col-name">{{ brand.slug }}</div> <!-- Display Slug -->
+            <div class="col-lg-2 col-sm-2 col-4 col-name">{{ brand.created | date: 'dd/MM/yyyy' }}</div> <!-- Display Créée le with date pipe -->
+            
+            <div class="col-lg-2 col-sm-2 col-4 col-action text-center">
+              <a [routerLink]="['/marques/edit', brand.id]" class="btn btn-sm font-sm rounded btn-brand">
+                <i class="material-icons md-edit"></i> Modifier
+              </a>
+            </div>
+          </div>
+          <!-- row .// -->
+        </article>
+      </div>
+      <!-- card-body end// -->
+    </div>
+  </section>
+  <!-- content-main end// -->
+  <app-footer></app-footer>
+</main>
