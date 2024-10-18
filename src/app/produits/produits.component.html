@@ -4,7 +4,6 @@
   <section class="content-main">
     <div class="content-header">
       <h2 class="content-title">Gestion des Produits</h2>
-      <!-- Optional button to create a new product -->
       <div>
         <a [routerLink]="['/produits/add']" class="btn btn-" style="background-color: #3bb77e; color: white;">
           <i class="material-icons md-plus"></i> Créer un nouveau produit
@@ -15,40 +14,63 @@
     <div class="card mb-4">
       <header class="card-header">
         <div class="row align-items-center itemlist listd">
-          <div class="col-lg-4 col-sm-4 col-8 flex-grow-1 col-name"><strong>Nom</strong></div>
-          <div class="col-lg-3 col-sm-3 col-4 col-name"><strong>Slug</strong></div> <!-- New Slug Column -->
-          <div class="col-lg-2 col-sm-2 col-4 col-name"><strong>Créée le</strong></div> <!-- New Créée le Column -->
-          <div class="col-lg-2 col-sm-2 col-4 col-action text-center"><strong>Action</strong></div>
+          <div class="col-lg-2 col-sm-2 col-4"><strong>Produit</strong></div>
+          <div class="col-lg-2 col-sm-2 col-4"><strong>Catégories</strong></div>
+          <div class="col-lg-2 col-sm-2 col-4"><strong>Prix</strong></div>
+          <div class="col-lg-2 col-sm-2 col-4"><strong>Media</strong></div>
+          <div class="col-lg-2 col-sm-2 col-4"><strong>Statut</strong></div>
+          <div class="col-lg-2 col-sm-2 col-4 text-center"><strong>Action</strong></div>
         </div>
-        <!-- row .// -->
       </header>
-      <!-- card-header end// -->
+
       <div class="card-body">
         <article *ngFor="let product of products" class="itemlist">
           <div class="row align-items-center">
-            <div class="col-lg-4 col-sm-4 col-8 flex-grow-1 col-name">
-              <a class="itemside" href="#">
-                <div class="info">
-                  <h6 class="mb-0">{{ product.name }}</h6> <!-- Display product name -->
-                </div>
-              </a>
+            <!-- Produit -->
+            <div class="col-lg-2 col-sm-2 col-4">
+              <h6 class="mb-0">{{ product.name }}</h6>
             </div>
 
-            <div class="col-lg-3 col-sm-3 col-4 col-name">{{ product.slug }}</div> <!-- Display Slug -->
-            <div class="col-lg-2 col-sm-2 col-4 col-name">{{ product.created | date: 'dd/MM/yyyy' }}</div> <!-- Display Créée le with date pipe -->
-            
-            <div class="col-lg-2 col-sm-2 col-4 col-action text-center">
+            <!-- Catégories -->
+            <div class="col-lg-2 col-sm-2 col-4">
+              {{ getCategoriesString(product.categories) }}
+            </div>
+
+            <!-- Prix -->
+            <div class="col-lg-2 col-sm-2 col-4">
+              <span *ngIf="product.price_ttc">{{ product.price_ttc | currency: 'EUR' }}</span>
+              <span *ngIf="!product.price_ttc">N/A</span>
+            </div>
+
+            <!-- Media -->
+            <div class="col-lg-2 col-sm-2 col-4">
+              <span *ngIf="product.medias.length > 0">Image disponible</span>
+              <span *ngIf="product.medias.length === 0">Aucune image</span>
+            </div>
+
+            <!-- Statut -->
+            <div class="col-lg-2 col-sm-2 col-4">
+              <span [ngClass]="{
+                'badge bg-success': product.status === 'approved',
+                'badge bg-warning': product.status === 'pending',
+                'badge bg-danger': product.status === 'rejected',
+                'badge bg-secondary': product.status === 'draft'
+              }">
+                {{ getStatusLabel(product.status) }}
+              </span>
+            </div>
+
+            <!-- Action -->
+            <div class="col-lg-2 col-sm-2 col-4 text-center">
               <a [routerLink]="['/produits/edit', product.id]" class="btn btn-sm font-sm rounded btn-brand">
-                <i class="material-icons md-edit"></i> Modifier
+                <i class="material-icons md-visibility"></i> Modifier
               </a>
+
             </div>
           </div>
-          <!-- row .// -->
         </article>
       </div>
-      <!-- card-body end// -->
     </div>
   </section>
-  <!-- content-main end// -->
   <app-footer></app-footer>
 </main>
