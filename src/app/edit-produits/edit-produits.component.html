@@ -1,1 +1,400 @@
-<p>edit-produits works!</p>
+<app-menu></app-menu>
+<main class="main-wrap">
+  <app-header></app-header>
+  <section class="content-main">
+    <div class="row">
+      <div class="col-9">
+        <div class="content-header">
+          <a [routerLink]="['/produits']"><i class="material-icons md-arrow_back"></i> Retourner</a>
+        </div>
+        <div class="content-header">
+          <h2 class="content-title">Ajouter un nouveau produit</h2>
+        </div>
+      </div>
+      <div class="col-12">
+        <div class="card">
+          <div class="card-body">
+            <div class="row gx-5">
+              <aside class="col-lg-3 border-end">
+                <nav class="nav nav-pills flex-column mb-4">
+                  <a class="nav-link" [class.active]="activeTab === 'informations'" (click)="setActiveTab('informations')">Informations</a>
+                  <a class="nav-link" [class.active]="activeTab === 'prix'" (click)="setActiveTab('prix')">Prix</a>
+                  <a class="nav-link" [class.active]="activeTab === 'seo'" (click)="setActiveTab('seo')">SEO</a>
+                  <a class="nav-link" [class.active]="activeTab === 'categories'" (click)="setActiveTab('categories')">Catégories</a>
+                  <a class="nav-link" [class.active]="activeTab === 'caracteristiques'" (click)="setActiveTab('caracteristiques')">Caractéristiques</a>
+                  <a class="nav-link" [class.active]="activeTab === 'images'" (click)="setActiveTab('images')">Images</a>
+                  <a class="nav-link" [class.active]="activeTab === 'declinaisons'" (click)="setActiveTab('declinaisons')">Déclinaisons</a>
+                  <a class="nav-link" [class.active]="activeTab === 'livraison'" (click)="setActiveTab('livraison')">Livraison</a>
+                </nav>
+              </aside>
+              <div class="col-lg-9">
+                <section class="content-body p-xl-4">
+                  <form (ngSubmit)="onSubmit()" #productForm="ngForm">
+                    <!-- Section for Informations -->
+                    <div *ngIf="activeTab === 'informations'">
+                      <div class="row mb-4">
+                        <label class="col-lg-3 col-form-label">Nom du produit*</label>
+                        <div class="col-lg-9">
+                          <input type="text" class="form-control" placeholder="Tapez ici" [(ngModel)]="productData.name" name="name" required />
+                        </div>
+                      </div>
+                      <div class="row mb-4">
+                        <label class="col-lg-3 col-form-label">Résumé du produit*</label>
+                        <div class="col-lg-9">
+                          <input type="text" class="form-control" placeholder="Tapez ici" [(ngModel)]="productData.excerpt" name="resume" required />
+                        </div>
+                      </div>
+                      <div class="row mb-4">
+                        <label class="col-lg-3 col-form-label">Description*</label>
+                        <div class="col-lg-9">
+                          <textarea class="form-control" placeholder="Tapez ici" rows="4" [(ngModel)]="productData.description" name="description" required></textarea>
+                        </div>
+                      </div>
+                      <div class="row mb-4">
+                        <label class="col-lg-3 col-form-label">Statut*</label>
+                        <div class="col-lg-9">
+                          <select class="form-select" [(ngModel)]="productData.status" name="status" required>
+                            <option value="" disabled selected>Choisissez un statut</option>
+                            <option value="approved">En ligne</option>
+                            <option value="draft">Brouillon</option>
+                          </select>
+                        </div>
+                      </div>
+                      <div class="row mb-4">
+                        <label class="col-lg-3 col-form-label">Date de création*</label>
+                        <div class="col-lg-9">
+                          <input type="datetime-local" style="  background-color:rgb(191 219 254 / 52%) !important;
+                             border-color: rgb(191 219 254 / 52%) !important; color: black;" class="form-control" id="published-at" name="published_at" [(ngModel)]="productData.created_at" required />
+                        </div>
+                      </div>
+                      <button class="btn btn-primary mb-20" type="submit"  >Modifier les informations</button>
+
+                    </div>
+
+                    <!-- Section for Prix -->
+                    <div *ngIf="activeTab === 'prix'">
+                        <h3>Prix du produit</h3>
+                      
+                        <div class="row mb-4">
+                          <div class="col-lg-6">
+                            <label class="col-form-label">Prix de vente HT*</label>
+                            <div class="input-group">
+                              <input
+                                type="number"
+                                class="form-control"
+                                placeholder="0"
+                                [(ngModel)]="productData.price"
+                                name="price"
+                                min="0"
+                                step="0.01"
+                                required
+                                [ngStyle]="{
+                                  display: 'flex',
+                                  padding: '0.375rem 0.75rem',
+                                  color: 'var(--bs-body-color)',
+                                  border: 'var(--bs-border-width) solid var(--bs-border-color)'
+                                }"
+                              />
+                              <span class="input-group-text" id="variant-price">MAD</span>
+                            </div>
+                          </div>
+                          <div class="col-lg-6">
+                            <label class="col-form-label">Prix de vente TTC</label>
+                            <div class="input-group">
+                              <input style="  background-color:rgb(191 219 254 / 52%) !important;
+                             border-color: #bfdbfe !important; color: black;" 
+                                type="text" 
+                                class="form-control"
+                                [value]="calculateTTC()"
+                                disabled
+                                [ngStyle]="{
+                                  display: 'flex',
+                                  padding: '0.375rem 0.75rem',
+                                  color: 'var(--bs-body-color)',
+                                  border: 'var(--bs-border-width) solid var(--bs-border-color)'
+                                }"
+                              />
+                              <span class="input-group-text">MAD</span>
+                            </div>
+                          </div>
+                          
+                          
+                        </div>
+                      
+                        <div class="row mb-4">
+                            <div class="col-lg-6">
+                                <label class="col-form-label">Taxe*</label>
+                                <select class="form-select" [(ngModel)]="productData.tax" name="tax" required>
+                                  <option value="20" selected>TVA 20%</option>
+                                </select>
+                              </div>
+                              
+                              
+                              <div class="col-lg-6">
+                                <label class="col-form-label">Unité de vente*</label>
+                                <input
+                                  type="text"
+                                  class="form-control"
+                                  placeholder="Entrez l'unité de vente"
+                                  [(ngModel)]="productData.sale_unit"
+                                  name="sale_unit"
+                                  required
+                                />
+                              </div>
+                              
+                        </div>
+                        <button class="btn btn-primary mb-20" type="submit" [disabled]="!productForm.valid">Modifier</button>
+                        <div  style="
+                     text-align: end;
+                    ">
+                        <button class="btn btn-primary mb-20" type="submit" (click)="openPriceDialog()">Nouveau prix</button>
+                        </div>
+                        <div class="card mb-4">
+                          <header class="card-header">
+                            <div class="row align-items-center itemlist listd">
+                              <div class="col-lg-2 col-sm-2 col-4"><strong>Nom</strong></div>
+                              <div class="col-lg-2 col-sm-2 col-4"><strong>Type</strong></div>
+                              <div class="col-lg-4 col-sm-2 col-4"><strong>Dates</strong></div>
+                              <div class="col-lg-2 col-sm-2 col-4"><strong>Remise</strong></div>
+                              <div class="col-lg-2 col-sm-2 col-4 text-center"><strong>Action</strong></div>
+                            </div>
+                          </header>
+                        
+                          <div class="card-body">
+                            <div *ngIf="!productData.discounts?.length; else discountsList">
+                              <p>Aucun discount disponible.</p>
+                            </div>
+                        
+                            <ng-template #discountsList>
+                              <article *ngFor="let discount of productData.discounts" class="itemlist">
+                                <div class="row align-items-center">
+                                  <div class="col-lg-2 col-sm-2 col-4">
+                                    <h6 class="mb-0">{{ discount.name }}</h6>
+                                  </div>
+                        
+                                  <div class="col-lg-2 col-sm-2 col-4">
+                                    <h6 class="mb-0">{{ discount.discount_reason.name }}</h6>
+                                  </div>
+                        
+                                  <div class="col-lg-4 col-sm-2 col-4">
+                                    <h6 class="mb-0">{{ discount.start | date: 'dd/MM/yyyy' }} - {{ discount.end | date: 'dd/MM/yyyy' }}</h6>
+                                  </div>
+                        
+                                  <div class="col-lg-2 col-sm-2 col-4">
+                                    <h6 class="mb-0">
+                                      {{ discount.reduction }}
+                                      <span *ngIf="discount.reduction_type === 'percentage'">%</span>
+                                      <span *ngIf="discount.reduction_type === 'amount'">MAD</span>
+                                    </h6>
+                                  </div>
+                        
+                                  <div class="col-lg-2 col-sm-2 col-4 text-center">
+                                    <button (click)="confirmDelete(discount.id)" class="btn btn-sm font-sm rounded btn-danger" title="Supprimer">
+                                      <i class="material-icons md-delete"></i>
+                                    </button>
+                                  </div>
+                                </div>
+                              </article>
+                            </ng-template>
+                          </div>
+                        </div>
+                        
+                          
+                          
+                      
+
+                      </div>
+                      
+  
+
+                    <!-- Add other sections similarly -->
+                    <div *ngIf="activeTab === 'seo'">
+                      <h3>SEO Section</h3>
+                      <!-- SEO fields here -->
+                    </div>
+                    <div *ngIf="activeTab === 'categories'">
+                      <h3>Catégories Section</h3>
+                      <!-- Categories fields here -->
+                    </div>
+                    <div *ngIf="activeTab === 'caracteristiques'">
+                      <h3>Caractéristiques Section</h3>
+                      <!-- Characteristics fields here -->
+                    </div>
+                    <div *ngIf="activeTab === 'images'">
+                      <h3>Images Section</h3>
+                      <!-- Images fields here -->
+                    </div>
+                    <div *ngIf="activeTab === 'declinaisons'">
+                      <h3>Déclinaisons Section</h3>
+                      <!-- Variants fields here -->
+                    </div>
+                    <div *ngIf="activeTab === 'livraison'">
+                      <h3>Livraison Section</h3>
+                      <!-- Delivery fields here -->
+                    </div>
+
+                  </form>
+                </section>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <app-footer></app-footer>
+</main>
+<!-- Dialog for Adding Specific Price -->
+<p-dialog
+  header="Détails du prix spécifique"
+  [(visible)]="priceDialogVisible"
+  [style]="{ width: isPhone ? '350px' : '650px', height: '680px' }"
+  [modal]="true"
+  styleClass="p-fluid"
+>
+  <ng-template pTemplate="content">
+    <!-- Nom -->
+    <div class="field">
+      <label for="priceName">Nom</label>
+      <input
+        type="text"
+        pInputText
+        id="priceName"
+        [(ngModel)]="newDiscount.name"
+        placeholder="Nom du prix"
+        required
+        autofocus
+      />
+    </div>
+
+    <div class="form-group row">
+      <div class="col-md-6">
+        <label for="startDate">Date de début*</label>
+        <p-calendar
+          id="startDate"
+          [(ngModel)]="newDiscount.startDate"
+          dateFormat="dd/mm/yy"
+          [showTime]="false"
+          [required]="true"
+          styleClass="custom-calendar-zindex"
+        ></p-calendar>
+      </div>
+      <div class="col-md-6">
+        <label for="startTime">Heure de début*</label>
+        <p-calendar
+          id="startTime"
+          [(ngModel)]="newDiscount.startTime"
+          [timeOnly]="true"
+          hourFormat="24"
+          [showTime]="true"
+          [required]="true"
+        ></p-calendar>
+      </div>
+    </div>
+
+    <div class="form-group row">
+      <div class="col-md-6">
+        <label for="endDate">Date de fin*</label>
+        <p-calendar
+          id="endDate"
+          [(ngModel)]="newDiscount.endDate"
+          dateFormat="dd/mm/yy"
+          [showTime]="false"
+          [required]="true"
+          styleClass="custom-calendar-zindex"
+        ></p-calendar>
+      </div>
+      <div class="col-md-6">
+        <label for="endTime">Heure de fin*</label>
+        <p-calendar
+          id="endTime"
+          [(ngModel)]="newDiscount.endTime"
+          [timeOnly]="true"
+          hourFormat="24"
+          [showTime]="true"
+          [required]="true"
+        ></p-calendar>
+      </div>
+    </div>
+
+    <!-- Motif -->
+    <div class="field">
+      <label for="reason">Motif*</label>
+      <p-dropdown
+        id="reason"
+        [(ngModel)]="selectedReason"
+        [options]="options"
+        optionLabel="label"
+        placeholder="Select a reason"
+        [required]="true"
+      ></p-dropdown>
+    </div>
+
+    <div class="field">
+      <label for="discountType">Type de remise*</label>
+      <p-dropdown
+        [(ngModel)]="newDiscount.reduction_type"
+        id="discountType"
+        [options]="discountTypes"
+        optionLabel="label"
+      ></p-dropdown>
+    </div>
+
+    <!-- Remise sur prix TTC -->
+    <div class="field">
+      <label for="discountValue">Remise sur prix TTC*</label>
+      <input
+        type="number"
+        pInputText
+        id="discountValue"
+        [(ngModel)]="newDiscount.reduction"
+        placeholder="0"
+        min="0"
+        step="0.01"
+        required
+      />
+    </div>
+  </ng-template>
+
+  <ng-template pTemplate="footer">
+    <button
+      pButton
+      pRipple
+      label="Annuler"
+      icon="pi pi-times"
+      class="p-button-text"
+      (click)="hidePriceDialog()"
+    ></button>
+    <button
+      pButton
+      pRipple
+      label="Sauvegarder"
+      icon="pi pi-check"
+      class="p-button-text"
+      (click)="saveDiscount()"
+    ></button>
+  </ng-template>
+</p-dialog>
+
+
+<div class="col-lg-2 col-sm-2 col-4 text-center">
+  <button (click)="confirmDelete(discount.id)" class="btn btn-sm font-sm rounded btn-danger" title="Supprimer">
+    <i class="material-icons md-delete"></i>
+  </button>
+</div>
+
+<p-dialog
+  header="Confirmer la suppression"
+  [(visible)]="confirmDialogVisible"
+  [modal]="true"
+  styleClass="p-fluid"
+>
+  <p>Êtes-vous sûr de vouloir supprimer cette remise ?</p>
+  <p-footer>
+    <button type="button" style="
+    background: #3bb77e;
+    border-color: #3bb77e;
+" (click)="deleteDiscount()" pButton label="Oui" icon="pi pi-check" class="p-button-danger"></button>
+    <button type="button" (click)="confirmDialogVisible = false" pButton label="Non" icon="pi pi-times" class="p-button-secondary"></button>
+  </p-footer>
+</p-dialog>

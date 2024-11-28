@@ -132,7 +132,8 @@ import { CreateProduitsComponent } from './create-produits/create-produits.compo
     ImageModule,
     MessagesModule,
     MessageModule,
-    ChartModule
+    ChartModule,
+    DropdownModule,
   ],
   providers: [
     provideClientHydration(),

@@ -7,7 +7,7 @@ import { catchError, map } from 'rxjs/operators';
   providedIn: 'root'
 })
 export class FeatureService {
-  private baseUrl = 'https://devapi.onemakan.com/mp1'; // Update this if needed
+  private baseUrl = 'https://restapi.onemakan.com/mp1'; // Update this if needed
 
   constructor(private http: HttpClient) {}
 

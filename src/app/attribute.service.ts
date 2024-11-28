@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class AttributeService {
-  private baseUrl = 'https://devapi.onemakan.com/mp1'; // Update this URL if needed
+  private baseUrl = 'https://restapi.onemakan.com/mp1'; // Update this URL if needed
 
   constructor(private http: HttpClient) {}
 

@@ -28,7 +28,7 @@ export class CategoryService {
     return this.http.delete<any>(`${this.apiUrl}/${categoryId}`);
   }
 
-  private apiUrls = 'https://devapi.onemakan.com/v1';
+  private apiUrls = 'https://restapi.onemakan.com/v1';
 
   private getHeaders(accessToken: string): HttpHeaders {
     return this.headers.set('Authorization', `Bearer ${accessToken}`);
@@ -50,7 +50,7 @@ export class CategoryService {
     });
 
     return this.http
-      .post<any>('https://devapi.onemakan.com/v1/medias', formData, { headers })
+      .post<any>('https://restapi.onemakan.com/v1/medias', formData, { headers })
       .toPromise();
   }
 

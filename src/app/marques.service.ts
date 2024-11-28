@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
 })
 export class MarquesService {
 
-  private baseUrl = 'https://devapi.onemakan.com/mp1'; // Base URL for the API
+  private baseUrl = 'https://restapi.onemakan.com/mp1'; // Base URL for the API
 
   constructor(private http: HttpClient) {}
 
