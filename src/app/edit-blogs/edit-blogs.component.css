@@ -1,0 +1,47 @@
+::ng-deep textarea.form-control {
+    min-height: 600px !important;
+
+}
+
+/* Styling for tags */
+::ng-deep ul.list-unstyled li {
+    display: inline-block;
+    background-color: #f1f1f1;
+    margin: 5px;
+    padding: 5px 10px;
+    border-radius: 15px;
+    font-size: 14px;
+  }
+  
+  ::ng-deep  ul.list-unstyled li button {
+    background: none;
+    border: none;
+    color: red;
+    border-radius: 15px;
+    font-size: 14px;
+  }
+
+
+  ::ng-deep ul.list-unstyled li {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+::ng-deep ul.list-unstyled li button {
+    margin-right: 10px; /* Adjust margin between the button and the tag */
+}
+
+  
+
+::ng-deep .material-icons {
+    vertical-align: bottom !important;
+    font-weight: 600;
+}
+
+::ng-deep .img-fluid {
+  max-width: 100%;
+  height: 600px;
+  object-fit: cover;
+
+}

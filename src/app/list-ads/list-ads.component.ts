@@ -32,6 +32,7 @@ export class ListAdsComponent {
 
   ngOnInit(): void {
     this.getAds();
+
   }
 
   getAds(): void {

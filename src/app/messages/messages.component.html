@@ -1,0 +1,149 @@
+<app-menu></app-menu>
+<main class="main-wrap">
+  <app-header></app-header>
+  <section class="content-main">
+    <div class="content-header">
+      <h2 class="content-title">Liste des messages </h2>
+
+    </div>
+    <div class="row">
+        <div class="col-md-9">
+            <div class="card mb-4">
+              <header class="card-header">
+                <div class="row gx-3">
+                    <div class="col-lg-4 col-md-6 me-auto">
+                        <input 
+                          type="text" 
+                          placeholder="Rechercher..." 
+                          class="form-control" 
+                          [(ngModel)]="searchTerm" 
+                          (input)="onSearch()" style="background-color: #ffffff; border: 1px solid #adb5bd;">
+                      </div>
+                      
+                </div>
+              </header>
+              <div class="card-body">
+                <div class="table-responsive">
+                  <table class="table table-hover">
+                    <thead>
+                      <tr>
+                        <th>ID</th>
+                        <th>Nom du Client</th>
+                        <th>Email</th>
+                        <th>Téléphone</th>
+                        <th>Objet</th>
+                        <th>Date</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let contact of paginatedContacts" (click)="selectContact(contact)">
+                        <td>{{ contact.id }}</td>
+                        <td><b>{{ contact.name }}</b></td>
+                        <td>{{ contact.email }}</td>
+                        <td>{{ contact.phone || 'N/A' }}</td>
+                        <td>{{ contact.object }}</td>
+                        <td>{{ contact.created_at | date: 'dd/MM/yyyy' }}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+
+              </div>
+              
+            </div>
+            <div class="pagination-area mt-30 mb-50" *ngIf="filteredContacts.length > 0">
+                <nav aria-label="Pagination">
+                  <ul class="pagination justify-content-start">
+                    <!-- Previous Page Button -->
+                    <li class="page-item" [ngClass]="{'disabled': currentPage === 1}">
+                      <a class="page-link" (click)="setCurrentPage(currentPage - 1)" aria-label="Précédent">
+                        <span aria-hidden="true">&laquo;</span>
+                      </a>
+                    </li>
+              
+                    <!-- First Page Button -->
+                    <li class="page-item" [ngClass]="{'disabled': currentPage === 1}">
+                      <a class="page-link" (click)="setCurrentPage(1)" style="width: auto;">Première</a>
+                    </li>
+              
+                    <!-- Page Number Buttons -->
+                    <li *ngFor="let page of visiblePages" class="page-item" [ngClass]="{'active': currentPage === page}">
+                      <a class="page-link" (click)="setCurrentPage(page)">{{ page }}</a>
+                    </li>
+              
+                    <!-- Ellipsis if there are more than 5 pages -->
+                    <li *ngIf="pages.length > 5 && !isLastPageVisible" class="page-item disabled">
+                      <span class="page-link">...</span>
+                    </li>
+              
+                    <!-- Last Page Button -->
+                    <li class="page-item" [ngClass]="{'disabled': currentPage === pages.length}">
+                      <a class="page-link" (click)="setCurrentPage(pages.length)" style="width: auto;">Dernière</a>
+                    </li>
+              
+                    <!-- Next Page Button -->
+                    <li class="page-item" [ngClass]="{'disabled': currentPage === pages.length}">
+                      <a class="page-link" (click)="setCurrentPage(currentPage + 1)" aria-label="Suivant">
+                        <span aria-hidden="true">&raquo;</span>
+                      </a>
+                    </li>
+                  </ul>
+                </nav>
+              </div>
+          </div>
+          
+  <!-- Right Column: Contact Details -->
+  <div class="col-md-3" *ngIf="selectedContact">
+    <div class="card mb-4">
+      <div class="card-body">
+        <h5 class="mb-3">Détails du message</h5>
+        <form>
+          <div class="mb-4">
+            <label for="contact_id" class="form-label">ID du message</label>
+            <input type="text" [value]="selectedContact.id" class="form-control" id="contact_id" readonly>
+          </div>
+          <div class="mb-4">
+            <label for="contact_name" class="form-label">Nom</label>
+            <input type="text" [value]="selectedContact.name" class="form-control" id="contact_name" readonly>
+          </div>
+          <div class="mb-4">
+            <label for="contact_email" class="form-label">Email</label>
+            <input type="text" [value]="selectedContact.email" class="form-control" id="contact_email" readonly>
+          </div>
+          <div class="mb-4">
+            <label for="contact_phone" class="form-label">Téléphone</label>
+            <input type="text" [value]="selectedContact.phone" class="form-control" id="contact_phone" readonly>
+          </div>
+          <div class="mb-4">
+            <label for="contact_object" class="form-label">Objet</label>
+            <input type="text" [value]="selectedContact.object" class="form-control" id="contact_object" readonly>
+          </div>
+          <div class="mb-4">
+            <label for="contact_message" class="form-label">Message</label>
+            <textarea class="form-control" id="contact_message" rows="3" readonly>{{ selectedContact.message }}</textarea>
+          </div>
+          <div class="mb-4">
+            <label for="contact_status" class="form-label">Statut d'envoi</label>
+            <input type="text" [value]="selectedContact.is_send ? 'Envoyé' : 'Non envoyé'" class="form-control" id="contact_status" readonly>
+          </div>
+          <div class="mb-4">
+            <label for="contact_created_at" class="form-label">Créé le</label>
+            <input type="text" [value]="selectedContact.created_at | date: 'dd/MM/yyyy HH:mm'" class="form-control" id="contact_created_at" readonly>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  
+
+    </div>
+
+      
+  </section>
+  
+
+
+
+  <!-- content-main end// -->
+  <app-footer></app-footer>
+</main>

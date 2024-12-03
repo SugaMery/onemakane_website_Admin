@@ -11,12 +11,79 @@
     </div>
     <nav>
         <ul class="menu-aside">
+            <div class="sidenav-menu-heading" style="    color: #a7aeb8;    padding: 1.75rem 1rem .75rem;
+            font-size: .7rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: .05em;">Géneral</div>
             <li class="menu-item">
                 <a class="menu-link" routerLink="/dashboard" routerLinkActive="active">
                     <i class="icon material-icons md-home"></i>
-                    <span class="text">Dashboard</span>
+                    <span class="text">Tableau du bord</span>
                 </a>
             </li>
+
+              
+<!--             <li class="menu-item has-submenu" routerLinkActive="active">
+                <a class="menu-link">
+                    <i class="icon material-icons md-photo"></i>
+                    <span class="text">Photos</span>
+                </a>
+                <div class="submenu">
+                    <a routerLink="/page-photos-list">Liste des photos</a>
+                    <a routerLink="/page-ajouter-photo">Ajouter une photo</a>
+                </div>
+            </li>  -->           
+
+
+
+
+
+<!--             <li class="menu-item has-submenu" routerLinkActive="active">
+                <a class="menu-link" routerLink="/page-transactions-1">
+                    <i class="icon material-icons md-monetization_on"></i>
+                    <span class="text">Transactions</span>
+                </a>
+                <div class="submenu">
+                    <a routerLink="/page-transactions-1">Transaction 1</a>
+                    <a routerLink="/page-transactions-2">Transaction 2</a>
+                </div>
+            </li> -->
+            <div class="sidenav-menu-heading" style="    color: #a7aeb8;    padding: 1.75rem 1rem .75rem;
+            font-size: .7rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: .05em;">Gestion Commerciale</div>
+            <li class="menu-item has-submenu" routerLinkActive="active">
+                <a class="menu-link" routerLink="/list-clients-actifs">
+                    <i class="icon material-icons md-person"></i>
+                    <span class="text">Clients</span>
+                </a>
+                <div class="submenu">
+                    <a routerLink="/list-clients-actifs">Clients actifs</a>
+                    <a routerLink="/list-clients-desactive">Clients non actifs </a>
+                    <a routerLink="/list-clients-non-actifs">Comptes désactivés </a>
+
+                </div>    
+            </li>
+            <li class="menu-item" routerLink="/list-orders" routerLinkActive="active">
+                <a class="menu-link">
+                  <i class="icon material-icons md-shopping_cart"></i>
+                  <span class="text">Commandes</span>
+                </a>
+              </li>
+              <li class="menu-item" routerLink="/list-transations" routerLinkActive="active">
+                <a class="menu-link">
+                  <i class="icon material-icons md-credit_card"></i>
+                  <span class="text">Les Transactions</span>
+                </a>
+              </li>
+              
+            <div class="sidenav-menu-heading" style="    color: #a7aeb8;    padding: 1.75rem 1rem .75rem;
+            font-size: .7rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: .05em;">Gestion Annonces</div>
             <li class="menu-item has-submenu"  routerLink="/list-annonces/all" routerLinkActive="active">
                 <a class="menu-link">
                   <i class="icon material-icons md-shopping_bag"></i>
@@ -37,18 +104,7 @@
                     </a>
                   </div>
               </li>
-              
-<!--             <li class="menu-item has-submenu" routerLinkActive="active">
-                <a class="menu-link">
-                    <i class="icon material-icons md-photo"></i>
-                    <span class="text">Photos</span>
-                </a>
-                <div class="submenu">
-                    <a routerLink="/page-photos-list">Liste des photos</a>
-                    <a routerLink="/page-ajouter-photo">Ajouter une photo</a>
-                </div>
-            </li>  -->           
-            <li class="menu-item has-submenu"  routerLink="/list_category" routerLinkActive="active">
+              <li class="menu-item has-submenu"  routerLink="/list_category" routerLinkActive="active">
                 <a class="menu-link">
                   <i class="icon material-icons md-category"></i>
                   <span class="text">Catégories</span>
@@ -58,6 +114,12 @@
                     <a routerLink="/list_category">Liste des catégories</a>
                 </div>                
             </li>
+            <li class="menu-item "  routerLink="/list-criteres" routerLinkActive="active">
+                <a class="menu-link">
+                  <i class="icon material-icons md-filter_list"></i>
+                  <span class="text">Les critéres </span>
+                </a>
+              </li>
 
             <li class="menu-item "  routerLink="/lists-annonces-jobs" routerLinkActive="active">
                 <a class="menu-link">
@@ -66,6 +128,11 @@
                 </a>
               </li>
 
+            <div class="sidenav-menu-heading" style="    color: #a7aeb8;    padding: 1.75rem 1rem .75rem;
+            font-size: .7rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: .05em;">Gestion Admin</div>
             <li class="menu-item has-submenu"  routerLink="/list-pages-fr" routerLinkActive="active">
                 <a class="menu-link">
                   <i class="icon material-icons md-pages"></i>
@@ -76,26 +143,24 @@
                     <a routerLink="/list-pages-ar">Pages Arabe</a>
                 </div>           
             </li>
-<!--             <li class="menu-item has-submenu" routerLinkActive="active">
-                <a class="menu-link" routerLink="/page-transactions-1">
-                    <i class="icon material-icons md-monetization_on"></i>
-                    <span class="text">Transactions</span>
+            <li class="menu-item" routerLinkActive="active">
+                <a class="menu-link" routerLink="/messages">
+                    <i class="icon material-icons md-message"></i>
+                    <span class="text">Les Messages</span>
                 </a>
-                <div class="submenu">
-                    <a routerLink="/page-transactions-1">Transaction 1</a>
-                    <a routerLink="/page-transactions-2">Transaction 2</a>
-                </div>
-            </li> -->
-            <li class="menu-item has-submenu" routerLinkActive="active">
-                <a class="menu-link" routerLink="/list-clients-actifs">
-                    <i class="icon material-icons md-person"></i>
-                    <span class="text">Clients</span>
-                </a>
-                <div class="submenu">
-                    <a routerLink="/list-clients-actifs">Clients actifs</a>
-                    <a routerLink="/list-clients-non-actifs">Clients non actifs </a>
-                </div>    
             </li>
+            <li class="menu-item" routerLinkActive="active">
+                <a class="menu-link" routerLink="/list-blogs">
+                    <i class="icon material-icons md-edit"></i> <!-- You can change the icon if desired -->
+                    <span class="text">Blogs</span>
+                </a>
+            </li>
+            
+            <div class="sidenav-menu-heading" style="    color: #a7aeb8;    padding: 1.75rem 1rem .75rem;
+            font-size: .7rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: .05em;">Admin</div>
             <li class="menu-item has-submenu" *ngIf="isAdmin" routerLinkActive="active">
                 <a class="menu-link" routerLink="/list-utilisateurs">
                     <i class="icon material-icons md-person"></i>
@@ -104,7 +169,20 @@
                 <div class="submenu">
                     <a routerLink="/list-utilisateurs">Utilisateurs actifs</a>
                     <a routerLink="/list-utilisateurs-non-actifs">Utilisateurs non actifs </a>
+                    <a routerLink="/list-utilisateurs-desactive">Comptes désactivés </a>
                 </div>    
+            </li>
+            <li class="menu-item "  routerLinkActive="active">
+                <a class="menu-link" routerLink="/gestion-roles">
+                    <i class="icon material-icons md-security"></i>
+                    <span class="text">Rôles</span>
+                </a>
+            </li>
+            <li class="menu-item "  routerLinkActive="active">
+                <a class="menu-link" routerLink="#">
+                    <i class="icon material-icons md-exit_to_app"></i>
+                    <span class="text">Connexions</span>
+                </a>
             </li>
 <!--             <li class="menu-item" routerLinkActive="active">
                 <a class="menu-link" routerLink="/page-reviews">

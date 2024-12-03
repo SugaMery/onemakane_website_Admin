@@ -20,6 +20,8 @@ export class ListUsersDeletedComponent {
   ngOnInit(): void {
     const accessToken = localStorage.getItem('loggedInUserToken');
     if (accessToken) {
+      console.log('Access token found in localStoragereeee',this.users);
+
       this.fetchUsers();
     } else {
       console.error('Access token not found in localStorage');

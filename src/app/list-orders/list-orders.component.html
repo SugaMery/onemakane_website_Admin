@@ -1,0 +1,79 @@
+<app-menu></app-menu>
+<main class="main-wrap">
+  <app-header></app-header>
+  <section class="content-main">
+    <div class="content-header">
+      <h2 class="content-title">Gestion des commandes</h2>
+    </div>
+
+    <div class="card mb-4">
+        <header class="card-header ">
+            <div class="row align-items-center itemlist listd">
+                <div class="col-lg-2 col-sm-2 col-4 flex-grow-1 col-name"><strong>Nom de l'Annonce</strong></div>
+
+                <div class="col-lg-2 col-sm-2 col-4 col-level"><strong>Prix</strong></div>
+                <div class="col-lg-2 col-sm-2 col-4 col-action text-center"><strong>Status</strong></div>
+                <div class="col-lg-2 col-sm-2 col-4 col-action text-center"><strong>Date</strong></div> <!-- Created At column -->
+                <div class="col-lg-2 col-sm-2 col-4 col-action text-center"><strong>Paiement</strong></div> <!-- Paid column -->
+                <div class="col-lg-2 col-sm-2 col-4 col-action text-center"><strong>Action</strong></div>
+
+            </div>
+        </header>
+        
+        <div class="card-body">
+            <article *ngFor="let order of orders" class="itemlist">
+                <div class="row align-items-center">
+                    <!-- Affichage du titre de l'annonce -->
+                    <div class="col-lg-2 col-sm-2 col-4 flex-grow-1 col-name">
+                        <a class="itemside" href="#">
+                            <div class="info">
+                                <h6 class="mb-0">{{ order.ad.title }}</h6>
+                            </div>
+                        </a>
+                    </div>
+                    <!-- Affichage du prix -->
+                    <div class="col-lg-2 col-sm-2 col-4 col-action text-center">{{ order.ad.price }} DH</div>
+
+                    <!-- Affichage du statut -->
+                    <div class="col-lg-2 col-sm-2 col-4 col-action text-center">
+                        <span class="badge rounded-pill"
+                        [ngClass]="{
+                            'bg-success': order.status === 'success',
+                            'bg-info': order.status === 'new',
+                            'bg-warning': order.status === 'pending',
+                            'bg-danger': order.status === 'rejected'
+                        }">
+                          {{ getStatusLabel(order.status) }}
+                        </span>
+                    </div>
+
+
+                    <!-- Affichage de la date de création -->
+                    <div class="col-lg-2 col-sm-2 col-4 col-action text-center">
+                        {{ order.created_at | date: 'dd/MM/yyyy' }} <!-- Date format -->
+                    </div>
+
+                    <!-- Affichage du statut de paiement -->
+                    <div class="col-lg-2 col-sm-2 col-4 col-action text-center">
+                        <span class="badge rounded-pill" 
+                        [ngClass]="{
+                            'bg-success': order.paid === true,
+                            'bg-danger': order.paid === false
+                        }">
+                          {{ order.paid ? 'Payé' : 'Non payé' }}
+                        </span>
+                    </div>
+
+                                        <!-- Action buttons -->
+                    <div class="col-lg-2 col-sm-2 col-4 col-action text-center">
+                        <a [routerLink]="['/modifier-order/', order.id]" class="btn btn-sm font-sm rounded btn-brand">
+                            <i class="material-icons md-edit"></i> Modifier
+                        </a>
+                    </div>
+                </div>
+            </article>
+        </div>
+    </div>
+  </section>
+  <app-footer></app-footer>
+</main>

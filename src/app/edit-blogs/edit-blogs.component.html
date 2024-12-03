@@ -1,0 +1,161 @@
+<app-menu></app-menu>
+<main class="main-wrap">
+  <app-header></app-header>
+  <section class="content-main">
+    <div class="content-header">
+        <a href="javascript:history.back()"><i class="material-icons md-arrow_back"></i> Retourner</a>
+        <button class="btn btn-md rounded font-sm hover-up" (click)="updateArticle()">Modifier l'article</button>
+
+    </div>
+    <div class="content-header">
+        <h2 class="content-title">Modifier l'article: {{ article.title }}</h2>
+    </div>
+<!-- Toast for feedback -->
+<p-toast></p-toast>
+
+    <div class="row">
+
+        <div class="col-lg-6">
+            <div class="card mb-4">
+                <div class="card-body">
+                    <!-- Titre -->
+                    <div class="mb-4">
+                        <label for="article_title" class="form-label">Titre</label>
+                        <input type="text" [(ngModel)]="article.title" class="form-control" id="article_title" >
+                    </div>
+                    <!-- Date -->
+                    <div class="mb-4">
+                        <label for="article_date" class="form-label">Date de publication</label>
+                        <input type="text" [(ngModel)]="article.date"  disabled class="form-control" id="article_date" >
+                    </div>
+                    <!-- Auteur -->
+                    <div class="mb-4">
+                        <label for="article_author" class="form-label">Auteur</label>
+                        <input type="text" [(ngModel)]="article.by" class="form-control" id="article_author" >
+                    </div>
+                    <!-- Lien -->
+                    <div class="mb-4">
+                        <label for="article_link" class="form-label">Lien</label>
+                        <input type="text" [(ngModel)]="article.link" class="form-control" id="article_link" >
+                    </div>
+                </div>
+            </div>
+            <!-- fin de la carte -->
+        
+            <!-- Contenu -->
+            <div class="card mb-6">
+                <div class="card-body">
+                    <div>
+                        <label class="form-label">Contenu</label>
+                        <textarea class="form-control" rows="500" [(ngModel)]="article.fullContent">{{ article.fullContent }}</textarea>
+                    </div>
+                </div>
+            </div>
+            <!-- fin de la carte -->
+        
+            <!-- Boîte de l'auteur -->
+            <div class="card mb-4">
+                <div class="card-body">
+                    <div>
+                        <label class="form-label">Informations sur l'auteur</label>
+                        <div>
+                            <img src="{{ article.authorBox.authorImage }}" alt="Image de l'auteur" class="img-thumbnail" style="width: 50px;">
+                            <strong>{{ article.authorBox.authorName }}</strong>
+                            <p>{{ article.authorBox.authorDescription }}</p>
+                            <a href="{{ article.link }}">Voir plus de publications de cet auteur</a>
+                            <p>{{ article.authorBox.authorPosts }}</p>
+                            <p>Membre depuis : {{ article.authorBox.authorSince }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- card end// -->
+
+            <!-- fin de la carte -->
+        </div>
+        <div class="col-lg-6">
+                    <!-- Image -->
+                    <div class="card mb-4">
+                        <div class="card-body">
+                            <div>
+                                <label class="form-label">Image</label>
+                                <img src="{{ article.image }}" alt="Image de l'article" class="img-fluid">
+                            </div>
+                        </div>
+                    </div>
+                    <!-- fin de la carte -->
+            <!-- Vues, Partages, Commentaires -->
+            <div class="card mb-4">
+                <div class="card-body">
+                    <div>
+                        <label class="form-label">Vues</label>
+                        <input type="text" [(ngModel)]="article.views" class="form-control" >
+                    </div>
+                    <div>
+                        <label class="form-label">Partages</label>
+                        <input type="text" [(ngModel)]="article.shares" class="form-control" >
+                    </div>
+                    <div>
+                        <label class="form-label">Commentaires</label>
+                        <ul class="list-unstyled">
+                            <li *ngFor="let comment of article.comments">
+                                <strong>{{ comment.user }}</strong> - <em>{{ comment.date }}</em>
+                                <p>{{ comment.comment }}</p>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <!-- fin de la carte -->
+        
+            <!-- Tags -->
+   <!-- Tags -->
+   <div class="card mb-4">
+    <div class="card-body">
+        <div>
+            <label class="form-label">Étiquettes</label>
+
+            <!-- Input for adding a new tag -->
+            <div class="input-group mb-3">
+                <input               style="background-color: #ffffff;border: 1px solid #adb5bd;"
+
+                    type="text" 
+                    class="form-control" 
+                    [(ngModel)]="newTag" 
+                    placeholder="Ajouter une nouvelle étiquette" 
+                    (keydown.enter)="addTag()"
+                >
+                <button class="btn btn-outline-secondary" type="button" (click)="addTag()">Ajouter l'étiquette</button>
+            </div>
+
+            <!-- Displaying list of tags -->
+            <ul class="list-unstyled">
+                <li *ngFor="let tag of article.tags; let i = index" class="d-flex justify-content-between">
+                    <!-- Button to remove tag on the left -->
+                    <button class="btn btn-sm btn-danger me-2" (click)="removeTag(i)">
+                        <i class="icon material-icons md-delete"></i> Supprimer
+                      </button>
+                                        <span>{{ tag }}</span>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+            <!-- fin de la carte -->
+        
+
+        </div>
+    </div>
+    
+
+
+    
+  </section>
+  
+
+
+
+  <!-- content-main end// -->
+  <app-footer></app-footer>
+</main>

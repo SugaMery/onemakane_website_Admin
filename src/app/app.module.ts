@@ -52,6 +52,18 @@ import { JobsComponent } from './jobs/jobs.component';
 import { PreselectionCvsComponent } from './preselection-cvs/preselection-cvs.component';
 import { ChartModule } from 'primeng/chart';
 import { CapitalizeFirstPipe } from './capitalize-first.pipe';
+import { GestionRolesComponent } from './gestion-roles/gestion-roles.component';
+import { EditGestionRolesComponent } from './edit-gestion-roles/edit-gestion-roles.component';
+import { ListUsersNotActivedComponent } from './list-users-not-actived/list-users-not-actived.component';
+import { MessagesComponent } from './messages/messages.component';
+import { BlogsComponent } from './blogs/blogs.component';
+import { AddBlogsComponent } from './add-blogs/add-blogs.component';
+import { EditBlogsComponent } from './edit-blogs/edit-blogs.component';
+import { ListCriteresComponent } from './list-criteres/list-criteres.component';
+import { ListClientDeletedComponent } from './list-client-deleted/list-client-deleted.component';
+import { ListOrdersComponent } from './list-orders/list-orders.component';
+import { ListTransactionsComponent } from './list-transactions/list-transactions.component';
+import { EditOrdersComponent } from './edit-orders/edit-orders.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -82,7 +94,19 @@ import { CapitalizeFirstPipe } from './capitalize-first.pipe';
     AdsByCategoryComponent,
     JobsComponent,
     PreselectionCvsComponent,
-    CapitalizeFirstPipe
+    CapitalizeFirstPipe,
+    GestionRolesComponent,
+    EditGestionRolesComponent,
+    ListUsersNotActivedComponent,
+    MessagesComponent,
+    BlogsComponent,
+    AddBlogsComponent,
+    EditBlogsComponent,
+    ListCriteresComponent,
+    ListClientDeletedComponent,
+    ListOrdersComponent,
+    ListTransactionsComponent,
+    EditOrdersComponent
     ],
   imports: [
     BrowserModule,

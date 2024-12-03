@@ -39,7 +39,7 @@ export class AnnonceService {
   //     return str.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
   // }
 
-  private apiUrl = 'https://api.onemakan.com/v1';
+  private apiUrl = 'https://restapi.onemakan.com/v1';
   private headers = new HttpHeaders();
 
   constructor(private http: HttpClient) {
@@ -63,6 +63,23 @@ export class AnnonceService {
       headers: this.getHeaders(accessToken),
     });
   }
+
+  uploadImage(file: File, accessToken: string): Promise<any> {
+    const formData = new FormData();
+    formData.append('media_file', file);
+
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${accessToken}`,
+    });
+
+    return this.http
+      .post<any>('https://restapi.onemakan.com/v1/medias', formData, {
+        headers,
+      })
+      .toPromise();
+  }
+
+  
   checkAdInJobAppliances(adIds: number[]): Observable<boolean> {
     const checkObservables = adIds.map((adId) => {
       return this.http.get(`${this.apiUrl}/ads/${adId}/job-appliances`).pipe(
@@ -88,7 +105,7 @@ export class AnnonceService {
     });
 
     return this.http
-      .post<any>('https://api.onemakan.com/v1/medias', formData, { headers })
+      .post<any>('https://restapi.onemakan.com/v1/medias', formData, { headers })
       .toPromise();
   }
 

@@ -34,10 +34,11 @@ export class ListClientsDeletedComponent {
       let allUsers: any[] = [];
 
       for (const roleId of roleIds) {
-        this.userService.getAllUsers(1, accessToken, roleId).subscribe(
+        this.userService.getAllUsers(0, accessToken, roleId).subscribe(
           data => {
             allUsers = [...allUsers, ...data];
-            this.users = allUsers;
+            //this.users = allUsers;
+            this.users = allUsers.filter(user => user.activated_at === null);
             this.setPagedCategories();
             this.updateVisiblePages();
           },

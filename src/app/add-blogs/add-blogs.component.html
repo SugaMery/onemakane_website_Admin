@@ -1,0 +1,147 @@
+<app-menu></app-menu>
+<main class="main-wrap">
+  <app-header></app-header>
+  <section class="content-main">
+    <div class="content-header">
+        <a href="javascript:history.back()"><i class="material-icons md-arrow_back"></i> Retourner</a>
+        <button class="btn btn-md rounded font-sm hover-up" (click)="submitArticle()">Ajouter une article</button>
+
+    </div>
+    <div class="content-header">
+        <h2 class="content-title" >Ajouter une article</h2>
+    </div>
+<!-- Toast for feedback -->
+<p-toast></p-toast>
+
+
+<div class="row">
+    <!-- Left Side (Article Details) -->
+    <div class="col-lg-6">
+      <div class="card mb-4">
+        <div class="card-body">
+          <!-- Title -->
+          <div class="mb-4">
+            <label for="article_title" class="form-label">Titre</label>
+            <input type="text" [(ngModel)]="article.title" class="form-control" id="article_title">
+          </div>
+          <!-- Author -->
+          <div class="mb-4">
+            <label for="article_author" class="form-label">Auteur</label>
+            <input type="text" [(ngModel)]="article.by" class="form-control" id="article_author">
+          </div>
+          <!-- Link -->
+          <div class="mb-4">
+            <label for="article_link" class="form-label">Lien</label>
+            <input type="text" [(ngModel)]="article.link" class="form-control" id="article_link">
+          </div>
+        </div>
+      </div>
+  
+      <!-- Content -->
+      <div class="card mb-6">
+        <div class="card-body">
+          <div>
+            <label class="form-label">Contenu</label>
+            <textarea class="form-control" rows="6" [(ngModel)]="article.fullContent">{{ article.fullContent }}</textarea>
+          </div>
+        </div>
+      </div>
+  
+
+    </div>
+  
+    <!-- Right Side (Images, Views, Shares, Tags) -->
+    <div class="col-lg-6">
+      <!-- Image Upload -->
+      <div class="card mb-4">
+        <div class="card-body">
+          <label class="form-label">Images</label>
+          <input class="form-control" type="file" (change)="onImageChange($event)">
+        </div>
+      </div>
+  
+      <!-- Views & Shares -->
+      <div class="card mb-4">
+        <div class="card-body">
+          <div>
+            <label class="form-label">Vues</label>
+            <input type="number" [(ngModel)]="article.views" class="form-control">
+          </div>
+          <div>
+            <label class="form-label">Partages</label>
+            <input type="number" [(ngModel)]="article.shares" class="form-control">
+          </div>
+        </div>
+      </div>
+  
+      <!-- Tags Section -->
+      <div class="card mb-4">
+        <div class="card-body">
+          <label class="form-label">Étiquettes</label>
+  
+          <!-- Input for adding new tags -->
+          <div class="input-group mb-3">
+            <input 
+              style="background-color: #ffffff;border: 1px solid #adb5bd;"
+              type="text" 
+              class="form-control" 
+              [(ngModel)]="newTag" 
+              placeholder="Ajouter une nouvelle étiquette" 
+              (keydown.enter)="addTag()">
+            <button class="btn btn-outline-secondary" type="button" (click)="addTag()">Ajouter l'étiquette</button>
+          </div>
+  
+          <!-- Display list of tags -->
+          <ul class="list-unstyled">
+           
+            <li *ngFor="let tag of article.tags; let i = index" class="d-flex justify-content-between">
+                <!-- Button to remove tag -->
+                <button class="btn btn-sm btn-danger me-2" (click)="removeTag(i)">
+                  <i class="icon material-icons md-delete"></i> Supprimer
+                </button>
+                <span>{{ tag }}</span>
+              </li>
+          </ul>
+        </div>
+      </div>
+
+            <!-- Author Box -->
+            <div class="card mb-4">
+              <div class="card-body">
+                <label class="form-label">Informations sur l'auteur</label>
+                <div>
+                        <!-- Image Upload -->
+            <div class="card mb-4">
+              <div class="card-body">
+                <label class="form-label">Image de l'auteur</label>
+                <input class="form-control" type="file" (change)="onAuthorImageChange($event)">
+              </div>
+            </div>
+                  <div class="mb-4">
+                    <label for="author_name" class="form-label">Nom de l'auteur</label>
+                    <input type="text" [(ngModel)]="article.authorBox.authorName" placeholder="Type here" class="form-control" id="author_name">
+                  </div>
+                  <div class="mb-4">
+                    <label for="author_description" class="form-label">Description de l'auteur</label>
+                    <textarea [(ngModel)]="article.authorBox.authorDescription" placeholder="Type here" class="form-control test" rows="3"></textarea>
+                  </div>
+                  <div class="mb-4">
+                    <label for="author_posts" class="form-label">Articles de l'auteur</label>
+                    <textarea [(ngModel)]="article.authorBox.authorPosts" placeholder="Type here" class="form-control test" rows="3"></textarea>
+                  </div>
+                </div>
+              </div>
+            </div>
+    </div>
+  </div>
+  
+
+
+    
+  </section>
+  
+
+  
+  <!-- content-main end// -->
+  <app-footer></app-footer>
+</main>

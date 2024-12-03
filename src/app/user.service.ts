@@ -6,7 +6,7 @@ import { forkJoin, map, Observable, of, switchMap } from 'rxjs';
   providedIn: 'root',
 })
 export class UserService {
-  private baseUrl = 'https://api.onemakan.com/v1';
+  private baseUrl = 'https://restapi.onemakan.com/v1';
 
   constructor(private http: HttpClient) {}
 
@@ -26,6 +26,21 @@ export class UserService {
     });
     return this.http.get<any>(url , { headers });
 
+  }
+
+  updateRole(roleId: number, roleData: any, accessToken: string): Observable<any> {
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${accessToken}`,
+    });
+
+    return this.http.patch(`${this.baseUrl}/roles/${roleId}`, roleData, { headers });
+  }
+  getRoles(accessToken: string): Observable<any> {
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${accessToken}`
+    });
+
+    return this.http.get<any>(`${this.baseUrl}/roles`, { headers });
   }
   // Méthode pour obtenir les annonces d'un utilisateur
   getUserAdsById(userId: number, accessToken: string,validation_status?: string, page: number = 1): Observable<any> {

@@ -1,0 +1,4 @@
+::ng-deep .material-icons.test {
+    vertical-align: bottom !important;
+    font-weight: 600;
+}

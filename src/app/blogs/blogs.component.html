@@ -1,0 +1,78 @@
+<app-menu></app-menu>
+<main class="main-wrap">
+  <app-header></app-header>
+  <section class="content-main">
+    <div class="content-header">
+      <h2 class="content-title">Liste des utilisateurs actifs </h2>
+      <button class="btn btn-md rounded font-sm hover-up" [routerLink]="['/ajouter-blog']">Ajouter une article</button>
+
+    </div>
+<!-- Confirmation Dialog -->
+<p-toast></p-toast>
+<p-confirmDialog ></p-confirmDialog>
+    <div class="card mb-4">
+        <header class="card-header">
+            <div class="row gx-3">
+                <div class="col-lg-4 mb-lg-0 mb-15 me-auto">
+                    <input type="text"                           placeholder="Rechercher..." 
+                    style="background-color: #ffffff; border: 1px solid #adb5bd;"                    class="form-control">
+                </div>
+            </div>
+        </header>
+        <!-- card-header end// -->
+        <div class="card-body">
+            <div class="row gx-3">
+              <div *ngFor="let article of articles" class="col-xl-2 col-lg-3 col-md-4 col-6">
+                <figure class="card border-1" style="
+                height: 382px;
+            ">
+                  <div class="card-header bg-white text-center">
+                    <img [src]="article.image" height="76" class="img-fluid" alt="Blog Image">
+                  </div>
+                  <figcaption class="card-body text-center">
+                    <h6 class="card-title m-0">{{ article.title }}</h6>
+                    <a [href]="article.link">Lire la suite</a>
+          
+                    <!-- Boutons Modifier et Supprimer -->
+                    <div class="col-lg-3 col-sm-2 col-4 col-action d-flex " style="
+                    margin-top: 1rem;
+                ">
+                        <!-- Edit Button -->
+                        <a class="btn btn-sm font-sm rounded btn-brand edit me-2" style="
+                        margin-right: 4rem !important;
+                    "  [routerLink]="['/modifier-blog', article.id]" >
+                          <i class="material-icons md-edit" ></i> Edit
+                        </a>
+                        
+                        <!-- Delete Button -->
+                        <a class="btn btn-sm font-sm btn-light rounded edit" style="
+ background-color: #e24c4c;
+    color: white;
+    border-color: #e24c4c;
+"  (click)="confirmDeactivation(article)">
+                          <i class="material-icons md-delete_forever" style="
+                          color: white;
+                      "></i> Delete
+                        </a>
+                      </div>
+                      
+                  </figcaption>
+                </figure>
+              </div>
+            </div>
+          </div>
+          
+        <!-- card-body end// -->
+    </div>
+    
+
+
+    
+  </section>
+  
+
+
+
+  <!-- content-main end// -->
+  <app-footer></app-footer>
+</main>

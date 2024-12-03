@@ -59,7 +59,7 @@
               <div class="product-image">
                 <a [routerLink]="['/detail-annonce', ad.id]">
                   <img
-                    [src]="ad.medias[0]?.url || 'assets/imgs/default.jpg'"
+                    [src]="ad.medias[0]?.url || 'assets/imgs/icone-green.jpg'"
                     alt="{{ ad.title }}"
                     class="product-image"
                   />
@@ -123,7 +123,7 @@
     </p-dialog>
     
     
-    <div class="pagination-area mt-30 mb-50" *ngIf="filteredAds.length > 0">
+    <div class="pagination-area mt-30 mb-50" *ngIf="pagedAds.length > 0">
       <nav aria-label="Pagination">
         <ul class="pagination justify-content-start">
           <!-- Bouton Précédent -->

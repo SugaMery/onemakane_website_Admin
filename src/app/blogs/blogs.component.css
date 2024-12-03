@@ -1,0 +1,60 @@
+::ng-deep button{
+    line-height: normal !important; 
+  }
+  
+  ::ng-deep .p-dialog .p-dialog-footer button {
+    margin: 0 0.5rem 0 0 !important;
+  }
+  
+  ::ng-deep .p-button {
+    padding: 0.5rem 12.25px;
+    font-size: 0.8rem;
+  }
+  
+  ::ng-deep .p-dialog.p-confirm-dialog .p-confirm-dialog-icon {
+    font-size: 2rem;
+  }
+  
+  
+  
+  ::ng-deep .surface-overlay {
+    background-color: #ffffff !important;
+  }
+  
+  /* Add this CSS to your component's style file or global styles */
+  
+  /* Style for the "Oui" button */
+  ::ng-deep .green-button .ui-button-text {
+    color: green !important;
+    border-color: transparent !important;
+  }
+  
+  /* Style for the "Non" button */
+  ::ng-deep .red-button .ui-button-text {
+    color: red !important;
+    border-color: transparent !important;
+  }
+  
+  
+  
+  ::ng-deep button.p-element.p-ripple.p-confirm-dialog-accept.p-button.p-component.ng-star-inserted {
+    background-color: #3bb77e !important;
+    border-color: #3bb77e !important;
+  }
+  
+  
+  ::ng-deep button.p-element.p-ripple.p-button-text.p-confirm-dialog-reject.p-button.p-component.ng-star-inserted {
+    color: #212529 !important;
+  }
+  
+  ::ng-deep .p-confirm-dialog {
+    width: 20% !important;
+  }
+  
+
+  ::ng-deep .img-fluid {
+    max-width: 100%;
+    height: 199.7px;
+    object-fit: cover;
+
+  }

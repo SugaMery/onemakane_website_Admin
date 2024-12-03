@@ -1,0 +1,132 @@
+<app-menu></app-menu>
+<main class="main-wrap">
+  <app-header></app-header>
+  <section class="content-main">
+    <div class="content-header">
+      <h2 class="content-title">Liste des critères</h2>
+      <button class="btn btn-primary" (click)="addNewCritere()">Ajouter un critère</button>
+    </div>
+
+    <div class="row">
+      <!-- Criteria List -->
+      <div class="col-md-9">
+        <div class="card mb-4">
+          <header class="card-header">
+            <div class="row gx-3">
+              <div class="col-lg-4 col-md-6 me-auto">
+                <input 
+                  type="text" 
+                  placeholder="Rechercher un critère..." 
+                  class="form-control" 
+                  [(ngModel)]="searchTerm" 
+                  (input)="onSearch()" 
+                  style="background-color: #ffffff; border: 1px solid #adb5bd;">
+              </div>
+            </div>
+          </header>
+          <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead>
+                      <tr>
+                        <th style="width: 50px;">ID</th>
+                        <th style="width: 50px;">Nom</th>
+                        <th style="width: 50px;">Modèle</th>
+                        <th style="width: 50px;" >Content</th>
+<!--                         <th>Actions</th>
+ -->                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let critere of paginatedCriteres">
+                        <td style="width: 50px;">{{ critere.id }}</td>
+                        <td style="width: 50px;">{{ critere.name }}</td>
+                        <td style="width: 50px;">{{ critere.model }}</td>
+                        <td style="width: 50px;"  (click)="selectCritere(critere)">{{ getContent(critere) }}</td>
+<!--                         <td>
+                          <button class="btn btn-sm btn-info" (click)="selectCritere(critere)">Modifier</button>
+                          <button class="btn btn-sm btn-danger" (click)="deleteCritere(critere.id)">Supprimer</button>
+                        </td> -->
+                      </tr>
+                    </tbody>
+                  </table>
+                  
+            </div>
+          </div>
+        </div>
+
+        <!-- Pagination -->
+        <div class="pagination-area mt-30 mb-50" *ngIf="filteredCriteres.length > 0">
+            <nav aria-label="Pagination">
+              <ul class="pagination justify-content-start">
+                <!-- Previous Button -->
+                <li class="page-item" [ngClass]="{'disabled': currentPage === 1}">
+                  <a class="page-link" (click)="setCurrentPage(currentPage - 1)" aria-label="Précédent">
+                    <span aria-hidden="true">&laquo;</span>
+                  </a>
+                </li>
+          
+                <!-- First Page Button -->
+                <li class="page-item" [ngClass]="{'disabled': currentPage === 1}">
+                  <a class="page-link" (click)="setCurrentPage(1)" style="width: auto;">Première</a>
+                </li>
+          
+                <!-- Page Number Buttons -->
+                <li *ngFor="let page of visiblePages" class="page-item" [ngClass]="{'active': currentPage === page}">
+                  <a class="page-link" (click)="setCurrentPage(page)">{{ page }}</a>
+                </li>
+          
+                <!-- Ellipsis if there are more than 5 pages -->
+                <li *ngIf="totalPages > 5 && !visiblePages.includes(totalPages)" class="page-item disabled">
+                  <span class="page-link">...</span>
+                </li>
+          
+                <!-- Last Page Button -->
+                <li class="page-item" [ngClass]="{'disabled': currentPage === totalPages}">
+                  <a class="page-link" (click)="setCurrentPage(totalPages)" style="width: auto;">Dernière</a>
+                </li>
+          
+                <!-- Next Button -->
+                <li class="page-item" [ngClass]="{'disabled': currentPage === totalPages}">
+                  <a class="page-link" (click)="setCurrentPage(currentPage + 1)" aria-label="Suivant">
+                    <span aria-hidden="true">&raquo;</span>
+                  </a>
+                </li>
+              </ul>
+            </nav>
+          </div>
+      </div>
+
+      <!-- Criteria Details Form -->
+      <div class="col-md-3" *ngIf="selectedCritere">
+        <div class="card mb-4">
+          <div class="card-body">
+            <h5 class="mb-3">Détails du critère</h5>
+            <form (submit)="saveCritere()">
+              <div class="mb-3">
+                <label for="critere_id" class="form-label">ID</label>
+                <input type="text" class="form-control" id="critere_id" [value]="selectedCritere.id" readonly>
+              </div>
+              <div class="mb-3">
+                <label for="critere_name" class="form-label">Nom</label>
+                <input type="text" class="form-control" id="critere_name" [(ngModel)]="selectedCritere.name" name="name" required>
+              </div>
+              <div class="mb-3">
+                <label for="critere_model" class="form-label">Modèle</label>
+                <input type="text" class="form-control" id="critere_model" [(ngModel)]="selectedCritere.model" name="model" required>
+              </div>
+              <div class="mb-3">
+                <label for="critere_content" class="form-label">Contenu</label>
+                <textarea class="form-control" id="critere_content" [(ngModel)]="selectedCritere.content " name="content" rows="3"></textarea>
+              </div>
+              <button type="submit" class="btn btn-success" (click)="saveCritere()">Enregistrer</button>
+              <button type="button" class="btn btn-secondary" style="
+              float: inline-end;
+          " (click)="clearSelection()">Annuler</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <app-footer></app-footer>
+</main>

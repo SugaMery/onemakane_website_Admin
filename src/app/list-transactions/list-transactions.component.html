@@ -1,0 +1,84 @@
+<app-menu></app-menu>
+<main class="main-wrap">
+  <app-header></app-header>
+  
+  <section class="content-main">
+    <div class="content-header">
+        <a href="javascript:history.back()"><i class="material-icons test md-arrow_back"></i> Retour</a>
+    </div>  
+    <div class="content-header">
+      <div>
+        <h2 class="content-title card-title">Les Transactions</h2>
+      </div>
+    </div>
+    <div class="card">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-lg-9">
+                    <header class="border-bottom mb-4 pb-4">
+                        <div class="row">
+                            <div class="col-lg-5 col-6 me-auto">
+                                <input type="text" placeholder="Rechercher ......." class="form-control" style="background-color: #ffffff; border: 1px solid #adb5bd;" />
+                            </div>
+                        </div>
+                    </header>
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>ID de Transaction</th>
+                                    <th>Montant</th>
+                                    <th>Méthode</th>
+                                    <th>Date</th>
+                                    <th class="text-end">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let payment of payments" (click)="selectTransaction(payment)">
+                                    <td><b>{{ payment.transaction_id }}</b></td>
+                                    <td>{{ payment.amount }} DH</td>
+                                    <td>
+                                        <div class="icontext">
+                                            <img class="icon border" src="../../assets/imgs/logo_cmi.png" alt="Paiement" />
+                                        </div>
+                                    </td>
+                                    <td>{{ payment.transaction_date | date: 'dd/MM/yyyy, HH:mm' }}</td>
+                                    <td class="text-end">
+                                        <a (click)="selectTransaction(payment)" class="btn btn-sm btn-light font-sm rounded">Détails</a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <aside class="col-lg-3" *ngIf="selectedTransaction">
+                    <div class="box bg-light" style="min-height: 80%">
+                        <h6 class="mt-15">Détails de la Transaction</h6>
+                        <hr />
+                        <h6 class="mb-0">ID de Transaction :</h6>
+                        <p>{{ selectedTransaction.transaction_id }}</p>
+                        <br />
+                        <h6 class="mb-0">Prix :</h6>
+                        <p>{{ selectedTransaction.amount }} DH</p>
+                        <br />
+                        <h6 class="mb-0">Méthode de la Transaction :</h6>
+                        <p>{{ selectedTransaction.provider }}</p>
+                        <br />
+                        <h6 class="mb-0">Type de la Transaction :</h6>
+                        <p>{{ selectedTransaction.payment_type | titlecase }}</p>
+                        <br />
+                        <h6 class="mb-0">Statut de la Transaction :</h6>
+                        <p>{{ selectedTransaction.transaction_status }}</p>
+                        <br />
+                        <h6 class="mb-0">Date :</h6>
+                        <p>{{ selectedTransaction.transaction_date | date: 'dd/MM/yyyy, HH:mm' }}</p>
+                        <hr />
+                    </div>
+                </aside>
+            </div>
+        </div>
+    </div>
+  </section>
+  
+  <app-footer></app-footer>
+</main>
